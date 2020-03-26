@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FOSCBot.Core.Domain.Inline;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Navigator;
 
 namespace FOSCBot.Bot.Api
 {
@@ -25,7 +28,23 @@ namespace FOSCBot.Bot.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+            
+            #region Navigator
+
+            services.AddNavigator(options =>
+            {
+                options.BotToken = Configuration["TELEGRAM_TOKEN"];
+                options.BaseWebHookUrl = Configuration["BOT_URL"];
+            }, typeof(DefaultInlineAction).Assembly);
+
+            #endregion
+
+            #region Pipeline
+
+            services.AddMediatR(typeof(DefaultInlineAction).Assembly);
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,13 +55,13 @@ namespace FOSCBot.Bot.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers(); 
+                endpoints.MapNavigator();
+            });
         }
     }
 }
