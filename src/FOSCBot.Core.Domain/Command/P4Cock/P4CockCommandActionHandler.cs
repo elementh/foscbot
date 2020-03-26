@@ -10,6 +10,7 @@ namespace FOSCBot.Core.Domain.Command.P4Cock
     public class P4CockCommandActionHandler : ActionHandler<P4CockCommandAction>
     {
         public static string P4Sticker = "CAACAgQAAxkBAAMvXn0csAE-VH1a5YlL_C3y_uvmyhoAAk4DAAIv22sAAQYHFmm8oYuhGAQ";
+        
         public P4CockCommandActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
