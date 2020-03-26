@@ -1,7 +1,7 @@
 ﻿using Navigator.Abstraction;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Inline
+namespace FOSCBot.Core.Domain.Inline.Default
 {
     public class DefaultInlineAction : InlineQueryAction
     {

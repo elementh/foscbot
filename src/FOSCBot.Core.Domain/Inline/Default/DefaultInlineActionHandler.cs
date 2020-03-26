@@ -6,7 +6,7 @@ using Navigator.Abstraction;
 using Navigator.Actions;
 using Telegram.Bot.Types.InlineQueryResults;
 
-namespace FOSCBot.Core.Domain.Inline
+namespace FOSCBot.Core.Domain.Inline.Default
 {
     public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
     {
