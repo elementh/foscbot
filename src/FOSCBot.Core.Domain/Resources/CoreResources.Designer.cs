@@ -63,7 +63,8 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to More info about FOSC at [fosc.space](https://fosc.space).
         ///Check out my source code at [foscbot](https://github.com/elementh/foscbot).
-        ///Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) for [FOSC](https://fosc.space). .
+        ///
+        ///Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) for all the cool people at [FOSC](https://fosc.space). .
         /// </summary>
         internal static string AboutText {
             get {
@@ -72,9 +73,9 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hey there **newbie**. What is *FOSC*?
-        ///FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture: 
-        ///Linux, hackathons, courses, talks, server systems administration, open software, firmware, hardware and more!.
+        ///   Looks up a localized string similar to Hey there _newbie_. What is *FOSC*?
+        ///
+        ///FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture..
         /// </summary>
         internal static string StartText {
             get {
