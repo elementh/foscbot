@@ -19,7 +19,7 @@ namespace FOSCBot.Core.Domain.Inline
             ("wiki", "FOSC Wiki", "https://doc.fosc.space/"),
             ("netdata", "FOSC Netdata stats", "https://netdata.fosc.space/"),
             ("stolencode", "For Our Stolen Code (git)", "https://git.fosc.space/"),
-            ("downloads", "Downloads", "https://download.fosc.space/"),
+            ("downloads", "FOSC Downloads", "https://download.fosc.space/")
         };
 
         public DefaultInlineActionHandler(INavigatorContext ctx) : base(ctx)
@@ -32,10 +32,16 @@ namespace FOSCBot.Core.Domain.Inline
 
             foreach (var (id, title, url) in Links)
             {
-                responses.Add(new InlineQueryResultArticle(id, title, new InputTextMessageContent(url)) {Url = url, HideUrl = true});
+                responses.Add(new InlineQueryResultArticle(id, title, new InputTextMessageContent(url))
+                {
+                    Url = url, 
+                    HideUrl = true,
+                    Description = url,
+                    ThumbUrl = "https://fosc.space/img/Logo-invert.webp"
+                });
             }
 
-            await Ctx.Client.AnswerInlineQueryAsync(request.InlineQueryId, responses, 1, cancellationToken: cancellationToken);
+            await Ctx.Client.AnswerInlineQueryAsync(request.InlineQueryId, responses, cancellationToken: cancellationToken);
 
             return Unit.Value;
         }
