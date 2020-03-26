@@ -1,0 +1,43 @@
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Navigator.Abstraction;
+using Navigator.Actions;
+using Telegram.Bot.Types.InlineQueryResults;
+
+namespace FOSCBot.Core.Domain.Inline
+{
+    public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
+    {
+        protected static readonly IEnumerable<(string, string, string)> Links = new[]
+        {
+            ("mainpage", "FOSC Main Page", "https://fosc.space/"),
+            ("blog", "FOSC Blog ", "https://blog.fosc.space/"),
+            ("gallery", "FOSC Gallery", "https://gallery.fosc.space/"),
+            ("cloud", "FOSC Cloud", "https://cloud.fosc.space/"),
+            ("wiki", "FOSC Wiki", "https://doc.fosc.space/"),
+            ("netdata", "FOSC Netdata stats", "https://netdata.fosc.space/"),
+            ("stolencode", "For Our Stolen Code (git)", "https://git.fosc.space/"),
+            ("downloads", "Downloads", "https://download.fosc.space/"),
+        };
+
+        public DefaultInlineActionHandler(INavigatorContext ctx) : base(ctx)
+        {
+        }
+
+        public override async Task<Unit> Handle(DefaultInlineAction request, CancellationToken cancellationToken)
+        {
+            var responses = new List<InlineQueryResultArticle>();
+
+            foreach (var (id, title, url) in Links)
+            {
+                responses.Add(new InlineQueryResultArticle(id, title, new InputTextMessageContent(url)) {Url = url, HideUrl = true});
+            }
+
+            await Ctx.Client.AnswerInlineQueryAsync(request.InlineQueryId, responses, 1, cancellationToken: cancellationToken);
+
+            return Unit.Value;
+        }
+    }
+}
