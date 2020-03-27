@@ -23,7 +23,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Nginx
             var bytes = Convert.FromBase64String(CoreResources.NginxImage);
             await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())
             {
-                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), new InputMedia(stream, "heybroniced.jpg"), 
+                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), new InputMedia(stream, "nginx.jpg"), 
                     cancellationToken: cancellationToken);
             }
 
