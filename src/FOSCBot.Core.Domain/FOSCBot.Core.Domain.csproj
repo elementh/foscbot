@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <LangVersion>latestmajor</LangVersion>
+        <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
@@ -11,6 +11,10 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
         <PackageReference Include="Navigator" Version="0.9.7-beta" />
         <PackageReference Include="Navigator.Extensions.Actions" Version="0.9.8-beta" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj" />
     </ItemGroup>
     
 </Project>
