@@ -9,7 +9,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.BtwArch
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return RandomProvider.GetThreadRandom().NextDouble() > 0.7d && (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("arch") ?? false);
+            return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("arch") ?? false);
         }
     }
 }
