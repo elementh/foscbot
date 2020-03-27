@@ -9,7 +9,16 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Sad
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return RandomProvider.GetThreadRandom().NextDouble() > 0.7d && (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("sad") ?? false);
+            if (RandomProvider.GetThreadRandom().NextDouble() < 0.7d)
+            {
+                return false;
+            }
+            
+            return (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("sad") ?? false)
+                || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😔"
+                || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😢"
+                || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😞"
+                || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😭";
         }
     }
 }
