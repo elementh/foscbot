@@ -14,7 +14,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Yes
             }
 
             return (ctx.Update.Message.Text?.Equals("YES") ?? false) ||
-                   (ctx.Update.Message.Text?.ToLower().Equals("SI") ?? false);
+                   (ctx.Update.Message.Text?.Equals("SI") ?? false);
         }
     }
 }
