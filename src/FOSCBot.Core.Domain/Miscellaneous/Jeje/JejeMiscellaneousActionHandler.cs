@@ -10,8 +10,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Jeje
 {
     public class JejeMiscellaneousActionHandler : ActionHandler<JejeMiscellaneousAction>
     {
-        public static string[] Stickers = new[]
-        {
+        public static readonly string[] Stickers = {
             "CAACAgIAAxkBAAI5Dl59vPOH6MA6Uzua49AHRz-q5mMUAAIKAQACMNSdEVZUV2nGbrlvGAQ",
             "CAACAgQAAxkBAAI5EF59vUKLQ46GEgbuzhY0O5r3HyauAAJKAQACqCEhBntEKK5RNh4XGAQ",
             "CAACAgIAAxkBAAI5El59vYqk6ywiJOKdXzXNe2gsPL2gAAL2AwACierlB263K9ogJ_bwGAQ",
