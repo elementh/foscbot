@@ -22,7 +22,7 @@ namespace FOSCBot.Core.Domain.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CoreResources {
+    public class CoreResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FOSCBot.Core.Domain.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.CoreResources", typeof(CoreResources).Assembly);
@@ -51,7 +51,7 @@ namespace FOSCBot.Core.Domain.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -66,18 +66,27 @@ namespace FOSCBot.Core.Domain.Resources {
         ///
         ///Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) for all the cool people at [FOSC](https://fosc.space). .
         /// </summary>
-        internal static string AboutText {
+        public static string AboutText {
             get {
                 return ResourceManager.GetString("AboutText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAIqAioDASIAAhEBAxEB/8QAHQAAAAcBAQEAAAAAAAAAAAAAAAIDBAUGBwgBCf/EAGcQAAEDAQQEBgkLDgoIBAYDAAMAAgQFAQYSEwcUIzMRIjEyQkMIFSEkUlNicoI0QVFhY3GBkZKx0RYlNTdEVHN0dZOhorPBCRcYJjY4VpSy8CdVZIOVwtLhhaPT4ihFRmWE8lfD8f/EABsBAAMBAQEBAQAAAAAAAAAAAAACAwQFBgEH/8QAKxEBAQACAgICAAUEAwEBAAAAAAIDE [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to /9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAIqAioDASIAAhEBAxEB/8QAHQAAAAcBAQEAAAAAAAAAAAAAAAIDBAUGBwgBCf/EAGcQAAEDAQQEBgkLDgoIBAYDAAMAAgQFAQYSEwcUIzMRIjEyQkMIFSEkUlNicoI0QVFhY3GBkZKx0RYlNTdEVHN0dZOhorPBCRcYJjY4VpSy8CdVZIOVwtLhhaPT4ihFRmWE8lfD8f/EABsBAAMBAQEBAQAAAAAAAAAAAAACAwQFBgEH/8QAKxEBAQACAgICAAUEAwEBAAAAAAIDEgQiEzIBBREUIzNCMUFRUhUh [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string HeyBroImage {
+        public static string HeyBroImage {
             get {
                 return ResourceManager.GetString("HeyBroImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAFNAeoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string NginxImage {
+            get {
+                return ResourceManager.GetString("NginxImage", resourceCulture);
             }
         }
         
@@ -86,7 +95,7 @@ namespace FOSCBot.Core.Domain.Resources {
         ///
         ///FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture..
         /// </summary>
-        internal static string StartText {
+        public static string StartText {
             get {
                 return ResourceManager.GetString("StartText", resourceCulture);
             }
