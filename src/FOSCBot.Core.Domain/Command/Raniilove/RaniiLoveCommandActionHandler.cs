@@ -9,8 +9,6 @@ namespace FOSCBot.Core.Domain.Command.Raniilove
 {
     public class RaniiLoveCommandActionHandler : ActionHandler<RaniiloveCommandAction>
     {
-        public static string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
-
         public RaniiLoveCommandActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
@@ -21,5 +19,7 @@ namespace FOSCBot.Core.Domain.Command.Raniilove
 
             return Unit.Value;
         }
+
+        public static string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
     }
 }

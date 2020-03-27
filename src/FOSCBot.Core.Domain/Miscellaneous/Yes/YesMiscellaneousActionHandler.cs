@@ -9,8 +9,6 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Yes
 {
     public class YesMiscellaneousActionHandler : ActionHandler<YesMiscellaneousAction>
     {
-        public static readonly string Yes = "CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE";
-
         public YesMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
@@ -21,5 +19,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Yes
 
             return Unit.Value;
         }
+        
+        public static readonly string Yes = "CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE";
     }
 }

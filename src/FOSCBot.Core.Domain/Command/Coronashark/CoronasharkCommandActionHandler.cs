@@ -9,8 +9,6 @@ namespace FOSCBot.Core.Domain.Command.Coronashark
 {
     public class CoronasharkCommandActionHandler : ActionHandler<CoronasharkCommandAction>
     {
-        public static string CoronasharkSticker = "CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE";
-        
         public CoronasharkCommandActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
@@ -21,5 +19,7 @@ namespace FOSCBot.Core.Domain.Command.Coronashark
             
             return Unit.Value;
         }
+        
+        public static string CoronasharkSticker = "CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE";
     }
 }

@@ -9,8 +9,6 @@ namespace FOSCBot.Core.Domain.Command.Sad
 {
     public class SadCommandActionHandler : ActionHandler<SadCommandAction>
     {
-        public static readonly string SadCrstian = "CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE";
-
         public SadCommandActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
@@ -21,5 +19,7 @@ namespace FOSCBot.Core.Domain.Command.Sad
 
             return Unit.Value;
         }
+        
+        public static readonly string SadCrstian = "CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE";
     }
 }
