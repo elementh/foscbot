@@ -14,7 +14,8 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Sad
                 return false;
             }
             
-            return (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("sad") ?? false)
+            return (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("sad") ?? false)
+                ||(ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("sad") ?? false)
                 || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😔"
                 || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😢"
                 || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😞"
