@@ -4,6 +4,7 @@ WORKDIR /src
 COPY *.sln ./
 
 COPY FOSCBot.Bot.Api/*.csproj FOSCBot.Bot.Api/
+COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core.Domain/*.csproj FOSCBot.Core.Domain/
 
 RUN dotnet restore -r linux-musl-x64
