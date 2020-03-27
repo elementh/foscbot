@@ -73,6 +73,15 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAIqAioDASIAAhEBAxEB/8QAHQAAAAcBAQEAAAAAAAAAAAAAAAIDBAUGBwgBCf/EAGcQAAEDAQQEBgkLDgoIBAYDAAMAAgQFAQYSEwcUIzMRIjEyQkMIFSEkUlNicoI0QVFhY3GBkZKx0RYlNTdEVHN0dZOhorPBCRcYJjY4VpSy8CdVZIOVwtLhhaPT4ihFRmWE8lfD8f/EABsBAAMBAQEBAQAAAAAAAAAAAAACAwQFBgEH/8QAKxEBAQACAgICAAUEAwEBAAAAAAIDE [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HeyBroImage {
+            get {
+                return ResourceManager.GetString("HeyBroImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hey there _newbie_. What is *FOSC*?
         ///
         ///FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture..
