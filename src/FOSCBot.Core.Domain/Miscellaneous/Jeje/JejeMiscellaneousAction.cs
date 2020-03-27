@@ -16,6 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Jeje
             return (ctx.Update.Message.Text?.ToLower().Contains("je ") ?? false) ||
                    (ctx.Update.Message.Text?.ToLower().Contains(" je") ?? false) ||
                    (ctx.Update.Message.Text?.ToLower().Contains(" je ") ?? false) ||
+                   (ctx.Update.Message.Text?.ToLower().Contains("jeje") ?? false) ||
                    (ctx.Update.Message.Text?.ToLower().Equals("je") ?? false) ||
                    (ctx.Update.Message.Text?.ToLower().Contains("je je") ?? false);
         }
