@@ -59,5 +59,59 @@ namespace FOSCBot.Core.Domain.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4.
+        /// </summary>
+        internal static string Ice {
+            get {
+                return ResourceManager.GetString("Ice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4.
+        /// </summary>
+        internal static string Nice {
+            get {
+                return ResourceManager.GetString("Nice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4.
+        /// </summary>
+        internal static string Nope {
+            get {
+                return ResourceManager.GetString("Nope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4.
+        /// </summary>
+        internal static string Orks {
+            get {
+                return ResourceManager.GetString("Orks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit.mp4.
+        /// </summary>
+        internal static string P4hit {
+            get {
+                return ResourceManager.GetString("P4hit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit_fast.mp4.
+        /// </summary>
+        internal static string P4hitFast {
+            get {
+                return ResourceManager.GetString("P4hitFast", resourceCulture);
+            }
+        }
     }
 }
