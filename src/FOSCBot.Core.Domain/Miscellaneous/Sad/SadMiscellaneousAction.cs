@@ -9,7 +9,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Sad
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            if (RandomProvider.GetThreadRandom().NextDouble() < 0.7d)
+            if (RandomProvider.GetThreadRandom().NextDouble() < 0.6d)
             {
                 return false;
             }
