@@ -88,6 +88,15 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4.
+        /// </summary>
+        internal static string Nvidia {
+            get {
+                return ResourceManager.GetString("Nvidia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4.
         /// </summary>
         internal static string Orks {
