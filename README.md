@@ -10,7 +10,7 @@ This bot is powered by [Navigator](https://github.com/navigatorframework/navigat
 
 # Host it yourself
 
-Check the docker images [here](https://hub.docker.com/r/elementh/foscbot)
+Check the docker images [`here`](https://hub.docker.com/r/elementh/foscbot).
 
 You will need to setup some ENV variables:
 
