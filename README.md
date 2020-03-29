@@ -14,7 +14,7 @@ Check the docker images [`here`](https://hub.docker.com/r/elementh/foscbot).
 
 You will need to setup some ENV variables:
 
-- `TELEGRAM_TOKEN` . Your telegram bot token
+- `TELEGRAM_TOKEN` . Your telegram bot token.
 - `BOT_URL` . This bot runs on webhooks, you need to specify the domain which your bot will receive updates.
 
 # License
