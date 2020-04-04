@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.ForOurStolenCode
 
         public override async Task<Unit> Handle(ForOurStolenCodeMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), VideoLinks.Orks, cancellationToken: cancellationToken);
+            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Orks, cancellationToken: cancellationToken);
             
             return Unit.Value;
         }

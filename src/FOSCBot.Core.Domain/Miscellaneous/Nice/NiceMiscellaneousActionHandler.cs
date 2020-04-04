@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Nice
 
         public override async Task<Unit> Handle(NiceMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), VideoLinks.Nice, cancellationToken: cancellationToken);
+            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nice, cancellationToken: cancellationToken);
             
             return Unit.Value;
         }

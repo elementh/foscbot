@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Nvidia
 
         public override async Task<Unit> Handle(NvidiaMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), VideoLinks.Nvidia, cancellationToken: cancellationToken);
+            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nvidia, cancellationToken: cancellationToken);
 
             return Unit.Value;
         }

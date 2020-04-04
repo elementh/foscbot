@@ -22,24 +22,24 @@ namespace FOSCBot.Core.Domain.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class VideoLinks {
+    public class CoreLinks {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal VideoLinks() {
+        internal CoreLinks() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.VideoLinks", typeof(VideoLinks).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.CoreLinks", typeof(CoreLinks).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FOSCBot.Core.Domain.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,25 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4.
         /// </summary>
-        internal static string Ice {
+        public static string Ice {
             get {
                 return ResourceManager.GetString("Ice", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/ipad.png.
+        /// </summary>
+        public static string Ipad {
+            get {
+                return ResourceManager.GetString("Ipad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4.
         /// </summary>
-        internal static string Nice {
+        public static string Nice {
             get {
                 return ResourceManager.GetString("Nice", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4.
         /// </summary>
-        internal static string Nope {
+        public static string Nope {
             get {
                 return ResourceManager.GetString("Nope", resourceCulture);
             }
@@ -90,7 +99,7 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4.
         /// </summary>
-        internal static string Nvidia {
+        public static string Nvidia {
             get {
                 return ResourceManager.GetString("Nvidia", resourceCulture);
             }
@@ -99,7 +108,7 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4.
         /// </summary>
-        internal static string Orks {
+        public static string Orks {
             get {
                 return ResourceManager.GetString("Orks", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit.mp4.
         /// </summary>
-        internal static string P4hit {
+        public static string P4hit {
             get {
                 return ResourceManager.GetString("P4hit", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace FOSCBot.Core.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit_fast.mp4.
         /// </summary>
-        internal static string P4hitFast {
+        public static string P4hitFast {
             get {
                 return ResourceManager.GetString("P4hitFast", resourceCulture);
             }
