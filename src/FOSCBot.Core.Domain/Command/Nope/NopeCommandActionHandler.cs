@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Command.Nope
 
         public override async Task<Unit> Handle(NopeCommandAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), VideoLinks.Nope, cancellationToken: cancellationToken);
+            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nope, cancellationToken: cancellationToken);
 
             return Unit.Value;
         }

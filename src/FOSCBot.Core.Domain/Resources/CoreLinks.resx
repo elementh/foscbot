@@ -21,6 +21,9 @@
   <data name="Ipad" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/ipad.png</value>
   </data>
+  <data name="IpadAudio" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/audio/ipad.ogg</value>
+  </data>
   <data name="Nice" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4</value>
   </data>

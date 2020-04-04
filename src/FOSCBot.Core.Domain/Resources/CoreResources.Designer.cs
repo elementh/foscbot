@@ -82,6 +82,15 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to T2dnUwACAAAAAAAAAABO8jPpAAAAAFNMI0wBE09wdXNIZWFkAQE4AYC7AAAAAABPZ2dTAAAAAAAAAAAAAE7yM+kBAAAAdgKVyAE2T3B1c1RhZ3MNAAAATGF2ZjU4LjI5LjEwMAEAAAAVAAAAZW5jb2Rlcj1MYXZmNTguMjkuMTAwT2dnUwAAgLsAAAAAAABO8jPpAgAAAGpRsR05AwMDAwMDAwMDAwMDAwMDAwMDAwP/EISFhoiChoOGg4OE/zKH/0bVhv9FfPf/D/8D28/p/wO/ftLt+P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++P/++Im/DbZFbEj6LlG0G/XmQCICIBJKKAGdCO2QcRKD+eZqaLkqLlYCAJlyeIVAkAFuv0jeJIONH5wtIH+4b5HDKNpS1bKK8dtT7oDaxdEZDiChM65UnCl4hPN/TXur/odWLtNpAQA7Wo0o3tbSEFeS [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string IpadAudio {
+            get {
+                return ResourceManager.GetString("IpadAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAFNAeoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx [rest of string was truncated]&quot;;.
         /// </summary>
         public static string NginxImage {

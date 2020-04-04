@@ -79,6 +79,15 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/audio/ipad.ogg.
+        /// </summary>
+        public static string IpadAudio {
+            get {
+                return ResourceManager.GetString("IpadAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4.
         /// </summary>
         public static string Nice {
