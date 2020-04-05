@@ -42,4 +42,7 @@
   <data name="P4hitFast" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit_fast.mp4</value>
   </data>
+  <data name="Ree" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4</value>
+  </data>
 </root>
