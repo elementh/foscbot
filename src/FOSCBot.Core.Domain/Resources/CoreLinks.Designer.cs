@@ -140,5 +140,14 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("P4hitFast", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4.
+        /// </summary>
+        public static string Ree {
+            get {
+                return ResourceManager.GetString("Ree", resourceCulture);
+            }
+        }
     }
 }
