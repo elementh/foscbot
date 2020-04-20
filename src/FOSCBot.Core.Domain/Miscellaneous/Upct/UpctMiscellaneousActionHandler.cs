@@ -20,7 +20,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Upct
                 : "CAACAgQAAxkBAAJNXV6eEJLQHwl-8el7YOYYJUF9l8ymAAJZAgACkNStBjfoiv3ywvd8GAQ";
             await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), stickerString, cancellationToken: cancellationToken);
 
-            if (RandomProvider.GetThreadRandom().NextDouble() > 0.9d)
+            if (RandomProvider.GetThreadRandom().NextDouble() > 0.8d)
                 await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl", cancellationToken: cancellationToken);
 
             return Unit.Value;
