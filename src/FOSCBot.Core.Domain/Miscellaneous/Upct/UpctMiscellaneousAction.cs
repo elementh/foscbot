@@ -9,7 +9,8 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Upct
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("upct");
+            var message = ctx.GetMessageOrDefault()?.Text?.ToLower();
+            return message.Contains("upct") && !message.Contains("/upct");
         }
     }
 }
