@@ -4,14 +4,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
-using FOSCBot.Core.Domain.Miscellaneous.Uwu;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator;
 using Navigator.Abstraction;
 using Navigator.Actions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.InputFiles;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ipad
 {
