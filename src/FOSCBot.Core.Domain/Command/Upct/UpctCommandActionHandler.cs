@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using FOSCBot.Common.Helper;
 using MediatR;
 using Navigator;
 using Navigator.Abstraction;
