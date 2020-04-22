@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using FOSCBot.Core.Domain.Inline;
 using FOSCBot.Core.Domain.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
+using FOSCBot.Infrastructure.Contract.Service;
 using FOSCBot.Infrastructure.Implementation.Client;
+using FOSCBot.Infrastructure.Implementation.Service;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +42,7 @@ namespace FOSCBot.Bot.Api
             {
                 options.BotToken = Configuration["TELEGRAM_TOKEN"];
                 options.BaseWebHookUrl = Configuration["BOT_URL"];
+                options.MultipleLaunchEnabled = false;
             }, typeof(DefaultInlineAction).Assembly);
 
             #endregion
@@ -71,6 +74,8 @@ namespace FOSCBot.Bot.Api
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+
+            services.AddScoped<ILipsumService, LipsumService>();
 
             #endregion
         }
