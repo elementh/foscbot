@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FOSCBot.Core.Domain.Inline;
 using FOSCBot.Core.Domain.Inline.Default;
+using FOSCBot.Infrastructure.Contract.Client;
+using FOSCBot.Infrastructure.Implementation.Client;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Navigator;
+using Polly;
 
 namespace FOSCBot.Bot.Api
 {
@@ -44,6 +47,30 @@ namespace FOSCBot.Bot.Api
             #region Pipeline
 
             services.AddMediatR(typeof(DefaultInlineAction).Assembly);
+
+            #endregion
+
+            #region Infrastructure
+
+            services.AddOptions<BaconClient.BaconClientOptions>().Configure(options =>
+            {
+                options.ApiUrl = Configuration["BACON_API_URL"];
+            });
+            
+            services.AddOptions<MetaphorClient.MetaphorClientOptions>().Configure(options =>
+            {
+                options.ApiUrl = Configuration["METAPHOR_API_URL"];
+            });
+            
+            services.AddHttpClient<IBaconClient, BaconClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+            
+            services.AddHttpClient<IMetaphorClient, MetaphorClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
             #endregion
         }
