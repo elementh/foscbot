@@ -13,7 +13,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Fallback
     public class FallbackActionHandler : ActionHandler<FallbackAction>
     {
         protected ILipsumService LipsumService;
-        
+
         public FallbackActionHandler(INavigatorContext ctx, ILipsumService lipsumService) : base(ctx)
         {
             LipsumService = lipsumService;
@@ -21,20 +21,29 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Fallback
 
         public override async Task<Unit> Handle(FallbackAction request, CancellationToken cancellationToken)
         {
-            string sentence;
-            
-            if (RandomProvider.GetThreadRandom().Next(0, 10) > 5)
+            var sentence = string.Empty;
+
+            var odds = RandomProvider.GetThreadRandom().Next(0, 15);
+
+            if (odds >= 0 && odds < 5)
             {
                 sentence = await LipsumService.GetBacon(cancellationToken: cancellationToken);
             }
-            else
+            else if (odds >= 5 && odds < 10)
             {
                 sentence = await LipsumService.GetMetaphorSentence(cancellationToken: cancellationToken);
             }
-            
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), sentence, ParseMode.Markdown,
-                replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
-            
+            else if (Ctx.GetMessageOrDefault()?.Text.Split(' ').Length > 3)
+            {
+                sentence = MockFilter.Apply(Ctx.GetMessage().Text);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sentence))
+            {
+                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), sentence, ParseMode.Markdown,
+                    replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
+            }
+
             return Unit.Value;
         }
     }
