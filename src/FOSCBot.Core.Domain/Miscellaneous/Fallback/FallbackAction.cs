@@ -10,7 +10,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Fallback
         
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return RandomProvider.GetThreadRandom().Next(0, 200) > 199;
+            return RandomProvider.GetThreadRandom().Next(0, 1000) > 999;
         }
     }
 }
