@@ -35,6 +35,8 @@ namespace FOSCBot.Bot.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddHealthChecks();
             
             #region Navigator
 
@@ -94,6 +96,7 @@ namespace FOSCBot.Bot.Api
             {
                 endpoints.MapControllers(); 
                 endpoints.MapNavigator();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }
