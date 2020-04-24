@@ -151,7 +151,7 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.png.
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.jpg.
         /// </summary>
         public static string Stemen {
             get {
