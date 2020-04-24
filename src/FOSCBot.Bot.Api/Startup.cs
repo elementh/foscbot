@@ -30,7 +30,7 @@ namespace FOSCBot.Bot.Api
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddHealthChecks();
-            
+
             #region Navigator
 
             services.AddNavigator(options =>
@@ -50,38 +50,45 @@ namespace FOSCBot.Bot.Api
 
             #region Infrastructure
 
-            services.AddOptions<BaconClient.BaconClientOptions>().Configure(options =>
-            {
-                options.ApiUrl = Configuration["BACON_API_URL"];
-            });
-            
-            services.AddOptions<MetaphorClient.MetaphorClientOptions>().Configure(options =>
-            {
-                options.ApiUrl = Configuration["METAPHOR_API_URL"];
-            });
-            
-            services.AddOptions<InspiroClient.InspiroClientOptions>().Configure(options =>
-            {
-                options.ApiUrl = Configuration["INSPIRO_API_URL"];
-            });
-            
+            services.AddOptions<BaconClient.BaconClientOptions>().Configure(options => { options.ApiUrl = Configuration["BACON_API_URL"]; });
+
+            services.AddOptions<MetaphorClient.MetaphorClientOptions>().Configure(options => { options.ApiUrl = Configuration["METAPHOR_API_URL"]; });
+
+            services.AddOptions<InspiroClient.InspiroClientOptions>().Configure(options => { options.ApiUrl = Configuration["INSPIRO_API_URL"]; });
+
+            services.AddOptions<InsultClient.InsultClientOptions>().Configure(options => { options.ApiUrl = Configuration["INSULT_API_URL"]; });
+
+            services.AddOptions<YesNoClient.YesNoClientOptions>().Configure(options => { options.ApiUrl = Configuration["YESNO_API_URL"]; });
+
             services.AddHttpClient<IBaconClient, BaconClient>()
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-            
+
             services.AddHttpClient<IMetaphorClient, MetaphorClient>()
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-            
+
             services.AddHttpClient<IInspiroClient, InspiroClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+            
+            services.AddHttpClient<IInsultClient, InsultClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+            
+            services.AddHttpClient<IYesNoClient, YesNoClient>()
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
             services.AddScoped<ILipsumService, LipsumService>();
             services.AddScoped<IInspiroService, InspiroService>();
+            services.AddScoped<IInsultService, InsultService>();
+            services.AddScoped<IYesNoService, YesNoService>();
 
             #endregion
         }
@@ -98,7 +105,7 @@ namespace FOSCBot.Bot.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); 
+                endpoints.MapControllers();
                 endpoints.MapNavigator();
                 endpoints.MapHealthChecks("/health");
             });
