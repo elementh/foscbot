@@ -60,6 +60,11 @@ namespace FOSCBot.Bot.Api
                 options.ApiUrl = Configuration["METAPHOR_API_URL"];
             });
             
+            services.AddOptions<InspiroClient.InspiroClientOptions>().Configure(options =>
+            {
+                options.ApiUrl = Configuration["INSPIRO_API_URL"];
+            });
+            
             services.AddHttpClient<IBaconClient, BaconClient>()
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
@@ -69,8 +74,14 @@ namespace FOSCBot.Bot.Api
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+            
+            services.AddHttpClient<IInspiroClient, InspiroClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
             services.AddScoped<ILipsumService, LipsumService>();
+            services.AddScoped<IInspiroService, InspiroService>();
 
             #endregion
         }
