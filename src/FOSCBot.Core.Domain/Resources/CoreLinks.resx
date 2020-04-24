@@ -45,4 +45,7 @@
   <data name="Ree" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4</value>
   </data>
+  <data name="Stemen" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.png</value>
+  </data>
 </root>

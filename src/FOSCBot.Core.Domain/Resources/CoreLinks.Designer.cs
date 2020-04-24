@@ -149,5 +149,14 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("Ree", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.png.
+        /// </summary>
+        public static string Stemen {
+            get {
+                return ResourceManager.GetString("Stemen", resourceCulture);
+            }
+        }
     }
 }
