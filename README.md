@@ -1,15 +1,18 @@
 # FOSCBot
-
 [FOSC](https://fosc.space!)'s official telegram bot. Find it here: [@foscbot](https://t.me/foscbot).
 
 It's full of internal memes, jokes and stuff. Use it inline or just add it to a grup for some geek fun.
 
-Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me).
+Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) and [LinuxCT](https://github.com/linuxct).
 
 This bot is powered by [Navigator](https://github.com/navigatorframework/navigator).
 
-# Host it yourself
+## Usage
+There are many commands available to the users, check them out by starting a conversation with [@foscbot](https://t.me/foscbot). 
 
+Leaving commands aside there are a lot of jokes and triggers which will launch themselves when necessary and are guaranteed to make all the group laugh a bit.
+
+## Host it yourself
 Check the docker images [`here`](https://hub.docker.com/r/elementh/foscbot).
 
 You will need to setup some ENV variables:
@@ -17,7 +20,7 @@ You will need to setup some ENV variables:
 - `TELEGRAM_TOKEN` . Your telegram bot token.
 - `BOT_URL` . This bot runs on webhooks, you need to specify the domain which your bot will receive updates.
 
-# License
+## License
 FOSCBot - FOSC's official telegram bot.
 
 Copyright (C) 2020  Lucas Maximiliano Marino <https://lucasmarino.me>
