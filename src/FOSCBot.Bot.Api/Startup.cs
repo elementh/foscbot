@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using Ele.Extensions.Configuration;
 using FOSCBot.Core.Domain.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
@@ -7,19 +9,23 @@ using FOSCBot.Infrastructure.Implementation.Service;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Navigator;
+using Navigator.Extensions.Shipyard;
+using Navigator.Extensions.Store;
+using Navigator.Extensions.Store.Context;
 using Polly;
 
 namespace FOSCBot.Bot.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            Configuration = ConfigurationExtension.LoadConfiguration(Directory.GetCurrentDirectory());
         }
 
         public IConfiguration Configuration { get; }
@@ -28,6 +34,8 @@ namespace FOSCBot.Bot.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddApiVersioning();
 
             services.AddHealthChecks();
 
@@ -38,6 +46,13 @@ namespace FOSCBot.Bot.Api
                 options.SetTelegramToken(Configuration["TELEGRAM_TOKEN"]);
                 options.SetWebHookBaseUrl(Configuration["BOT_URL"]);
                 options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
+            }).AddNavigatorStore(builder =>
+            {
+                builder.UseNpgsql(Configuration["DB_CONNECTION_STRING"],
+                    b => b.MigrationsAssembly("FOSCBot.Persistence.Migrations"));
+            }).AddShipyard(options =>
+            {
+                options.SetShipyardApiKey(Configuration["SHIPYARD_API_KEY"]);
             });
 
             #endregion
@@ -100,8 +115,14 @@ namespace FOSCBot.Bot.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
+            serviceScope?.ServiceProvider.GetRequiredService<NavigatorDbContext>().Database.Migrate();
 
             app.UseRouting();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
