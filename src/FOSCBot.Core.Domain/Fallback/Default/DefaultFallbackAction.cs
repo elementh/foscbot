@@ -2,9 +2,9 @@
 using Navigator.Abstraction;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Fallback
+namespace FOSCBot.Core.Domain.Fallback.Default
 {
-    public class FallbackAction : MessageAction
+    public class DefaultFallbackAction : MessageAction
     {
         public new int Order = 1100;
         

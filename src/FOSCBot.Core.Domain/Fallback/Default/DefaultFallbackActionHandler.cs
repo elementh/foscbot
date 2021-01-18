@@ -8,18 +8,18 @@ using Navigator.Abstraction;
 using Navigator.Actions;
 using Telegram.Bot.Types.Enums;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Fallback
+namespace FOSCBot.Core.Domain.Fallback.Default
 {
-    public class FallbackActionHandler : ActionHandler<FallbackAction>
+    public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
     {
         protected ILipsumService LipsumService;
 
-        public FallbackActionHandler(INavigatorContext ctx, ILipsumService lipsumService) : base(ctx)
+        public DefaultFallbackActionHandler(INavigatorContext ctx, ILipsumService lipsumService) : base(ctx)
         {
             LipsumService = lipsumService;
         }
 
-        public override async Task<Unit> Handle(FallbackAction request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(DefaultFallbackAction request, CancellationToken cancellationToken)
         {
             var sentence = string.Empty;
 
