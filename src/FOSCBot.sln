@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Cont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Implementation", "FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj", "{7CC4C395-7F2A-494F-896B-571C1A580C13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{5F42FA00-DFEB-4CB2-88F8-096DB884CF66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Persistence.Migrations", "FOSCBot.Persistence.Migrations\FOSCBot.Persistence.Migrations.csproj", "{019E51D6-30B2-488B-B740-C9BE5D2E18EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,7 @@ Global
 		{1DF1F3B1-A429-41BC-80B3-807265437DBF} = {A6D1EE06-1A24-4540-8A6E-67C28391C8C3}
 		{2205BE4A-59A2-4A21-8AE5-035B72BFAD2F} = {4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}
 		{7CC4C395-7F2A-494F-896B-571C1A580C13} = {4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}
+		{019E51D6-30B2-488B-B740-C9BE5D2E18EC} = {5F42FA00-DFEB-4CB2-88F8-096DB884CF66}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{991625E4-8D55-4F9B-99D3-01402BE50329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -57,5 +62,9 @@ Global
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

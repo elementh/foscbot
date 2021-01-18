@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Navigator.Extensions.Store" Version="0.9.100-beta" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.2" />
+    </ItemGroup>
+</Project>
