@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
 
 COPY *.sln ./
@@ -8,6 +8,7 @@ COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core.Domain/*.csproj FOSCBot.Core.Domain/
 COPY FOSCBot.Infrastructure.Contract/*.csproj FOSCBot.Infrastructure.Contract/
 COPY FOSCBot.Infrastructure.Implementation/*.csproj FOSCBot.Infrastructure.Implementation/
+COPY FOSCBot.Persistence.Migrations/*.csproj FOSCBot.Persistence.Migrations/
 
 RUN dotnet restore -r linux-musl-x64
 
@@ -15,7 +16,7 @@ COPY . .
 WORKDIR /src/FOSCBot
 RUN dotnet publish -c Release -o /app -r linux-musl-x64 --self-contained false --no-restore ../FOSCBot.sln 
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
