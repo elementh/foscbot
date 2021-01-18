@@ -1,4 +1,4 @@
-﻿using Navigator.Abstraction;
+﻿using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
 namespace FOSCBot.Core.Domain.Command.Start

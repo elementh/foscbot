@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
-using FOSCBot.Infrastructure.Contract.Service;
 using MediatR;
-using Navigator;
-using Navigator.Abstraction;
-using Navigator.Actions;
+using Navigator.Abstractions;
+using Navigator.Abstractions.Extensions;
+using Navigator.Extensions.Actions;
 
 namespace FOSCBot.Core.Domain.Command.Succ
 {

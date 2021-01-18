@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
-using Navigator;
-using Navigator.Abstraction;
-using Navigator.Actions;
+using Navigator.Abstractions;
+using Navigator.Abstractions.Extensions;
+using Navigator.Extensions.Actions;
 using Telegram.Bot.Types;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ipad

@@ -35,10 +35,10 @@ namespace FOSCBot.Bot.Api
 
             services.AddNavigator(options =>
             {
-                options.BotToken = Configuration["TELEGRAM_TOKEN"];
-                options.BaseWebHookUrl = Configuration["BOT_URL"];
-                options.MultipleLaunchEnabled = false;
-            }, typeof(DefaultInlineAction).Assembly);
+                options.SetTelegramToken(Configuration["TELEGRAM_TOKEN"]);
+                options.SetWebHookBaseUrl(Configuration["BOT_URL"]);
+                options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
+            });
 
             #endregion
 

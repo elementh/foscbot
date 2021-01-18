@@ -1,6 +1,6 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator;
-using Navigator.Abstraction;
+using Navigator.Abstractions;
+using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Nginx
