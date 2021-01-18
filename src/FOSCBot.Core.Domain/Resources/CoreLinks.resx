@@ -54,4 +54,7 @@
   <data name="SuccWithTeeth" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4</value>
   </data>
+  <data name="Conke" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/conke.mp4</value>
+  </data>
 </root>
