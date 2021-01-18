@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Ele.Extensions.Configuration;
+using FOSCBot.Common.Pipeline;
 using FOSCBot.Core.Domain.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
@@ -58,8 +59,12 @@ namespace FOSCBot.Bot.Api
             #endregion
 
             #region Pipeline
+            
+            services.AddScoped<Watcher, Watcher>();
 
             services.AddMediatR(typeof(DefaultInlineAction).Assembly);
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipeline<,>));
 
             #endregion
 
