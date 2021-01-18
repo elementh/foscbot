@@ -2,9 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Navigator.Extensions.Store.Context;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FOSCBot.Persistence.Migrations.Migrations
 {
