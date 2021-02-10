@@ -32,7 +32,7 @@ namespace FOSCBot.Core.Domain.Command.Bottomify
 
             var input = Ctx.GetMessage().Text.Remove(0, Ctx.GetMessage().Text.IndexOf(' ') + 1);
 
-            if (!string.IsNullOrWhiteSpace(input) && input != request.Command)
+            if (!string.IsNullOrWhiteSpace(input) && input.StartsWith(request.Command))
             {
                 bottomifiedText = Common.Helper.Bottomify.EncodeString(input);
                 
