@@ -21,6 +21,19 @@ namespace FOSCBot.Core.Domain.Fallback.Default
 
         public override async Task<Unit> Handle(DefaultFallbackAction request, CancellationToken cancellationToken)
         {
+            if (!string.IsNullOrWhiteSpace(Ctx.GetMessageOrDefault()?.Text) && Bottomify.IsEncoded(Ctx.GetMessage().Text))
+            {
+                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(),
+                    $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(Ctx.GetMessage().Text)}_",
+                    ParseMode.Markdown,
+                    cancellationToken: cancellationToken);
+            }
+            
+            if (RandomProvider.GetThreadRandom().Next(0, 600) < 590)
+            {
+                return Unit.Value;
+            }
+            
             var sentence = string.Empty;
 
             var odds = RandomProvider.GetThreadRandom().Next(0, 15);
