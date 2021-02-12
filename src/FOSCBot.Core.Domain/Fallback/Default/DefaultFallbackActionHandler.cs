@@ -29,14 +29,14 @@ namespace FOSCBot.Core.Domain.Fallback.Default
                     cancellationToken: cancellationToken);
             }
             
-            if (RandomProvider.GetThreadRandom().Next(0, 600) < 590)
+            if (RandomProvider.GetThreadRandom().Next(0, 600) < 595)
             {
                 return Unit.Value;
             }
             
             var sentence = string.Empty;
 
-            var odds = RandomProvider.GetThreadRandom().Next(0, 15);
+            var odds = RandomProvider.GetThreadRandom().Next(0, 20);
 
             if (odds >= 0 && odds < 5)
             {
