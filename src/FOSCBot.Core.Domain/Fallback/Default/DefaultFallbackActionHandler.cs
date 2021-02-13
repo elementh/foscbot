@@ -29,7 +29,7 @@ namespace FOSCBot.Core.Domain.Fallback.Default
                     cancellationToken: cancellationToken);
             }
             
-            if (RandomProvider.GetThreadRandom().Next(0, 600) < 595)
+            if (RandomProvider.GetThreadRandom().Next(0, 600) < 598)
             {
                 return Unit.Value;
             }
