@@ -115,6 +115,12 @@ namespace FOSCBot.Core.Domain.Resources {
             get {
                 return ResourceManager.GetString("Succ", resourceCulture);
             }
+        }   
+        
+        public static string Stonks {
+            get {
+                return ResourceManager.GetString("Stonks", resourceCulture);
+            }
         }
         
         public static string SuccWithTeeth {

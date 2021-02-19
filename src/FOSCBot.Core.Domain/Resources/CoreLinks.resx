@@ -57,4 +57,7 @@
   <data name="Conke" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/conke.mp4</value>
   </data>
+  <data name="Stonks" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/stonks.mp4</value>
+  </data>
 </root>
