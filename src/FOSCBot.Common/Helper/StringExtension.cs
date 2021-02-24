@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Char;
 
 namespace FOSCBot.Common.Helper
 {
@@ -68,6 +69,11 @@ namespace FOSCBot.Common.Helper
             // chars.RemoveAt(index);
             
             return new string(chars.ToString());
+        }
+        
+        public static bool IsAllUpper(this string input)
+        {
+            return input.All(t => !IsLetter(t) || IsUpper(t));
         }
     }
 }
