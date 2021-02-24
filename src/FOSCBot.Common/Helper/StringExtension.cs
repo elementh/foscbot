@@ -71,9 +71,9 @@ namespace FOSCBot.Common.Helper
             return new string(chars.ToString());
         }
         
-        public static bool IsAllUpper(this string input)
+        public static bool IsAllUpper(this string? input)
         {
-            return input.All(t => !IsLetter(t) || IsUpper(t));
+            return input?.All(t => !IsLetter(t) || IsUpper(t)) ?? false;
         }
     }
 }

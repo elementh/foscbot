@@ -13,7 +13,7 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
         public new int Order;
 
         private readonly IMemoryCache _memoryCache;
-        
+
         public string Word { get; protected set; }
 
         public RandomWordFallbackAction(IMemoryCache memoryCache)
@@ -24,13 +24,13 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
 
         public override bool CanHandle(INavigatorContext ctx)
         {
-            if (_memoryCache.TryGetValue($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChat().Id}", out _))
+            if (_memoryCache.TryGetValue($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
             {
                 return false;
             }
 
             var words = ctx.GetMessageOrDefault()?.Text.Trim().Split(" ");
-            
+
             if (words?.Length == 1)
             {
                 Word = words.FirstOrDefault() ?? string.Empty;
@@ -39,8 +39,15 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
                 {
                     return false;
                 }
-                
-                return _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChat().Id}", true, TimeSpan.FromMinutes(1));
+
+                try
+                {
+                    _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(1));
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
 
             return false;

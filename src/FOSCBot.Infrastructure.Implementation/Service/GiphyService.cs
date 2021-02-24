@@ -23,8 +23,7 @@ namespace FOSCBot.Infrastructure.Implementation.Service
             try
             {
                 var gifUrl = await _giphyClient.Get(text, cancellationToken);
-
-
+                
                 return gifUrl;
             }
             catch (Exception e)
