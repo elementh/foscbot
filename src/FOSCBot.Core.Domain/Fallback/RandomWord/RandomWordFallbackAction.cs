@@ -43,6 +43,8 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
                 try
                 {
                     _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(1));
+
+                    return true;
                 }
                 catch (Exception)
                 {
