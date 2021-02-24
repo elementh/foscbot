@@ -29,7 +29,7 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
                 return false;
             }
 
-            var words = ctx.GetMessageOrDefault()?.Text.Trim().Split(" ");
+            var words = ctx.GetMessageOrDefault()?.Text?.Trim().Split(" ");
 
             if (words?.Length == 1)
             {
