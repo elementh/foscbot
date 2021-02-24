@@ -40,6 +40,8 @@ namespace FOSCBot.Bot.Api
 
             services.AddHealthChecks();
 
+            services.AddMemoryCache();
+
             #region Navigator
 
             services.AddNavigator(options =>
@@ -80,6 +82,12 @@ namespace FOSCBot.Bot.Api
 
             services.AddOptions<YesNoClient.YesNoClientOptions>().Configure(options => { options.ApiUrl = Configuration["YESNO_API_URL"]; });
 
+            services.AddOptions<GiphyClient.GiphyClientOptions>().Configure(options =>
+            {
+                options.ApiUrl = Configuration["GIPHY_API_URL"];
+                options.ApiKey = Configuration["GIPHY_API_KEY"];
+            });
+
             services.AddHttpClient<IBaconClient, BaconClient>()
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
@@ -104,11 +112,17 @@ namespace FOSCBot.Bot.Api
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(3, retryCount =>
                         TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+            
+            services.AddHttpClient<IGiphyClient, GiphyClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
             services.AddScoped<ILipsumService, LipsumService>();
             services.AddScoped<IInspiroService, InspiroService>();
             services.AddScoped<IInsultService, InsultService>();
             services.AddScoped<IYesNoService, YesNoService>();
+            services.AddScoped<IGiphyService, GiphyService>();
 
             #endregion
         }
