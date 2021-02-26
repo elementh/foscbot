@@ -29,6 +29,11 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
                 return false;
             }
 
+            if (RandomProvider.GetThreadRandom().NextDouble() > 0.6)
+            {
+                return false;
+            }
+
             var words = ctx.GetMessageOrDefault()?.Text?.Trim().Split(" ");
 
             if (words?.Length == 1)
@@ -39,10 +44,15 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord
                 {
                     return false;
                 }
+                
+                if (Word.Contains("XDDD"))
+                {
+                    return false;
+                }
 
                 try
                 {
-                    _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(1));
+                    _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(15));
 
                     return true;
                 }
