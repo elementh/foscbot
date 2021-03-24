@@ -22,7 +22,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Ipad
                 return false;
             }
 
-            if (ctx.Update.Message.Text?.ToLower().Contains(" ipad") != null)
+            if (ctx.Update.Message.Text?.ToLower().Contains(" ipad") ?? false)
             {
                 try
                 {
