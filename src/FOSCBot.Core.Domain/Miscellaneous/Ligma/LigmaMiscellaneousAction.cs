@@ -7,7 +7,9 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Ligma
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.Update.Message.Text?.ToLower().Contains(" so sad") ?? false;
+            return (ctx.Update.Message.Text?.ToLower().Contains("so sad") ?? false) ||
+                   (ctx.Update.Message.Text?.ToLower().Contains("ligma") ?? false) ||
+                   (ctx.Update.Message.Text?.ToLower().Contains("p4cock") ?? false);
         }
     }
 }
