@@ -17,5 +17,35 @@
       <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj" />
       <ProjectReference Include="..\FOSCBot.Infrastructure.Contract\FOSCBot.Infrastructure.Contract.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\CoreLinks.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CoreLinks.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\CoreLinks.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreLinks.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\CoreResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CoreResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\CoreResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreResources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
     
 </Project>

@@ -14,7 +14,7 @@ namespace FOSCBot.Core.Domain.Resources {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CoreLinks {
+    internal class CoreLinks {
         
         private static System.Resources.ResourceManager resourceMan;
         
@@ -25,7 +25,7 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static System.Resources.ResourceManager ResourceManager {
+        internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
                     System.Resources.ResourceManager temp = new System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.CoreLinks", typeof(CoreLinks).Assembly);
@@ -36,7 +36,7 @@ namespace FOSCBot.Core.Domain.Resources {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static System.Globalization.CultureInfo Culture {
+        internal static System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -45,93 +45,105 @@ namespace FOSCBot.Core.Domain.Resources {
             }
         }
         
-        public static string Ice {
+        internal static string Ice {
             get {
                 return ResourceManager.GetString("Ice", resourceCulture);
             }
         }
         
-        public static string Ipad {
+        internal static string Ipad {
             get {
                 return ResourceManager.GetString("Ipad", resourceCulture);
             }
         }
         
-        public static string IpadAudio {
+        internal static string IpadAudio {
             get {
                 return ResourceManager.GetString("IpadAudio", resourceCulture);
             }
         }
         
-        public static string Nice {
+        internal static string Nice {
             get {
                 return ResourceManager.GetString("Nice", resourceCulture);
             }
         }
         
-        public static string Nope {
+        internal static string Nope {
             get {
                 return ResourceManager.GetString("Nope", resourceCulture);
             }
         }
         
-        public static string Nvidia {
+        internal static string Nvidia {
             get {
                 return ResourceManager.GetString("Nvidia", resourceCulture);
             }
         }
         
-        public static string Orks {
+        internal static string Orks {
             get {
                 return ResourceManager.GetString("Orks", resourceCulture);
             }
         }
         
-        public static string P4hit {
+        internal static string P4hit {
             get {
                 return ResourceManager.GetString("P4hit", resourceCulture);
             }
         }
         
-        public static string P4hitFast {
+        internal static string P4hitFast {
             get {
                 return ResourceManager.GetString("P4hitFast", resourceCulture);
             }
         }
         
-        public static string Ree {
+        internal static string Ree {
             get {
                 return ResourceManager.GetString("Ree", resourceCulture);
             }
         }
         
-        public static string Stemen {
+        internal static string Stemen {
             get {
                 return ResourceManager.GetString("Stemen", resourceCulture);
             }
         }
         
-        public static string Succ {
+        internal static string Succ {
             get {
                 return ResourceManager.GetString("Succ", resourceCulture);
             }
-        }   
-        
-        public static string Stonks {
-            get {
-                return ResourceManager.GetString("Stonks", resourceCulture);
-            }
         }
         
-        public static string SuccWithTeeth {
+        internal static string SuccWithTeeth {
             get {
                 return ResourceManager.GetString("SuccWithTeeth", resourceCulture);
             }
         }
         
-        public static string Conke {
+        internal static string Conke {
             get {
                 return ResourceManager.GetString("Conke", resourceCulture);
+            }
+        }
+        
+        internal static string Stonks {
+            get {
+                return ResourceManager.GetString("Stonks", resourceCulture);
+            }
+        }
+        
+        internal static string Dineros {
+            get {
+                return ResourceManager.GetString("Dineros", resourceCulture);
+            }
+        }
+        
+        internal static string HomeMalo {
+            get {
+                return ResourceManager.GetString("HomeMalo", resourceCulture);
             }
         }
     }
