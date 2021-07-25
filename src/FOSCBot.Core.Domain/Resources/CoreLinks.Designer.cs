@@ -146,5 +146,11 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("HomeMalo", resourceCulture);
             }
         }
+        
+        internal static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
     }
 }
