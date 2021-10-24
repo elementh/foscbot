@@ -16,8 +16,8 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Traktor
                    || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("traktor") ?? false)
                    || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("блядь") ?? false)
                    || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("трактор") ?? false)
-                   || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]*[Tt]*")
-                   || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Tt][Rr][Aa]*[KkCc][Tt][Oo]*[Rr]*");
+                   || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]+[Tt]+")
+                   || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+");
         }
     }
 }
