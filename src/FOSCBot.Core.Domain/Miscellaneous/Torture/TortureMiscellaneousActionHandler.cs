@@ -1,6 +1,7 @@
  
 using System.Threading;
 using System.Threading.Tasks;
+using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator.Abstractions;
@@ -17,9 +18,13 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Torture
 
         public override async Task<Unit> Handle(TortureMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "And make it snappy", cancellationToken: cancellationToken);
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Conke, cancellationToken: cancellationToken);
-            
+            if (RandomProvider.GetThreadRandom().NextDouble() <= 0.5d)
+                await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.CbtExplanation, cancellationToken: cancellationToken);
+            else
+            {
+                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "And make it snappy", cancellationToken: cancellationToken);
+                await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Conke, cancellationToken: cancellationToken);
+            }
             return Unit.Value;
         }
     }

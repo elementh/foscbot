@@ -69,4 +69,25 @@
   <data name="Source" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/source.jpg</value>
   </data>
+  <data name="GoAhead" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4</value>
+  </data>
+  <data name="CagasteGoku" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagastegoku.jpg</value>
+  </data>
+  <data name="CagasteShark" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagasteshark.jpg</value>
+  </data>
+  <data name="CbtExplanation" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4</value>
+  </data>
+  <data name="BasedDepartment" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4</value>
+  </data>
+  <data name="Traktor" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/traktor.mp4</value>
+  </data>
+  <data name="BuenoFlipao" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/bueno_flipao.mp4</value>
+  </data>
 </root>

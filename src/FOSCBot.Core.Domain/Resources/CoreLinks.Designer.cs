@@ -152,5 +152,47 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("Source", resourceCulture);
             }
         }
+        
+        internal static string GoAhead {
+            get {
+                return ResourceManager.GetString("GoAhead", resourceCulture);
+            }
+        }
+        
+        internal static string CagasteGoku {
+            get {
+                return ResourceManager.GetString("CagasteGoku", resourceCulture);
+            }
+        }
+        
+        internal static string CagasteShark {
+            get {
+                return ResourceManager.GetString("CagasteShark", resourceCulture);
+            }
+        }
+        
+        internal static string CbtExplanation {
+            get {
+                return ResourceManager.GetString("CbtExplanation", resourceCulture);
+            }
+        }
+        
+        internal static string BasedDepartment {
+            get {
+                return ResourceManager.GetString("BasedDepartment", resourceCulture);
+            }
+        }
+        
+        internal static string Traktor {
+            get {
+                return ResourceManager.GetString("Traktor", resourceCulture);
+            }
+        }
+        
+        internal static string BuenoFlipao {
+            get {
+                return ResourceManager.GetString("BuenoFlipao", resourceCulture);
+            }
+        }
     }
 }
