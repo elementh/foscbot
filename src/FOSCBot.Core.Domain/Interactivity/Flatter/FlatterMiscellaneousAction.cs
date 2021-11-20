@@ -3,7 +3,7 @@ using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Flatter
+namespace FOSCBot.Core.Domain.Interactivity.Flatter
 {
     public class FlatterMiscellaneousAction : MessageAction
     {
