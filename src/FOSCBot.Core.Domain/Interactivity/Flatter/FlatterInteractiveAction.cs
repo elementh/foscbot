@@ -5,7 +5,7 @@ using Navigator.Extensions.Actions;
 
 namespace FOSCBot.Core.Domain.Interactivity.Flatter
 {
-    public class FlatterMiscellaneousAction : MessageAction
+    public class FlatterInteractiveAction : MessageAction
     {
         private const int FoscBotUserId = 970438602;
 
