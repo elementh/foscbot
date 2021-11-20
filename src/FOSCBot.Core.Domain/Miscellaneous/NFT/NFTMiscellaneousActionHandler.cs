@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT
 
         public override async Task<Unit> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFT, "tEnGo Un IpAd", cancellationToken: cancellationToken);
+            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFT, cancellationToken: cancellationToken);
             return Unit.Value;
         }
     }
