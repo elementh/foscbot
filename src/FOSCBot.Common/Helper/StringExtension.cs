@@ -75,5 +75,10 @@ namespace FOSCBot.Common.Helper
         {
             return input?.All(t => !IsLetter(t) || IsUpper(t)) ?? false;
         }
+
+        public static bool IsSticker(this string? input)
+        {
+            return input?.StartsWith("CAAC") ?? false;
+        }
     }
 }

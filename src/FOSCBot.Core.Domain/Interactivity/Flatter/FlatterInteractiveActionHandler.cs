@@ -6,16 +6,16 @@ using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Flatter
+namespace FOSCBot.Core.Domain.Interactivity.Flatter
 {
-    public class FlatterMiscellaneousActionHandler : ActionHandler<FlatterMiscellaneousAction>
+    public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveAction>
     {
         
-        public FlatterMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+        public FlatterInteractiveActionHandler(INavigatorContext ctx) : base(ctx)
         {
         }
 
-        public override async Task<Unit> Handle(FlatterMiscellaneousAction request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(FlatterInteractiveAction request, CancellationToken cancellationToken)
         {
             var choice = RandomProvider.GetThreadRandom().Next(0, 6);
             switch (choice)

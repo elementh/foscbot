@@ -3,9 +3,9 @@ using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Flatter
+namespace FOSCBot.Core.Domain.Interactivity.Flatter
 {
-    public class FlatterMiscellaneousAction : MessageAction
+    public class FlatterInteractiveAction : MessageAction
     {
         private const int FoscBotUserId = 970438602;
 
@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Flatter
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("acho") ?? false) ||
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("jajaja") ?? false) ||
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("gracias") ?? false) ||
-                    Regex.IsMatch(ctx.GetMessageOrDefault()?.Text!, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
+                    Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
         }
     }
 }
