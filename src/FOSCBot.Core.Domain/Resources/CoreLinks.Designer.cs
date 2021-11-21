@@ -200,5 +200,11 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("NFT", resourceCulture);
             }
         }
+        
+        internal static string NFToad {
+            get {
+                return ResourceManager.GetString("NFToad", resourceCulture);
+            }
+        }
     }
 }
