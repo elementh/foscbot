@@ -90,4 +90,10 @@
   <data name="BuenoFlipao" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/bueno_flipao.mp4</value>
   </data>
+  <data name="NFT" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nft.jpg</value>
+  </data>
+  <data name="NFToad" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftoad.jpg</value>
+  </data>
 </root>
