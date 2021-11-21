@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("acho") ?? false) ||
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("jajaja") ?? false) ||
                     (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("gracias") ?? false) ||
-                    Regex.IsMatch(ctx.GetMessageOrDefault()?.Text!, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
+                    Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
         }
     }
 }
