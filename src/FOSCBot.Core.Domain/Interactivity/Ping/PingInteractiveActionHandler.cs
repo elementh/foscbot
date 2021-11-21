@@ -16,7 +16,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Ping
 
         public override async Task<Unit> Handle(PingInteractiveAction request, CancellationToken cancellationToken)
         {
-            var currentTime = new DateTime();
+            var currentTime = DateTime.Now;
             var requestTime = request.MessageTimestamp;
             var delaySinceMessageWasSent = currentTime - requestTime; // ToDo Test timezone differences
 
