@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator.Abstractions;
@@ -16,7 +17,15 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT
 
         public override async Task<Unit> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFT, cancellationToken: cancellationToken);
+            if (RandomProvider.GetThreadRandom().NextDouble() > 0.5d)
+            {
+                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFT, cancellationToken: cancellationToken);
+            }
+            else
+            {
+                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFToad, cancellationToken: cancellationToken);
+            }
+
             return Unit.Value;
         }
     }

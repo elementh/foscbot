@@ -8,7 +8,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return RandomProvider.GetThreadRandom().NextDouble() >= 0.7 && 
+            return RandomProvider.GetThreadRandom().NextDouble() >= 0.4 && 
                    (ctx.Update.Message.Text?.ToLower().Contains("nft") ?? false);
         }
     }
