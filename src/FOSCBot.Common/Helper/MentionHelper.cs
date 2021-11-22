@@ -5,6 +5,9 @@ namespace FOSCBot.Common.Helper
 {
     public static class MentionHelper
     {
+        /// <summary>
+        /// The current instance's of FOSCBot ID
+        /// </summary>
         private const int FoscBotUserId = 970438602;
         
         /// <summary>
@@ -34,7 +37,7 @@ namespace FOSCBot.Common.Helper
         /// <summary>
         /// Returns whether the bot was sent a nice message.
         /// </summary>
-        /// <param name="ctx"></param>
+        /// <param name="ctx">Current message's Navigator context</param>
         /// <returns>true if the bot was flattered</returns>
         public static bool IsBotFlattered(this INavigatorContext ctx)
         {
@@ -49,6 +52,21 @@ namespace FOSCBot.Common.Helper
                     (ctx.Update.Message?.Text?.ToLower().Contains("increíble") ?? false) ||
                     (ctx.Update.Message?.Text?.ToLower().Contains("puto amo") ?? false) ||
                     Regex.IsMatch(ctx.Update.Message?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
+        }
+
+        /// <summary>
+        /// Returns whether the bot is being told bad things, in order to make it stop.
+        /// </summary>
+        /// <param name="ctx">Current message's Navigator context</param>
+        /// <returns>true if the bot was told a bad thing</returns>
+        public static bool IsBotBeingToldBadThings(this INavigatorContext ctx)
+        {
+            return (ctx.Update.Message?.Text?.ToLower().Contains("bad bot") ?? false) ||
+                    (ctx.Update.Message?.Text?.ToLower().Contains("bot malo") ?? false) ||
+                    (ctx.Update.Message?.Text?.ToLower().Contains("mal bot") ?? false) ||
+                    (ctx.Update.Message?.Text?.ToLower().Contains("basta") ?? false) ||
+                    (ctx.Update.Message?.Text?.ToLower().Contains("para") ?? false) ||
+                    (ctx.Update.Message?.Text?.ToLower().Contains("capullo") ?? false);
         }
     }
 }
