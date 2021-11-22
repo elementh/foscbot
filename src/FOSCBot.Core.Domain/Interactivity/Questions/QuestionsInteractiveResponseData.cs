@@ -28,6 +28,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions
             "Bro, ya no?",
             "Este grupo ha sido proclamado por el bot",
             "Acho que pesaos",
+            "Acho para yaaaaREEEEEEEEEEEEE",
             "CAACAgQAAxkBAAEDJMthdZQwLAIyUcECwynw-TuPe_87fAACUgMAApjnowABWVTvcB6NosQhBA", // Me aburris tio
             "CAACAgIAAxkBAAEDVMdhmacf4Ek0lDgK7aWQJKDkmeaW8wACHwwAAr9_OUl5W2p_J1WxryIE", //Captain Whale Keyboard
             "CAACAgQAAxkBAAEDVMlhmadGsqKvkgqTkmyBdWe_T2baIAACOQkAAnqK8VEFmr6NRSkbfSIE", //Cat angry

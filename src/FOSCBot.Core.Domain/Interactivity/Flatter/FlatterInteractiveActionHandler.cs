@@ -1,7 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
+using FOSCBot.Core.Domain.Interactivity.Questions;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
@@ -10,9 +12,10 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter
 {
     public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveAction>
     {
-        
-        public FlatterInteractiveActionHandler(INavigatorContext ctx) : base(ctx)
+        private readonly IMemoryCache _memoryCache;
+        public FlatterInteractiveActionHandler(INavigatorContext ctx, IMemoryCache memoryCache) : base(ctx)
         {
+            _memoryCache = memoryCache;
         }
 
         public override async Task<Unit> Handle(FlatterInteractiveAction request, CancellationToken cancellationToken)
@@ -43,6 +46,11 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter
                     // Croco nice
                     await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgIAAxkBAAEDJNFhdZYD0vurwr7VikMz-SbM0TDhSgACLgkAAhhC7ghmx6Iwr7yx9CEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                     break;
+            }
+
+            if (_memoryCache.TryGetValue($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", out _))
+            {
+                _memoryCache.Remove($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}");
             }
             
             return Unit.Value;

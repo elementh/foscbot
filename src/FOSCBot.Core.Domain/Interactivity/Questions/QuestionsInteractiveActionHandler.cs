@@ -20,25 +20,23 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions
 
         public override async Task<Unit> Handle(QuestionsInteractiveAction request, CancellationToken cancellationToken)
         {
-            var response = string.Empty;
+            string response;
 
             if (_memoryCache.TryGetValue($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", out int questionsAsked))
             {
-                if (questionsAsked >= 5)
+                response = questionsAsked switch
                 {
-                    response = QuestionsInteractiveResponseData.OutOfMindResponses.GetRandomFromList();
-                } 
-                else if (questionsAsked >= 2)
-                {
-                    response = QuestionsInteractiveResponseData.DramaticResponses.GetRandomFromList();
-                }
+                    > 10 => QuestionsInteractiveResponseData.OutOfMindResponses.GetRandomFromList(),
+                    > 3 => QuestionsInteractiveResponseData.DramaticResponses.GetRandomFromList(),
+                    _ => QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList()
+                };
             }
             else
             {
                 response = QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList();
             }
 
-            _memoryCache.Set($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", questionsAsked + 1, TimeSpan.FromHours(1));
+            _memoryCache.Set($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", questionsAsked + 1, TimeSpan.FromMinutes(30));
             if (response.IsSticker())
             {
                 await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);

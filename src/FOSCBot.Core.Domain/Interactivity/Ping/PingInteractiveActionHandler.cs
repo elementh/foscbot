@@ -20,11 +20,11 @@ namespace FOSCBot.Core.Domain.Interactivity.Ping
             var requestTime = request.MessageTimestamp;
             var delaySinceMessageWasSent = currentTime - requestTime; // ToDo Test timezone differences
 
-            if (delaySinceMessageWasSent.TotalMinutes < 1)
+            if (delaySinceMessageWasSent.TotalSeconds < 12)
             {
                 await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
             } 
-            else if (delaySinceMessageWasSent.TotalMinutes < 3)
+            else if (delaySinceMessageWasSent.TotalSeconds < 60)
             {
                 await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
             }
