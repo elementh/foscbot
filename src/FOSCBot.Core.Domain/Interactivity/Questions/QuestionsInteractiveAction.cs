@@ -8,7 +8,10 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.IsBotMentioned() && !ctx.IsBotPinged();
+            return ctx.IsBotMentioned() && 
+                   !ctx.IsBotPinged() && 
+                   !ctx.IsBotFlattered() && 
+                   !ctx.IsBotBeingToldBadThings();
         }
     }
 }
