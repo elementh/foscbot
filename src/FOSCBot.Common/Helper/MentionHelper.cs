@@ -15,9 +15,9 @@ namespace FOSCBot.Common.Helper
         public static bool IsBotMentioned(this INavigatorContext ctx)
         {
             return ctx.Update.Message?.ReplyToMessage?.From?.Id == FoscBotUserId ||
-                   (ctx.Update.Message?.Text?.Contains("@foscbot") ?? false) ||
-                   (ctx.Update.Message?.Text?.Contains("foscbot") ?? false) ||
-                   (ctx.Update.Message?.Text?.Contains("fosbo") ?? false);
+                   (ctx.Update.Message?.Text?.ToLower().Contains("@foscbot") ?? false) ||
+                   (ctx.Update.Message?.Text?.ToLower().Contains("foscbot") ?? false) ||
+                   (ctx.Update.Message?.Text?.ToLower().Contains("fosbo") ?? false);
         }
 
         /// <summary>
