@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
@@ -17,14 +18,14 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT
 
         public override async Task<Unit> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            if (RandomProvider.GetThreadRandom().NextDouble() > 0.5d)
+            var nft = new List<string>
             {
-                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFT, cancellationToken: cancellationToken);
-            }
-            else
-            {
-                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.NFToad, cancellationToken: cancellationToken);
-            }
+                CoreLinks.NFT,
+                CoreLinks.NFToad,
+                CoreLinks.NFTractor
+            }.GetRandomFromList();
+            
+            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), nft, cancellationToken: cancellationToken);
 
             return Unit.Value;
         }
