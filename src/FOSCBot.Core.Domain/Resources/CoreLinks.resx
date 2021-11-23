@@ -96,4 +96,7 @@
   <data name="NFToad" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftoad.jpg</value>
   </data>
+  <data name="NFTractor" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftractor.jpg</value>
+  </data>
 </root>

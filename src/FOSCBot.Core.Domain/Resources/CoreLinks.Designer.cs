@@ -206,5 +206,11 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("NFToad", resourceCulture);
             }
         }
+        
+        internal static string NFTractor {
+            get {
+                return ResourceManager.GetString("NFTractor", resourceCulture);
+            }
+        }
     }
 }
