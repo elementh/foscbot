@@ -11,18 +11,37 @@ namespace FOSCBot.Common.Helper
         private const int FoscBotUserId = 970438602;
         
         /// <summary>
-        /// Returns whether the bot's was mentioned or quoted in a message.
+        /// Returns whether the bot's was quoted or mentioned in a message.
+        /// </summary>
+        /// <param name="ctx">Current message's Navigator context</param>
+        /// <returns>true if the bot was mentioned</returns>
+        public static bool IsBotQuotedOrMentioned(this INavigatorContext ctx)
+        {
+            return ctx.IsBotQuoted() || ctx.IsBotMentioned();
+        }
+        
+        /// <summary>
+        /// Returns whether the bot's was mentioned in a message.
         /// </summary>
         /// <param name="ctx">Current message's Navigator context</param>
         /// <returns>true if the bot was mentioned</returns>
         public static bool IsBotMentioned(this INavigatorContext ctx)
         {
-            return ctx.Update.Message?.ReplyToMessage?.From?.Id == FoscBotUserId ||
-                   (ctx.Update.Message?.Text?.ToLower().Contains("@foscbot") ?? false) ||
+            return (ctx.Update.Message?.Text?.ToLower().Contains("@foscbot") ?? false) ||
                    (ctx.Update.Message?.Text?.ToLower().Contains("foscbot") ?? false) ||
                    (ctx.Update.Message?.Text?.ToLower().Contains("fosbo") ?? false);
         }
-
+        
+        /// <summary>
+        /// Returns whether the bot's was quoted in a message.
+        /// </summary>
+        /// <param name="ctx">Current message's Navigator context</param>
+        /// <returns>true if the bot was mentioned</returns>
+        public static bool IsBotQuoted(this INavigatorContext ctx)
+        {
+            return ctx.Update.Message?.ReplyToMessage?.From?.Id == FoscBotUserId;
+        }
+        
         /// <summary>
         /// Returns whether the bot was requested to perform a Ping command.
         /// This will be the case when the message contains "Estas vivo" or "Estas bien".
