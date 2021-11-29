@@ -8,7 +8,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.IsBotMentioned() && ctx.IsBotFlattered();
+            return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
         }
     }
 }

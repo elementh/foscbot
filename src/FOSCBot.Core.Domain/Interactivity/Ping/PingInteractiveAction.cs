@@ -8,7 +8,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Ping
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.IsBotMentioned() && ctx.IsBotPinged();
+            return ctx.IsBotQuotedOrMentioned() && ctx.IsBotPinged();
         }
     }
 }

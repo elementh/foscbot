@@ -80,5 +80,10 @@ namespace FOSCBot.Common.Helper
         {
             return input?.StartsWith("CAAC") ?? false;
         }
+        
+        public static bool ContainsUrl(this string? input)
+        {
+            return input?.Contains("http") ?? false;
+        }
     }
 }

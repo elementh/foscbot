@@ -8,7 +8,7 @@ namespace FOSCBot.Core.Domain.Interactivity.BadBot
     {
         public override bool CanHandle(INavigatorContext ctx)
         {
-            return ctx.IsBotMentioned() && ctx.IsBotBeingToldBadThings();
+            return ctx.IsBotQuotedOrMentioned() && ctx.IsBotBeingToldBadThings();
         }
     }
 }
