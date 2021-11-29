@@ -212,5 +212,35 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("NFTractor", resourceCulture);
             }
         }
+        
+        internal static string NFTattoo {
+            get {
+                return ResourceManager.GetString("NFTattoo", resourceCulture);
+            }
+        }
+        
+        internal static string NFTu {
+            get {
+                return ResourceManager.GetString("NFTu", resourceCulture);
+            }
+        }
+        
+        internal static string Elegant {
+            get {
+                return ResourceManager.GetString("Elegant", resourceCulture);
+            }
+        }
+        
+        internal static string MegatronCbtExperience {
+            get {
+                return ResourceManager.GetString("MegatronCbtExperience", resourceCulture);
+            }
+        }
+        
+        internal static string MegatronCbtImmediate {
+            get {
+                return ResourceManager.GetString("MegatronCbtImmediate", resourceCulture);
+            }
+        }
     }
 }

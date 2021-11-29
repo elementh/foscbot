@@ -24,7 +24,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Ping
             {
                 await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
             } 
-            else if (delaySinceMessageWasSent.TotalSeconds < 60)
+            else if (delaySinceMessageWasSent.TotalSeconds < 30)
             {
                 await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
             }

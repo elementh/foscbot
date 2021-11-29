@@ -99,4 +99,19 @@
   <data name="NFTractor" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftractor.jpg</value>
   </data>
+  <data name="NFTattoo" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftattoo.jpg</value>
+  </data>
+  <data name="NFTu" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png</value>
+  </data>
+  <data name="Elegant" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4</value>
+  </data>
+  <data name="MegatronCbtExperience" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4</value>
+  </data>
+  <data name="MegatronCbtImmediate" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4</value>
+  </data>
 </root>

@@ -22,7 +22,9 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT
             {
                 CoreLinks.NFT,
                 CoreLinks.NFToad,
-                CoreLinks.NFTractor
+                CoreLinks.NFTractor,
+                CoreLinks.NFTattoo,
+                CoreLinks.NFTu
             }.GetRandomFromList();
             
             await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), nft, cancellationToken: cancellationToken);

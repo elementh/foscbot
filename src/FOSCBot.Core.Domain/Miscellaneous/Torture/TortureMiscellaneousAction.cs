@@ -10,7 +10,8 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Torture
         {
             return (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cock and balls torture") ?? false) 
             || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cock and ball torture") ?? false) 
-            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cum blast me") ?? false);
+            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cum blast me") ?? false)
+            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cbt") ?? false);
         }
     }
 }
