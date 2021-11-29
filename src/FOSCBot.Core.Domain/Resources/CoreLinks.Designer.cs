@@ -153,6 +153,12 @@ namespace FOSCBot.Core.Domain.Resources {
             }
         }
         
+        internal static string SourceChad {
+            get {
+                return ResourceManager.GetString("SourceChad", resourceCulture);
+            }
+        }
+        
         internal static string GoAhead {
             get {
                 return ResourceManager.GetString("GoAhead", resourceCulture);

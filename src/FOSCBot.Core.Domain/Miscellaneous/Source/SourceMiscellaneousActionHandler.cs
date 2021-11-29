@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator.Abstractions;
@@ -16,7 +17,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Source
 
         public override async Task<Unit> Handle(SourceMiscellaneousAction request, CancellationToken cancellationToken)
         {
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.Source, cancellationToken: cancellationToken);
+            if (RandomProvider.GetThreadRandom().NextDouble() <= 0.5d)
+                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.Source, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            else 
+                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.SourceChad, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
 
             return Unit.Value;
         }
