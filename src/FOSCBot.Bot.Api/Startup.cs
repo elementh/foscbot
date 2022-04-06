@@ -9,7 +9,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Navigator;
 using Navigator.Configuration;
+using Navigator.Extensions.Store;
 using Navigator.Extensions.Store.Context;
+using Navigator.Extensions.Store.Context.Extension;
+using Navigator.Extensions.Store.Telegram;
+using Navigator.Providers.Telegram;
 using Polly;
 
 namespace FOSCBot.Bot.Api;
@@ -28,32 +32,33 @@ public class Startup
     {
         services.AddControllers().AddNewtonsoftJson();
 
-        services.AddApiVersioning();
-
         services.AddHealthChecks();
 
         services.AddMemoryCache();
 
         #region Navigator
 
-        services.AddNavigator(options =>
-        {
-            options.SetTelegramToken(Configuration["TELEGRAM_TOKEN"]);
-            options.SetWebHookBaseUrl(Configuration["BOT_URL"]);
-            options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
-        }).AddNavigatorStore(builder =>
-        {
-            builder.UseNpgsql(Configuration["DB_CONNECTION_STRING"],
-                b => b.MigrationsAssembly("FOSCBot.Persistence.Migrations"));
-        }).AddShipyard(options =>
-        {
-            options.SetShipyardApiKey(Configuration["SHIPYARD_API_KEY"]);
-        });
+        services
+            .AddNavigator(options =>
+            {
+                options.SetWebHookBaseUrl(Configuration["BOT_URL"]);
+                options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
+            }).WithProvider.Telegram(options => { options.SetTelegramToken(Configuration["TELEGRAM_TOKEN"]); })
+            .WithExtension.Store(dbBuilder =>
+            {
+                dbBuilder.UseNpgsql(Configuration["DB_CONNECTION_STRING"],
+                    dbContextOptionsBuilder =>
+                    {
+                        dbContextOptionsBuilder.MigrationsAssembly("FOSCBot.Persistence.Migrations");
+                    });
 
+                dbBuilder.UsingStoreExtension<NavigatorStoreTelegramExtension>();
+            });
+        
         #endregion
 
         #region Pipeline
-            
+
         services.AddScoped<Watcher, Watcher>();
 
         services.AddMediatR(typeof(DefaultInlineAction).Assembly);
@@ -66,9 +71,13 @@ public class Startup
 
         services.AddOptions<BaconClient.BaconClientOptions>().Configure(options => { options.ApiUrl = Configuration["BACON_API_URL"]; });
 
-        services.AddOptions<MetaphorClient.MetaphorClientOptions>().Configure(options => { options.ApiUrl = Configuration["METAPHOR_API_URL"]; });
+        services.AddOptions<MetaphorClient.MetaphorClientOptions>().Configure(options =>
+        {
+            options.ApiUrl = Configuration["METAPHOR_API_URL"];
+        });
 
-        services.AddOptions<InspiroClient.InspiroClientOptions>().Configure(options => { options.ApiUrl = Configuration["INSPIRO_API_URL"]; });
+        services.AddOptions<InspiroClient.InspiroClientOptions>()
+            .Configure(options => { options.ApiUrl = Configuration["INSPIRO_API_URL"]; });
 
         services.AddOptions<InsultClient.InsultClientOptions>().Configure(options => { options.ApiUrl = Configuration["INSULT_API_URL"]; });
 
@@ -94,17 +103,17 @@ public class Startup
             .AddTransientHttpErrorPolicy(builder =>
                 builder.WaitAndRetryAsync(3, retryCount =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-            
+
         services.AddHttpClient<IInsultClient, InsultClient>()
             .AddTransientHttpErrorPolicy(builder =>
                 builder.WaitAndRetryAsync(3, retryCount =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-            
+
         services.AddHttpClient<IYesNoClient, YesNoClient>()
             .AddTransientHttpErrorPolicy(builder =>
                 builder.WaitAndRetryAsync(3, retryCount =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-            
+
         services.AddHttpClient<IGiphyClient, GiphyClient>()
             .AddTransientHttpErrorPolicy(builder =>
                 builder.WaitAndRetryAsync(3, retryCount =>
@@ -126,12 +135,12 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-            
+
         using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
         serviceScope?.ServiceProvider.GetRequiredService<NavigatorDbContext>().Database.Migrate();
 
         app.UseRouting();
-            
+
         app.UseAuthentication();
         app.UseAuthorization();
 
