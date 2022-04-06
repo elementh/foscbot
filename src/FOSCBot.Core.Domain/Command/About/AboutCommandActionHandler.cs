@@ -16,10 +16,9 @@ public class AboutCommandActionHandler : ActionHandler<AboutCommandAction>
 
     public override async Task<Status> Handle(AboutCommandAction action, CancellationToken cancellationToken)
     {
-        
-        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, 
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!,
             CoreResources.AboutText, ParseMode.Markdown, cancellationToken: cancellationToken);
-            
+
         return Success();
     }
 }

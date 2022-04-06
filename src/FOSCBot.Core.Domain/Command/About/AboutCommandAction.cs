@@ -12,6 +12,5 @@ public class AboutCommandAction : CommandAction
     public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/about";
-
     }
 }

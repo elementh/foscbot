@@ -5,7 +5,11 @@ namespace FOSCBot.Core.Domain.Command.Boi;
 
 public class BoiCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public BoiCommandAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/boi";
     }
