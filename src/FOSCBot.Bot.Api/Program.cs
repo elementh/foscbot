@@ -24,7 +24,7 @@ using Polly;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommonConfiguration();
-// builder.Host.UseCommonLogging();
+builder.Host.UseCommonLogging();
 builder.Host.UseLamar();
 
 builder.Services.AddControllers()
