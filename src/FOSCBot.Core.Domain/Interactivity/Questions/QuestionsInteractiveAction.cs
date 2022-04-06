@@ -6,11 +6,15 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
 public class QuestionsInteractiveAction : MessageAction
 {
+    public QuestionsInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
-        return ctx.IsBotMentioned() && 
-               !ctx.IsBotPinged() && 
-               !ctx.IsBotFlattered() && 
-               !ctx.IsBotBeingToldBadThings();
+        return NavigatorContextAccessor.NavigatorContext.IsBotMentioned() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotPinged() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotFlattered() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotBeingToldBadThings();
     }
 }

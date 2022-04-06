@@ -6,8 +6,13 @@ namespace FOSCBot.Core.Domain.Interactivity.Ping;
 
 public class PingInteractiveAction : MessageAction
 {
+    public PingInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
-        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotPinged();
+        return NavigatorContextAccessor.NavigatorContext.IsBotQuotedOrMentioned() 
+               && NavigatorContextAccessor.NavigatorContext.IsBotPinged();
     }
 }

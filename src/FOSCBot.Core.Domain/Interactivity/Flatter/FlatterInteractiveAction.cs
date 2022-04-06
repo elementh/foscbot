@@ -6,8 +6,13 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter;
 
 public class FlatterInteractiveAction : MessageAction
 {
+    public FlatterInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
-        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
+        return NavigatorContextAccessor.NavigatorContext.IsBotQuotedOrMentioned() 
+               && NavigatorContextAccessor.NavigatorContext.IsBotFlattered();
     }
 }
