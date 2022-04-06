@@ -12,9 +12,9 @@ public class RandomWordFallbackAction : MessageAction
 {
     public string Word { get; protected set; }
  
-    public RandomWordFallbackAction(INavigatorContextAccessor navigatorContextAccessor, string word) : base(navigatorContextAccessor)
+    public RandomWordFallbackAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        Word = word;
+        
     }
 
     public override bool CanHandleCurrentContext()
