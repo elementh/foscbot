@@ -24,7 +24,7 @@ using Polly;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommonConfiguration();
-builder.Host.UseCommonLogging();
+// builder.Host.UseCommonLogging();
 builder.Host.UseLamar();
 
 builder.Services.AddControllers()
@@ -43,9 +43,7 @@ builder.Services.AddNavigator(options =>
     {
         dbBuilder.UseNpgsql(builder.Configuration["DB_CONNECTION_STRING"],
             dbContextOptionsBuilder => { dbContextOptionsBuilder.MigrationsAssembly("FOSCBot.Persistence.Migrations"); });
-
-        dbBuilder.UsingStoreExtension<NavigatorStoreTelegramExtension>();
-    })
+    }).WithExtension.StoreForTelegram()
     .WithExtension.Cooldown();
 
 #endregion
