@@ -11,7 +11,7 @@ public class QuoteCommandActionHandler : ActionHandler<QuoteCommandAction>
 {
     private readonly IInspiroService _inspiroService;
 
-    public QuoteCommandActionHandler(INavigatorContext ctx, IInspiroService inspiroService) : base(ctx)
+    public QuoteCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor, IInspiroService inspiroService) : base(navigatorContextAccessor)
     {
         _inspiroService = inspiroService;
     }
