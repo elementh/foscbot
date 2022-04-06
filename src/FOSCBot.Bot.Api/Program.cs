@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Navigator;
 using Navigator.Configuration;
+using Navigator.Extensions.Cooldown;
 using Navigator.Extensions.Store;
 using Navigator.Extensions.Store.Context;
 using Navigator.Extensions.Store.Context.Extension;
@@ -44,7 +45,8 @@ builder.Services.AddNavigator(options =>
             dbContextOptionsBuilder => { dbContextOptionsBuilder.MigrationsAssembly("FOSCBot.Persistence.Migrations"); });
 
         dbBuilder.UsingStoreExtension<NavigatorStoreTelegramExtension>();
-    });
+    })
+    .WithExtension.Cooldown();
 
 #endregion
 
