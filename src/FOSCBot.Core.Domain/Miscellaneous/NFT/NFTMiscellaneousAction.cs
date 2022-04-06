@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT;
 
 public class NFTMiscellaneousAction : MessageAction
 {
+    public NFTMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() >= 0.4 && 
