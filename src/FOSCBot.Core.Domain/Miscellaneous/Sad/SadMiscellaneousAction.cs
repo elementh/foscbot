@@ -13,11 +13,11 @@ public class SadMiscellaneousAction : MessageAction
             return false;
         }
             
-        return (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("sad") ?? false)
-               ||(ctx.GetMessageOrDefault()?.Text?.ToLower().Contains(" sad ") ?? false)
-               || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😔"
-               || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😢"
-               || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😞"
-               || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "😭";
+        return (action.Message.Text?.ToLower().Equals("sad") ?? false)
+               ||(action.Message.Text?.ToLower().Contains(" sad ") ?? false)
+               || action.Message.Sticker?.Emoji == "😔"
+               || action.Message.Sticker?.Emoji == "😢"
+               || action.Message.Sticker?.Emoji == "😞"
+               || action.Message.Sticker?.Emoji == "😭";
     }
 }

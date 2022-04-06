@@ -7,9 +7,9 @@ public class LetsGoMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("let's fucking go") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("lets fucking go") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("let's fuckin go") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("lets fuckin go") ?? false);
+        return (action.Message.Text?.ToLower().StartsWith("let's fucking go") ?? false)
+               || (action.Message.Text?.ToLower().StartsWith("lets fucking go") ?? false)
+               || (action.Message.Text?.ToLower().StartsWith("let's fuckin go") ?? false)
+               || (action.Message.Text?.ToLower().StartsWith("lets fuckin go") ?? false);
     }
 }

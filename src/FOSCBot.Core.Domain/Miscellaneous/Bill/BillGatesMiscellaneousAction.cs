@@ -7,6 +7,6 @@ public class BillGatesMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("bill gates") ?? false;
+        return action.Message.Text?.ToLower().Contains("bill gates") ?? false;
     }
 }

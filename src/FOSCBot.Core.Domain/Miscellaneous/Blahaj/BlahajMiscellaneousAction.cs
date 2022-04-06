@@ -7,6 +7,6 @@ public class BlahajMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("blahaj") ?? false;
+        return action.Message.Text?.ToLower().Contains("blahaj") ?? false;
     }
 }

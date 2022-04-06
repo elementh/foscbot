@@ -7,6 +7,6 @@ public class ReeMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return ctx.GetMessageOrDefault()?.Text?.Contains("REE") ?? false;
+        return action.Message.Text?.Contains("REE") ?? false;
     }
 }

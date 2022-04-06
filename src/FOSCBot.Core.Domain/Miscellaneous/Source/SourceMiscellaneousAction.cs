@@ -7,11 +7,11 @@ public class SourceMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("source?") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("source") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("sauce?") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("sauce") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("saus?") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("saus") ?? false);
+        return (action.Message.Text?.ToLower().Equals("source?") ?? false)
+               || (action.Message.Text?.ToLower().Equals("source") ?? false)
+               || (action.Message.Text?.ToLower().Equals("sauce?") ?? false)
+               || (action.Message.Text?.ToLower().Equals("sauce") ?? false)
+               || (action.Message.Text?.ToLower().Equals("saus?") ?? false)
+               || (action.Message.Text?.ToLower().Equals("saus") ?? false);
     }
 }

@@ -23,9 +23,9 @@ public class DinerosMiscellaneousAction : MessageAction
             return false;
         }
 
-        if ((ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("pobres") ?? false) 
-            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("tesla") ?? false)
-            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("dineros") ?? false))
+        if ((action.Message.Text?.ToLower().Contains("pobres") ?? false) 
+            || (action.Message.Text?.ToLower().Contains("tesla") ?? false)
+            || (action.Message.Text?.ToLower().Contains("dineros") ?? false))
         {
             try
             {

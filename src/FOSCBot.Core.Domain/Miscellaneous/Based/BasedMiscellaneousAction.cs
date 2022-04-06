@@ -9,7 +9,7 @@ public class BasedMiscellaneousAction : MessageAction
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
-               (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("based") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.Equals("BASED") ?? false);
+               (action.Message.Text?.ToLower().Equals("based") ?? false)
+               || (action.Message.Text?.Equals("BASED") ?? false);
     }
 }

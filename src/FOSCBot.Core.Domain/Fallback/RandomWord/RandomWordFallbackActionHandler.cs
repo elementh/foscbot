@@ -11,7 +11,8 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord;
 public class RandomWordFallbackActionHandler : ActionHandler<RandomWordFallbackAction>
 {
     private readonly IGiphyService _giphyService;
-    public RandomWordFallbackActionHandler(INavigatorContext ctx, IGiphyService giphyService) : base(ctx)
+
+    public RandomWordFallbackActionHandler(INavigatorContextAccessor navigatorContextAccessor, IGiphyService giphyService) : base(navigatorContextAccessor)
     {
         _giphyService = giphyService;
     }

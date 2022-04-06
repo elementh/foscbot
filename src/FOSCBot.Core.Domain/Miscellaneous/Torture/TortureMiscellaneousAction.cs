@@ -7,9 +7,9 @@ public class TortureMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cock and balls torture") ?? false) 
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cock and ball torture") ?? false) 
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cum blast me") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("cbt") ?? false);
+        return (action.Message.Text?.ToLower().Contains("cock and balls torture") ?? false) 
+               || (action.Message.Text?.ToLower().Contains("cock and ball torture") ?? false) 
+               || (action.Message.Text?.ToLower().Contains("cum blast me") ?? false)
+               || (action.Message.Text?.ToLower().Contains("cbt") ?? false);
     }
 }
