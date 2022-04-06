@@ -5,8 +5,12 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Blahaj;
 
 public class BlahajMiscellaneousAction : MessageAction
 {
+    public BlahajMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
-        return action.Message.Text?.ToLower().Contains("blahaj") ?? false;
+        return Message.Text?.ToLower().Contains("blahaj") ?? false;
     }
 }
