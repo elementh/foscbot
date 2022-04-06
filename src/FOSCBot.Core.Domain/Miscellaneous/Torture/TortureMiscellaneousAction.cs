@@ -5,6 +5,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Torture;
 
 public class TortureMiscellaneousAction : MessageAction
 {
+    public TortureMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return (Message.Text?.ToLower().Contains("cock and balls torture") ?? false) 
