@@ -13,10 +13,10 @@ public class BtwArchMiscellaneousActionHandler : ActionHandler<BtwArchMiscellane
     {
     }
 
-    public override async Task<Status> Handle(BtwArchMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BtwArchMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "`Btw I run on Arch Linux.`", ParseMode.Markdown,
-            replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
+            replyToMessageId: action.MessageId, cancellationToken: cancellationToken);
 
         return Success();
     }

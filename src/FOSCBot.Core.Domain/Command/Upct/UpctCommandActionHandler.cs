@@ -12,7 +12,7 @@ public class UpctCommandActionHandler : ActionHandler<UpctCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(UpctCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(UpctCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE", cancellationToken: cancellationToken);
         return Success();

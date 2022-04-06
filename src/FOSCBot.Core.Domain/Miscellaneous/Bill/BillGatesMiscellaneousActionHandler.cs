@@ -14,7 +14,7 @@ public class BillGatesMiscellaneousActionHandler : ActionHandler<BillGatesMiscel
     {
     }
         
-    public override async Task<Status> Handle(BillGatesMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BillGatesMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

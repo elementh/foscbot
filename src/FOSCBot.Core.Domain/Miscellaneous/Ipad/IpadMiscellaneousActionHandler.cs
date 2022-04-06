@@ -15,7 +15,7 @@ public class IpadMiscellaneousActionHandler : ActionHandler<IpadMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(IpadMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(IpadMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() >= 0.5)
         {

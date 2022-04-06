@@ -14,7 +14,7 @@ public class NginxMiscellaneousActionHandler : ActionHandler<NginxMiscellaneousA
     {
     }
 
-    public override async Task<Status> Handle(NginxMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NginxMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var bytes = Convert.FromBase64String(CoreResources.NginxImage);
         await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())

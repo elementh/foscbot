@@ -13,7 +13,7 @@ public class NoMiscellaneousActionHandler : ActionHandler<NoMiscellaneousAction>
     {
     }
 
-    public override async Task<Status> Handle(NoMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NoMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nope, cancellationToken: cancellationToken);
 

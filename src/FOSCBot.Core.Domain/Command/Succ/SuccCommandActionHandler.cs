@@ -15,7 +15,7 @@ public class SuccCommandActionHandler : ActionHandler<SuccCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(SuccCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SuccCommandAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.8d)
             await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Succ, cancellationToken: cancellationToken);

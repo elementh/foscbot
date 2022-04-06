@@ -13,7 +13,7 @@ public class LetsMiscellaneousActionHandler : ActionHandler<LetsMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(LetsMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(LetsMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var stickerList = LetsGoHelper.LetsGoStickers;
         var randomSticker = stickerList[RandomProvider.GetThreadRandom().Next(0, stickerList.Length)];

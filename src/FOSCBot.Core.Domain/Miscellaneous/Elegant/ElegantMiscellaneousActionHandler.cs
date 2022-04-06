@@ -16,7 +16,7 @@ public class ElegantMiscellaneousActionHandler : ActionHandler<ElegantMiscellane
     {
     }
 
-    public override async Task<Status> Handle(ElegantMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(ElegantMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Elegant, caption: Quote, cancellationToken: cancellationToken);
         return Success();

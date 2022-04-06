@@ -13,7 +13,7 @@ public class BlahajMiscellaneousActionHandler : ActionHandler<BlahajMiscellaneou
     {
     }
 
-    public override async Task<Status> Handle(BlahajMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BlahajMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

@@ -12,7 +12,7 @@ public class SadCommandActionHandler : ActionHandler<SadCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(SadCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SadCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, SadCrstian, cancellationToken: cancellationToken);
 

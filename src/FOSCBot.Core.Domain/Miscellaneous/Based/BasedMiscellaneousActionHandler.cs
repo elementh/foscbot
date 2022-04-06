@@ -13,7 +13,7 @@ public class BasedMiscellaneousActionHandler : ActionHandler<BasedMiscellaneousA
     {
     }
 
-    public override async Task<Status> Handle(BasedMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BasedMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.BasedDepartment, cancellationToken: cancellationToken);
         return Success();

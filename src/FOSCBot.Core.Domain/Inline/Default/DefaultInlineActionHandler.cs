@@ -13,7 +13,7 @@ public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
     {
     }
 
-    public override async Task<Status> Handle(DefaultInlineAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DefaultInlineAction action, CancellationToken cancellationToken)
     {
         var responses = new List<InlineQueryResultArticle>();
 
@@ -28,7 +28,7 @@ public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
             });
         }
 
-        await NavigatorContext.GetTelegramClient().AnswerInlineQueryAsync(request.InlineQueryId, responses, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().AnswerInlineQueryAsync(action.InlineQueryId, responses, cancellationToken: cancellationToken);
 
         return Success();
     }

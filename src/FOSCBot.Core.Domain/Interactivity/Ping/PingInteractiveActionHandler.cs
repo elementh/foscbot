@@ -12,23 +12,23 @@ public class PingInteractiveActionHandler : ActionHandler<PingInteractiveAction>
     {
     }
 
-    public override async Task<Status> Handle(PingInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(PingInteractiveAction action, CancellationToken cancellationToken)
     {
         var currentTime = DateTime.Now;
-        var requestTime = request.MessageTimestamp;
+        var requestTime = action.MessageTimestamp;
         var delaySinceMessageWasSent = currentTime - requestTime; // ToDo Test timezone differences
 
         if (delaySinceMessageWasSent.TotalSeconds < 12)
         {
-            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.MessageId);
         } 
         else if (delaySinceMessageWasSent.TotalSeconds < 30)
         {
-            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.MessageId);
         }
         else
         {
-            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟥 toy joya sosio arreglame ya por dio. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟥 toy joya sosio arreglame ya por dio. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.MessageId);
         }
 
         return Success();

@@ -12,7 +12,7 @@ public class DjEspanitaMiscellaneousActionHandler : ActionHandler<DjEspanitaMisc
     {
     }
 
-    public override async Task<Status> Handle(DjEspanitaMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DjEspanitaMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, DjSticker, cancellationToken: cancellationToken);
             

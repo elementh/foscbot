@@ -13,7 +13,7 @@ public class BadBotInteractiveActionHandler : ActionHandler<BadBotInteractiveAct
     {
     }
 
-    public override async Task<Status> Handle(BadBotInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BadBotInteractiveAction action, CancellationToken cancellationToken)
     {
         var reactions = new List<string>
         {

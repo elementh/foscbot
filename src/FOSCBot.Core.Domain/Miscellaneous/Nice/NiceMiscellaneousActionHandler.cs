@@ -13,7 +13,7 @@ public class NiceMiscellaneousActionHandler : ActionHandler<NiceMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(NiceMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NiceMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nice, cancellationToken: cancellationToken);
             

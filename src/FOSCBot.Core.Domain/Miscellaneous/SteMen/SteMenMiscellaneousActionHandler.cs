@@ -13,7 +13,7 @@ public class SteMenMiscellaneousActionHandler : ActionHandler<SteMenMiscellaneou
     {
     }
 
-    public override async Task<Status> Handle(SteMenMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SteMenMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Stemen, cancellationToken: cancellationToken);
             

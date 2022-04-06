@@ -16,7 +16,7 @@ public class LigmaMiscellaneousActionHandler : ActionHandler<LigmaMiscellaneousA
     {
     }
 
-    public override async Task<Status> Handle(LigmaMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(LigmaMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() >= 0.75)
         {

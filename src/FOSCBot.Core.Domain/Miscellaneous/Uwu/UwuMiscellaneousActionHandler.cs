@@ -13,7 +13,7 @@ public class UwuMiscellaneousActionHandler : ActionHandler<UwuMiscellaneousActio
     {
     }
 
-    public override async Task<Status> Handle(UwuMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(UwuMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

@@ -14,12 +14,12 @@ public class SourceMiscellaneousActionHandler : ActionHandler<SourceMiscellaneou
     {
     }
 
-    public override async Task<Status> Handle(SourceMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SourceMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() <= 0.5d)
-            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Source, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Source, cancellationToken: cancellationToken, replyToMessageId: action.MessageId);
         else 
-            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.SourceChad, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.SourceChad, cancellationToken: cancellationToken, replyToMessageId: action.MessageId);
 
         return Success();
     }

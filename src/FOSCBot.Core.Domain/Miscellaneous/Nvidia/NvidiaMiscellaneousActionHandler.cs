@@ -13,7 +13,7 @@ public class NvidiaMiscellaneousActionHandler : ActionHandler<NvidiaMiscellaneou
     {
     }
 
-    public override async Task<Status> Handle(NvidiaMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NvidiaMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nvidia, cancellationToken: cancellationToken);
 

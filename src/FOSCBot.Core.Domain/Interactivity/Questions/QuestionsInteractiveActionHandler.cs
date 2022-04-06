@@ -16,7 +16,7 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
         _memoryCache = memoryCache;
     }
 
-    public override async Task<Status> Handle(QuestionsInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(QuestionsInteractiveAction action, CancellationToken cancellationToken)
     {
         string response;
 

@@ -13,7 +13,7 @@ public class NopeCommandActionHandler : ActionHandler<NopeCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(NopeCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NopeCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nope, cancellationToken: cancellationToken);
 

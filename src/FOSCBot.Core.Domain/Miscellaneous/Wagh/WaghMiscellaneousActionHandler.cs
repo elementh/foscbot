@@ -13,7 +13,7 @@ public class WaghMiscellaneousActionHandler : ActionHandler<WaghMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(WaghMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(WaghMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Orks, cancellationToken: cancellationToken);
             

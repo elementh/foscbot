@@ -13,7 +13,7 @@ public class JejeMiscellaneousActionHandler : ActionHandler<JejeMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(JejeMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(JejeMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

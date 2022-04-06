@@ -16,9 +16,9 @@ public class RandomWordFallbackActionHandler : ActionHandler<RandomWordFallbackA
         _giphyService = giphyService;
     }
 
-    public override async Task<Status> Handle(RandomWordFallbackAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(RandomWordFallbackAction action, CancellationToken cancellationToken)
     {
-        var gifUrl = await _giphyService.Get(request.Word, cancellationToken);
+        var gifUrl = await _giphyService.Get(action.Word, cancellationToken);
 
         if (gifUrl is not null)
         {

@@ -16,7 +16,7 @@ public class QuoteCommandActionHandler : ActionHandler<QuoteCommandAction>
         _inspiroService = inspiroService;
     }
 
-    public override async Task<Status> Handle(QuoteCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(QuoteCommandAction action, CancellationToken cancellationToken)
     {
         var image = await _inspiroService.GetInspiroImage(cancellationToken);
 

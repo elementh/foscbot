@@ -18,12 +18,12 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
         LipsumService = lipsumService;
     }
 
-    public override async Task<Status> Handle(DefaultFallbackAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DefaultFallbackAction action, CancellationToken cancellationToken)
     {
-        if (!string.IsNullOrWhiteSpace(Ctx.GetMessageOrDefault()?.Text) && Bottomify.IsEncoded(Ctx.GetMessage().Text))
+        if (!string.IsNullOrWhiteSpace(Ctx.GetMessageOrDefault()?.Text) && Bottomify.IsEncoded(action.Message.Text))
         {
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!,
-                $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(Ctx.GetMessage().Text)}_",
+                $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(action.Message.Text)}_",
                 ParseMode.Markdown,
                 cancellationToken: cancellationToken);
         }
@@ -47,13 +47,13 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
         }
         else if (Ctx.GetMessageOrDefault()?.Text.Split(' ').Length > 3)
         {
-            sentence = MockFilter.Apply(Ctx.GetMessage().Text);
+            sentence = MockFilter.Apply(action.Message.Text);
         }
 
         if (!string.IsNullOrWhiteSpace(sentence))
         {
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, sentence, ParseMode.Markdown,
-                replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
+                replyToMessageId: action.MessageId, cancellationToken: cancellationToken);
         }
 
         return Success();

@@ -14,7 +14,7 @@ public class TortureMiscellaneousActionHandler : ActionHandler<TortureMiscellane
     {
     }
 
-    public override async Task<Status> Handle(TortureMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(TortureMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var choice = RandomProvider.GetThreadRandom().Next(0, 4);
         switch (choice)

@@ -14,7 +14,7 @@ public class HeyBroMiscellaneousActionHandler : ActionHandler<HeyBroMiscellaneou
     {
     }
 
-    public override async Task<Status> Handle(HeyBroMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(HeyBroMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var bytes = Convert.FromBase64String(CoreResources.HeyBroImage);
         await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())

@@ -13,7 +13,7 @@ public class DinerosMiscellaneousActionHandler : ActionHandler<DinerosMiscellane
     {
     }
 
-    public override async Task<Status> Handle(DinerosMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DinerosMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Dineros, cancellationToken: cancellationToken);
 

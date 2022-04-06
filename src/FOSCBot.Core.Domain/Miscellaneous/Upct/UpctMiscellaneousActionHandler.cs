@@ -13,7 +13,7 @@ public class UpctMiscellaneousActionHandler : ActionHandler<UpctMiscellaneousAct
     {
     }
 
-    public override async Task<Status> Handle(UpctMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(UpctMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var stickerString = RandomProvider.GetThreadRandom().NextDouble() > 0.2d
             ? "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE"

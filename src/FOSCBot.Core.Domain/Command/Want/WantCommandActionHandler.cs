@@ -13,7 +13,7 @@ public class WantCommandActionHandler : ActionHandler<WantCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(WantCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(WantCommandAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

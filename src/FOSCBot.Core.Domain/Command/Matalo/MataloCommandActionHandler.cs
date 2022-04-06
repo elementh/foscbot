@@ -12,21 +12,21 @@ public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
     private readonly IInsultService _insultService;
     private readonly IYesNoService _yesNoService;
 
-    public MataloCommandActionHandler(INavigatorContext ctx, IInsultService insultService, IYesNoService yesNoService) : base(ctx)
+    public MataloCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor, IInsultService insultService, IYesNoService yesNoService) : base(navigatorContextAccessor)
     {
         _insultService = insultService;
         _yesNoService = yesNoService;
     }
 
-    public override async Task<Status> Handle(MataloCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(MataloCommandAction action, CancellationToken cancellationToken)
     {
-        if (request.ReplyToMessageId.HasValue)
+        if (action.IsReply)
         {
             var insult = await _insultService.GetInsult(cancellationToken);
 
             if (!string.IsNullOrWhiteSpace(insult))
             {
-                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, insult, replyToMessageId: request.ReplyToMessageId.Value,
+                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, insult, replyToMessageId: action.Message.ReplyToMessage?.MessageId,
                     cancellationToken: cancellationToken);
             }
         }
@@ -36,7 +36,7 @@ public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
 
             if (!string.IsNullOrWhiteSpace(answer))
             {
-                await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, answer, replyToMessageId: request.MessageId,
+                await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, answer, replyToMessageId: action.Message.MessageId,
                     cancellationToken: cancellationToken);
             }
         }

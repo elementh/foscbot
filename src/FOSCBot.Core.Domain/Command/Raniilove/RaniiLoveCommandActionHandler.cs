@@ -12,7 +12,7 @@ public class RaniiLoveCommandActionHandler : ActionHandler<RaniiloveCommandActio
     {
     }
 
-    public override async Task<Status> Handle(RaniiloveCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(RaniiloveCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, RaniiSticker, cancellationToken: cancellationToken);
 

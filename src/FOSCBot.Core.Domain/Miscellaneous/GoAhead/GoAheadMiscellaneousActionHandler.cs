@@ -13,7 +13,7 @@ public class GoAheadMiscellaneousActionHandler : ActionHandler<GoAheadMiscellane
     {
     }
 
-    public override async Task<Status> Handle(GoAheadMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(GoAheadMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.GoAhead, 
             cancellationToken: cancellationToken, caption: "SSSSSSSSSSSUCK YOUR OWN COCKKKKK");

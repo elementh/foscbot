@@ -12,7 +12,7 @@ public class CoronasharkCommandActionHandler : ActionHandler<CoronasharkCommandA
     {
     }
 
-    public override async Task<Status> Handle(CoronasharkCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(CoronasharkCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, CoronasharkSticker, cancellationToken: cancellationToken);
             

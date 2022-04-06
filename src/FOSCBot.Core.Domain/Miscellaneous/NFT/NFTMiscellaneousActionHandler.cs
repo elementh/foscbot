@@ -14,7 +14,7 @@ public class NFTMiscellaneousActionHandler : ActionHandler<NFTMiscellaneousActio
     {
     }
 
-    public override async Task<Status> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NFTMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var nft = new List<string>
         {

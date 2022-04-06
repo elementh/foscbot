@@ -13,7 +13,7 @@ public class ReeMiscellaneousActionHandler : ActionHandler<ReeMiscellaneousActio
     {
     }
 
-    public override async Task<Status> Handle(ReeMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(ReeMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Ree, cancellationToken: cancellationToken);
 

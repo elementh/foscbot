@@ -14,7 +14,7 @@ public class TraktorMiscellaneousActionHandler : ActionHandler<TraktorMiscellane
     {
     }
 
-    public override async Task<Status> Handle(TraktorMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(TraktorMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d)
             await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.BuenoFlipao, cancellationToken: cancellationToken);

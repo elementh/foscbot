@@ -13,24 +13,24 @@ public class BottomifyCommandActionHandler : ActionHandler<BottomifyCommandActio
     {
     }
 
-    public override async Task<Status> Handle(BottomifyCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BottomifyCommandAction action, CancellationToken cancellationToken)
     {
         string? bottomifiedText;
             
-        if (request.ReplyToMessageId is not null && !string.IsNullOrWhiteSpace(Ctx.GetMessage().ReplyToMessage?.Text))
+        if (action.IsReply && !string.IsNullOrWhiteSpace(action.Message.ReplyToMessage?.Text))
         {
-            bottomifiedText = Common.Helper.Bottomify.EncodeString(Ctx.GetMessage().ReplyToMessage.Text);
+            bottomifiedText = Common.Helper.Bottomify.EncodeString(action.Message.ReplyToMessage.Text);
 
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, bottomifiedText,
-                replyToMessageId: Ctx.GetMessage().ReplyToMessage.MessageId,
+                replyToMessageId: action.Message.ReplyToMessage.MessageId,
                 cancellationToken: cancellationToken);
                 
             return Success();
         }
 
-        var input = Ctx.GetMessage().Text.Remove(0, Ctx.GetMessage().Text.IndexOf(' ') + 1);
+        var input = action.Message.Text.Remove(0, action.Message.Text.IndexOf(' ') + 1);
 
-        if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(request.Command))
+        if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(action.Command))
         {
             bottomifiedText = Common.Helper.Bottomify.EncodeString(input);
                 

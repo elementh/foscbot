@@ -14,7 +14,7 @@ public class ElonMuskMiscellaneousActionHandler : ActionHandler<ElonMuskMiscella
     {
     }
         
-    public override async Task<Status> Handle(ElonMuskMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(ElonMuskMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 

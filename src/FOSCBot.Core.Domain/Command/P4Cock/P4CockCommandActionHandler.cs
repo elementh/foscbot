@@ -12,7 +12,7 @@ public class P4CockCommandActionHandler : ActionHandler<P4CockCommandAction>
     {
     }
 
-    public override async Task<Status> Handle(P4CockCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(P4CockCommandAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, P4Sticker, cancellationToken: cancellationToken);
             

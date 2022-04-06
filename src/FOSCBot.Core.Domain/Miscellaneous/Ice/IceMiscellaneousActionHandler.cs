@@ -13,7 +13,7 @@ public class IceMiscellaneousActionHandler : ActionHandler<IceMiscellaneousActio
     {
     }
 
-    public override async Task<Status> Handle(IceMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(IceMiscellaneousAction action, CancellationToken cancellationToken)
     {
         await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Ice, cancellationToken: cancellationToken);
 

@@ -14,7 +14,7 @@ public class CagasteMiscellaneousActionHandler : ActionHandler<CagasteMiscellane
     {
     }
 
-    public override async Task<Status> Handle(CagasteMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(CagasteMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() <= 0.5d)
             await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.CagasteGoku, cancellationToken: cancellationToken);
