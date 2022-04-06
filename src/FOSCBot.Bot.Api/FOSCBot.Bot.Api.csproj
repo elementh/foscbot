@@ -7,7 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ele.Extensions.Configuration" Version="1.1.2" />
+        <PackageReference Include="Incremental.Common.Configuration" Version="3.0.1" />
+        <PackageReference Include="Incremental.Common.Logging" Version="2.0.0" />
+        <PackageReference Include="Lamar.Diagnostics" Version="8.0.1" />
+        <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
         <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.3" />
