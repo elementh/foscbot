@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Nvidia;
 
 public class NvidiaMiscellaneousAction : MessageAction
 {
+    public NvidiaMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (Message.Text?.ToLower().Contains("nvidia") ?? false);

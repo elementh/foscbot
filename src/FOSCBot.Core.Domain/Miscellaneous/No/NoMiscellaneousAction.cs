@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.No;
 
 public class NoMiscellaneousAction : MessageAction
 {
+    public NoMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.5d )

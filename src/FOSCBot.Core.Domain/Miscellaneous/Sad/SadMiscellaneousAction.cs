@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Sad;
 
 public class SadMiscellaneousAction : MessageAction
 {
+    public SadMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.6d)

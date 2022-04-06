@@ -5,6 +5,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Ree;
 
 public class ReeMiscellaneousAction : MessageAction
 {
+    public ReeMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return Message.Text?.Contains("REE") ?? false;
