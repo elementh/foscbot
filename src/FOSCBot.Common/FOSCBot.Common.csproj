@@ -8,9 +8,9 @@
 
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="9.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-      <PackageReference Include="Navigator.Abstractions" Version="0.9.99-beta" />
+      <PackageReference Include="MediatR" Version="10.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+      <PackageReference Include="Navigator.Providers.Telegram" Version="1.9.1-beta1" />
     </ItemGroup>
 
 </Project>

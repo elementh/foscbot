@@ -8,12 +8,9 @@
 
     <ItemGroup>
         <PackageReference Include="Ele.Extensions.Configuration" Version="1.1.2" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
-        <PackageReference Include="Navigator" Version="0.9.101-beta" />
-        <PackageReference Include="Navigator.Extensions.Shipyard" Version="0.9.100-beta" />
-        <PackageReference Include="Navigator.Extensions.Store" Version="0.9.100-beta" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.3" />
     </ItemGroup>
 
     <ItemGroup>
