@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Ice;
 
 public class IceMiscellaneousAction : MessageAction
 {
+    public IceMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         if (Message.Text?.ToLower().Contains("fucking ice") ?? false)

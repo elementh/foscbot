@@ -9,6 +9,10 @@ public class HeyBroMiscellaneousAction : MessageAction
     protected static readonly string StickerEmoji = "😚";
     protected static readonly string StickerPack = "foscupct";
 
+    public HeyBroMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() < 0.8d
