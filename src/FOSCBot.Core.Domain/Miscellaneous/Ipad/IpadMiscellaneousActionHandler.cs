@@ -1,9 +1,8 @@
 ﻿using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
 using Telegram.Bot.Types;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ipad;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
 using Telegram.Bot.Types.InlineQueryResults;
 
 namespace FOSCBot.Core.Domain.Inline.Default;

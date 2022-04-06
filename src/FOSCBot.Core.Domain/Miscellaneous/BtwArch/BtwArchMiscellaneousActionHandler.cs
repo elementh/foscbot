@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
 using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.BtwArch;

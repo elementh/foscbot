@@ -1,5 +1,5 @@
-﻿using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+﻿using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Updates;
 
 namespace FOSCBot.Core.Domain.Inline.Default;
 

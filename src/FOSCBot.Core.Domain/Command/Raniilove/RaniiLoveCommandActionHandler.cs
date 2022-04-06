@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
 
 namespace FOSCBot.Core.Domain.Command.Raniilove;
 

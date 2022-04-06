@@ -1,9 +1,8 @@
 using FOSCBot.Common.Helper;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
 
 namespace FOSCBot.Core.Domain.Interactivity.Questions;
 

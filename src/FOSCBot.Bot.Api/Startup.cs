@@ -8,8 +8,7 @@ using FOSCBot.Infrastructure.Implementation.Service;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Navigator;
-using Navigator.Extensions.Shipyard;
-using Navigator.Extensions.Store;
+using Navigator.Configuration;
 using Navigator.Extensions.Store.Context;
 using Polly;
 
