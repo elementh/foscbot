@@ -2,13 +2,12 @@
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Uwu
+namespace FOSCBot.Core.Domain.Miscellaneous.Uwu;
+
+public class UwuMiscellaneousAction : MessageAction
 {
-    public class UwuMiscellaneousAction : MessageAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (ctx.Update.Message.Text?.ToLower().Contains("uwu") ?? false);
-        }
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (ctx.Update.Message.Text?.ToLower().Contains("uwu") ?? false);
     }
 }

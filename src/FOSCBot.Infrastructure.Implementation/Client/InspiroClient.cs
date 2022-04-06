@@ -1,37 +1,32 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Client;
+﻿using FOSCBot.Infrastructure.Contract.Client;
 using Microsoft.Extensions.Options;
 
-namespace FOSCBot.Infrastructure.Implementation.Client
+namespace FOSCBot.Infrastructure.Implementation.Client;
+
+public class InspiroClient : IInspiroClient
 {
-    public class InspiroClient : IInspiroClient
+    protected readonly HttpClient Client;
+    protected readonly InspiroClientOptions Options;
+
+    public InspiroClient(HttpClient client, IOptions<InspiroClientOptions> options)
     {
-        protected readonly HttpClient Client;
-        protected readonly InspiroClientOptions Options;
+        Client = client;
+        Options = options.Value;
 
-        public InspiroClient(HttpClient client, IOptions<InspiroClientOptions> options)
-        {
-            Client = client;
-            Options = options.Value;
+        Client.BaseAddress = new Uri(Options.ApiUrl);
+    }
 
-            Client.BaseAddress = new Uri(Options.ApiUrl);
-        }
+    public async Task<string> Get(CancellationToken cancellationToken = default)
+    {
+        var response = await Client.GetAsync("api?generate=true", cancellationToken);
 
-        public async Task<string> Get(CancellationToken cancellationToken = default)
-        {
-            var response = await Client.GetAsync("api?generate=true", cancellationToken);
+        response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
+    }
 
-            return await response.Content.ReadAsStringAsync();
-        }
-
-        public class InspiroClientOptions
-        {
-            public string ApiUrl { get; set; }
-        }
+    public class InspiroClientOptions
+    {
+        public string ApiUrl { get; set; }
     }
 }

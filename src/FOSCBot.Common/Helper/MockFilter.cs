@@ -1,28 +1,27 @@
 using System.Text;
 
-namespace FOSCBot.Common.Helper
+namespace FOSCBot.Common.Helper;
+
+public class MockFilter
 {
-    public class MockFilter
+    public static string Apply(string original)
     {
-        public static string Apply(string original)
+        var lastIsUpper = true;
+        var stringBuilder = new StringBuilder(original.Length);
+
+        foreach (var character in original)
         {
-            var lastIsUpper = true;
-            var stringBuilder = new StringBuilder(original.Length);
-
-            foreach (var character in original)
+            if (char.IsLetter(character))
             {
-                if (char.IsLetter(character))
-                {
-                    stringBuilder.Append(lastIsUpper ? char.ToLower(character) : char.ToUpper(character));
-                    lastIsUpper = !lastIsUpper;
-                }
-                else
-                {
-                    stringBuilder.Append(character);
-                }
+                stringBuilder.Append(lastIsUpper ? char.ToLower(character) : char.ToUpper(character));
+                lastIsUpper = !lastIsUpper;
             }
-
-            return stringBuilder.ToString();
+            else
+            {
+                stringBuilder.Append(character);
+            }
         }
+
+        return stringBuilder.ToString();
     }
 }

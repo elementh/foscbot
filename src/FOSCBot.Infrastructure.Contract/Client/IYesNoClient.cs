@@ -1,11 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Model;
+﻿using FOSCBot.Infrastructure.Contract.Model;
 
-namespace FOSCBot.Infrastructure.Contract.Client
+namespace FOSCBot.Infrastructure.Contract.Client;
+
+public interface IYesNoClient
 {
-    public interface IYesNoClient
-    {
-        Task<YesNoAnswerModel> GetAnswer(string type, CancellationToken cancellationToken = default);
-    }
+    Task<YesNoAnswerModel> GetAnswer(string type, CancellationToken cancellationToken = default);
 }

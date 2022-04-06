@@ -2,13 +2,12 @@ using FOSCBot.Common.Helper;
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Interactivity.Ping
+namespace FOSCBot.Core.Domain.Interactivity.Ping;
+
+public class PingInteractiveAction : MessageAction
 {
-    public class PingInteractiveAction : MessageAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return ctx.IsBotQuotedOrMentioned() && ctx.IsBotPinged();
-        }
+        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotPinged();
     }
 }

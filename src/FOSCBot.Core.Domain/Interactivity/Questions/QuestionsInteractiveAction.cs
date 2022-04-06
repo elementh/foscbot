@@ -2,16 +2,15 @@ using FOSCBot.Common.Helper;
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Interactivity.Questions
+namespace FOSCBot.Core.Domain.Interactivity.Questions;
+
+public class QuestionsInteractiveAction : MessageAction
 {
-    public class QuestionsInteractiveAction : MessageAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return ctx.IsBotMentioned() && 
-                   !ctx.IsBotPinged() && 
-                   !ctx.IsBotFlattered() && 
-                   !ctx.IsBotBeingToldBadThings();
-        }
+        return ctx.IsBotMentioned() && 
+               !ctx.IsBotPinged() && 
+               !ctx.IsBotFlattered() && 
+               !ctx.IsBotBeingToldBadThings();
     }
 }

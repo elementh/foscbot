@@ -2,13 +2,12 @@
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Nice
+namespace FOSCBot.Core.Domain.Miscellaneous.Nice;
+
+public class NiceMiscellaneousAction : MessageAction
 {
-    public class NiceMiscellaneousAction : MessageAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return RandomProvider.GetThreadRandom().NextDouble() < 0.7d && (ctx.Update.Message.Text?.Contains("NICE") ?? false);
-        }
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.7d && (ctx.Update.Message.Text?.Contains("NICE") ?? false);
     }
 }

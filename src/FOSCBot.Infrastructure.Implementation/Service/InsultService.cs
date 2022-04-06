@@ -1,37 +1,33 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Client;
+﻿using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Logging;
 
-namespace FOSCBot.Infrastructure.Implementation.Service
+namespace FOSCBot.Infrastructure.Implementation.Service;
+
+public class InsultService : IInsultService
 {
-    public class InsultService : IInsultService
+    private readonly ILogger<InsultService> _logger;
+    private readonly IInsultClient _insultClient;
+
+    public InsultService(ILogger<InsultService> logger, IInsultClient insultClient)
     {
-        private readonly ILogger<InsultService> _logger;
-        private readonly IInsultClient _insultClient;
+        _logger = logger;
+        _insultClient = insultClient;
+    }
 
-        public InsultService(ILogger<InsultService> logger, IInsultClient insultClient)
+    public async Task<string> GetInsult(CancellationToken cancellationToken = default)
+    {
+        try
         {
-            _logger = logger;
-            _insultClient = insultClient;
+            var image = await _insultClient.Get(cancellationToken);
+
+            return image;
         }
-
-        public async Task<string> GetInsult(CancellationToken cancellationToken = default)
+        catch (Exception e)
         {
-            try
-            {
-                var image = await _insultClient.Get(cancellationToken);
+            _logger.LogError(e, "Unhandled error retrieving insult.");
 
-                return image;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unhandled error retrieving insult.");
-
-                return default;
-            }
+            return default;
         }
     }
 }

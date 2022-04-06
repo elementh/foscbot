@@ -1,10 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿namespace FOSCBot.Infrastructure.Contract.Client;
 
-namespace FOSCBot.Infrastructure.Contract.Client
+public interface IInspiroClient
 {
-    public interface IInspiroClient
-    {
-        Task<string> Get(CancellationToken cancellationToken = default);
-    }
+    Task<string> Get(CancellationToken cancellationToken = default);
 }
