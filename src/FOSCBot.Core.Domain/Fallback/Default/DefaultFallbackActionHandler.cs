@@ -11,16 +11,16 @@ namespace FOSCBot.Core.Domain.Fallback.Default;
 
 public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
 {
-    protected ILipsumService LipsumService;
+    private readonly ILipsumService _lipsumService;
 
-    public DefaultFallbackActionHandler(INavigatorContext ctx, ILipsumService lipsumService) : base(ctx)
+    public DefaultFallbackActionHandler(INavigatorContextAccessor navigatorContextAccessor, ILipsumService lipsumService) : base(navigatorContextAccessor)
     {
-        LipsumService = lipsumService;
+        _lipsumService = lipsumService;
     }
 
     public override async Task<Status> Handle(DefaultFallbackAction action, CancellationToken cancellationToken)
     {
-        if (!string.IsNullOrWhiteSpace(Ctx.GetMessageOrDefault()?.Text) && Bottomify.IsEncoded(action.Message.Text))
+        if (!string.IsNullOrWhiteSpace(action.Message.Text) && Bottomify.IsEncoded(action.Message.Text))
         {
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!,
                 $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(action.Message.Text)}_",
@@ -39,13 +39,13 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
 
         if (odds >= 0 && odds < 5)
         {
-            sentence = await LipsumService.GetBacon(cancellationToken: cancellationToken);
+            sentence = await _lipsumService.GetBacon(cancellationToken: cancellationToken);
         }
         else if (odds >= 5 && odds < 10)
         {
-            sentence = await LipsumService.GetMetaphorSentence(cancellationToken: cancellationToken);
+            sentence = await _lipsumService.GetMetaphorSentence(cancellationToken: cancellationToken);
         }
-        else if (Ctx.GetMessageOrDefault()?.Text.Split(' ').Length > 3)
+        else if (action.Message.Text?.Split(' ').Length > 3)
         {
             sentence = MockFilter.Apply(action.Message.Text);
         }
@@ -53,7 +53,7 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
         if (!string.IsNullOrWhiteSpace(sentence))
         {
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, sentence, ParseMode.Markdown,
-                replyToMessageId: action.MessageId, cancellationToken: cancellationToken);
+                replyToMessageId: action.Message.MessageId, cancellationToken: cancellationToken);
         }
 
         return Success();

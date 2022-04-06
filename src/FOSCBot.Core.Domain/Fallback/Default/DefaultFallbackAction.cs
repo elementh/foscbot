@@ -5,7 +5,9 @@ namespace FOSCBot.Core.Domain.Fallback.Default;
 
 public class DefaultFallbackAction : MessageAction
 {
-    public new int Order = 1100;
+    public DefaultFallbackAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
 
     public override bool CanHandleCurrentContext()
     {
