@@ -1,6 +1,8 @@
 name: Build & Publish
 
 on:
+  pull_request:
+    branches: [ main ]
   push:
     branches: [ main ]
   release:
@@ -48,6 +50,7 @@ jobs:
         run: dotnet test --verbosity normal
   publish:
     needs: test
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
