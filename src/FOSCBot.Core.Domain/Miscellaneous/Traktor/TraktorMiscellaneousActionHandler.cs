@@ -1,25 +1,25 @@
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Traktor;
 
 public class TraktorMiscellaneousActionHandler : ActionHandler<TraktorMiscellaneousAction>
 {
-    public TraktorMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public TraktorMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(TraktorMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(TraktorMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d)
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.BuenoFlipao, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.BuenoFlipao, cancellationToken: cancellationToken);
         else
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Traktor, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Traktor, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

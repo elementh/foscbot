@@ -1,6 +1,6 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.HeyBro;
 
@@ -9,10 +9,14 @@ public class HeyBroMiscellaneousAction : MessageAction
     protected static readonly string StickerEmoji = "😚";
     protected static readonly string StickerPack = "foscupct";
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public HeyBroMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() < 0.8d
-               && ctx.Update.Message.Sticker?.Emoji == StickerEmoji
-               && ctx.Update.Message.Sticker?.SetName == StickerPack;
+               && Message.Sticker?.Emoji == StickerEmoji
+               && Message.Sticker?.SetName == StickerPack;
     }
 }

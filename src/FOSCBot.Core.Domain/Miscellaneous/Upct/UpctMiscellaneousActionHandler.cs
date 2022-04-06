@@ -1,27 +1,27 @@
 using FOSCBot.Common.Helper;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Upct;
 
 public class UpctMiscellaneousActionHandler : ActionHandler<UpctMiscellaneousAction>
 {
-    public UpctMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public UpctMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(UpctMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(UpctMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var stickerString = RandomProvider.GetThreadRandom().NextDouble() > 0.2d
             ? "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE"
             : "CAACAgQAAxkBAAJNXV6eEJLQHwl-8el7YOYYJUF9l8ymAAJZAgACkNStBjfoiv3ywvd8GAQ";
-        await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), stickerString, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, stickerString, cancellationToken: cancellationToken);
 
         if (RandomProvider.GetThreadRandom().NextDouble() > 0.8d)
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl", cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl", cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

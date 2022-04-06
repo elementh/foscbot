@@ -1,65 +1,31 @@
 ﻿using FOSCBot.Common.Helper;
-using Microsoft.Extensions.Caching.Memory;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions.Attributes;
+using Navigator.Context;
+using Navigator.Extensions.Cooldown;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Fallback.RandomWord;
 
+[Cooldown(Seconds = 15 * 60)]
+[ActionPriority(Navigator.Actions.Priority.High)]
 public class RandomWordFallbackAction : MessageAction
 {
-    public new int Order;
-
-    private readonly IMemoryCache _memoryCache;
-
     public string Word { get; protected set; }
-
-    public RandomWordFallbackAction(IMemoryCache memoryCache)
+ 
+    public RandomWordFallbackAction(INavigatorContextAccessor navigatorContextAccessor, string word) : base(navigatorContextAccessor)
     {
-        Order = 1050;
-        _memoryCache = memoryCache;
+        Word = word;
     }
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
-        if (_memoryCache.TryGetValue($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
-        {
-            return false;
-        }
-
         if (RandomProvider.GetThreadRandom().NextDouble() > 0.6)
         {
             return false;
         }
 
-        var words = ctx.GetMessageOrDefault()?.Text?.Trim().Split(" ");
+        Word = Message.Text?.Trim().Split(" ")?.FirstOrDefault() ?? string.Empty;
 
-        if (words?.Length == 1)
-        {
-            Word = words.FirstOrDefault() ?? string.Empty;
-
-            if (string.IsNullOrWhiteSpace(Word) || !Word.IsAllUpper() || Word.Length < 4)
-            {
-                return false;
-            }
-                
-            if (Word.Contains("XDDD"))
-            {
-                return false;
-            }
-
-            try
-            {
-                _memoryCache.Set($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(15));
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        return false;
+        return !string.IsNullOrWhiteSpace(Word) && Word.IsAllUpper() && Word.Length >= 4 && !Word.Contains("XDDD");
     }
 }

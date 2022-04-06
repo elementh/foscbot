@@ -1,21 +1,21 @@
 ﻿using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.No;
 
 public class NoMiscellaneousActionHandler : ActionHandler<NoMiscellaneousAction>
 {
-    public NoMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public NoMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(NoMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NoMiscellaneousAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nope, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nope, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

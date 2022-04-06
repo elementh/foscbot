@@ -1,13 +1,18 @@
 using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Interactivity.Flatter;
 
 public class FlatterInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public FlatterInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return NavigatorContextAccessor.NavigatorContext.IsBotQuotedOrMentioned() 
+               && NavigatorContextAccessor.NavigatorContext.IsBotFlattered();
     }
 }

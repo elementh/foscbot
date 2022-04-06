@@ -1,21 +1,21 @@
-﻿using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+﻿using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.DjEspanita;
 
 public class DjEspanitaMiscellaneousActionHandler : ActionHandler<DjEspanitaMiscellaneousAction>
 {
-    public DjEspanitaMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public DjEspanitaMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(DjEspanitaMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DjEspanitaMiscellaneousAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), DjSticker, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, DjSticker, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
         
     public static string DjSticker = "CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA";

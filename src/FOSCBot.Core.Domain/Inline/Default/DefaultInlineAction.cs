@@ -1,11 +1,15 @@
-﻿using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+﻿using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Updates;
 
 namespace FOSCBot.Core.Domain.Inline.Default;
 
 public class DefaultInlineAction : InlineQueryAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public DefaultInlineAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return true;
     }

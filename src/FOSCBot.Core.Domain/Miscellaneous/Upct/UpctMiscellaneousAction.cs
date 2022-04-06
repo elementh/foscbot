@@ -1,14 +1,17 @@
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Upct;
 
 public class UpctMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public UpctMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        var message = ctx.GetMessageOrDefault()?.Text?.ToLower();
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        var message = Message.Text?.ToLower();
         return (message?.Contains("upct") ?? false) && !message.Contains("/upct");
     }
 }

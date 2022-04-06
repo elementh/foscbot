@@ -1,27 +1,27 @@
 ﻿using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Nginx;
 
 public class NginxMiscellaneousActionHandler : ActionHandler<NginxMiscellaneousAction>
 {
-    public NginxMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public NginxMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(NginxMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NginxMiscellaneousAction action, CancellationToken cancellationToken)
     {
         var bytes = Convert.FromBase64String(CoreResources.NginxImage);
         await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())
         {
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), new InputMedia(stream, "nginx.jpg"), 
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, new InputMedia(stream, "nginx.jpg"), 
                 cancellationToken: cancellationToken);
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

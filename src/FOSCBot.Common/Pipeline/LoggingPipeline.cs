@@ -2,11 +2,11 @@
 using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Navigator.Abstractions;
+using Navigator.Actions;
 
 namespace FOSCBot.Common.Pipeline;
 
-public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<LoggingPipeline<TRequest, TResponse>> _logger;
     private readonly Watcher _watcher;

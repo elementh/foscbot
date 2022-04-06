@@ -1,45 +1,20 @@
-using Microsoft.Extensions.Caching.Memory;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Extensions.Cooldown;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Dineros;
 
+[Cooldown(Seconds = 5 * 60)]
 public class DinerosMiscellaneousAction : MessageAction
 {
-    private readonly IMemoryCache _memoryCache;
-
-    public string Word { get; protected set; }
-
-    public DinerosMiscellaneousAction(IMemoryCache memoryCache)
+    public DinerosMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        _memoryCache = memoryCache;
     }
-
-    public override bool CanHandle(INavigatorContext ctx)
+    
+    public override bool CanHandleCurrentContext()
     {
-        if (_memoryCache.TryGetValue($"_{nameof(DinerosMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
-        {
-            return false;
-        }
-
-        if ((ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("pobres") ?? false) 
-            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("tesla") ?? false)
-            || (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("dineros") ?? false))
-        {
-            try
-            {
-                _memoryCache.Set($"_{nameof(DinerosMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1,
-                    TimeSpan.FromMinutes(5));
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        return false;
+        return (Message.Text?.ToLower().Contains("pobres") ?? false) 
+               || (Message.Text?.ToLower().Contains("tesla") ?? false)
+               || (Message.Text?.ToLower().Contains("dineros") ?? false);
     }
 }

@@ -1,25 +1,25 @@
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Source;
 
 public class SourceMiscellaneousActionHandler : ActionHandler<SourceMiscellaneousAction>
 {
-    public SourceMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public SourceMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(SourceMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SourceMiscellaneousAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() <= 0.5d)
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.Source, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Source, cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
         else 
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.SourceChad, cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.SourceChad, cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
 
-        return Unit.Value;
+        return Success();
     }
 }

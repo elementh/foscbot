@@ -1,13 +1,17 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.ForOurStolenCode;
 
 public class ForOurStolenCodeMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public ForOurStolenCodeMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return RandomProvider.GetThreadRandom().NextDouble() < 0.8d && (ctx.Update.Message.Text?.ToLower().Contains("for our stolen code") ?? false);
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.8d && (Message.Text?.ToLower().Contains("for our stolen code") ?? false);
     }
 }

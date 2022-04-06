@@ -1,15 +1,19 @@
 using System.Text.RegularExpressions;
 using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.GoAhead;
 
 public class GoAheadMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public GoAheadMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() <= 0.8d
-               && Regex.IsMatch(ctx.Update.Message.Text ?? string.Empty, @"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+");
+               && Regex.IsMatch(Message.Text ?? string.Empty, @"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+");
     }
 }

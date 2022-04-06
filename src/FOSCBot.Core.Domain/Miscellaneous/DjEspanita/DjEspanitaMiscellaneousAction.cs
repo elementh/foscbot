@@ -1,15 +1,18 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.DjEspanita;
 
 public class DjEspanitaMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public DjEspanitaMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && 
-               (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("himno de españa") ?? false);
+               (Message.Text?.ToLower().Contains("himno de españa") ?? false);
     }
 }

@@ -1,14 +1,17 @@
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Lets;
 
 public class LetsMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public LetsMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return (ctx.GetMessageOrDefault()?.Text?.Equals("LETS") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.Equals("LET'S") ?? false);
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return (Message.Text?.Equals("LETS") ?? false)
+               || (Message.Text?.Equals("LET'S") ?? false);
     }
 }

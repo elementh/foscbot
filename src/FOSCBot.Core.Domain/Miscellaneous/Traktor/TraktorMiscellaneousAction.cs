@@ -1,21 +1,24 @@
 using System.Text.RegularExpressions;
 using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Traktor;
 
 public class TraktorMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public TraktorMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
+    public override bool CanHandleCurrentContext()
     {
         return (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
-                (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("blyat") ?? false))
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("traktor") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("блядь") ?? false)
-               || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("трактор") ?? false)
-               || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]+[Tt]+")
-               || Regex.IsMatch(ctx.GetMessageOrDefault()?.Text ?? string.Empty, @"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+");
+                (Message.Text?.ToLower().Equals("blyat") ?? false))
+               || (Message.Text?.ToLower().Equals("traktor") ?? false)
+               || (Message.Text?.ToLower().Equals("блядь") ?? false)
+               || (Message.Text?.ToLower().Equals("трактор") ?? false)
+               || Regex.IsMatch(Message.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]+[Tt]+")
+               || Regex.IsMatch(Message.Text ?? string.Empty, @"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+");
     }
 }

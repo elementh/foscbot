@@ -1,35 +1,35 @@
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Interactivity.Ping;
 
 public class PingInteractiveActionHandler : ActionHandler<PingInteractiveAction>
 {
-    public PingInteractiveActionHandler(INavigatorContext ctx) : base(ctx)
+    public PingInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(PingInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(PingInteractiveAction action, CancellationToken cancellationToken)
     {
-        var currentTime = DateTime.Now;
-        var requestTime = request.MessageTimestamp;
-        var delaySinceMessageWasSent = currentTime - requestTime; // ToDo Test timezone differences
+        var requestTime = action.Timestamp;
+        var messageTime = action.Message.Date;
+        var delaySinceMessageWasSent = requestTime - messageTime;
 
         if (delaySinceMessageWasSent.TotalSeconds < 12)
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
         } 
         else if (delaySinceMessageWasSent.TotalSeconds < 30)
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟧 toy F bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
         }
         else
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), $"🟥 toy joya sosio arreglame ya por dio. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟥 toy joya sosio arreglame ya por dio. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

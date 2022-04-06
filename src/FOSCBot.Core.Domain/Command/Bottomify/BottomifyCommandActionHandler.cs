@@ -1,50 +1,50 @@
 ﻿using FOSCBot.Common.Helper;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Command.Bottomify;
 
 public class BottomifyCommandActionHandler : ActionHandler<BottomifyCommandAction>
 {
-    public BottomifyCommandActionHandler(INavigatorContext ctx) : base(ctx)
+    public BottomifyCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(BottomifyCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BottomifyCommandAction action, CancellationToken cancellationToken)
     {
         string? bottomifiedText;
             
-        if (request.ReplyToMessageId is not null && !string.IsNullOrWhiteSpace(Ctx.GetMessage().ReplyToMessage?.Text))
+        if (action.IsReply && !string.IsNullOrWhiteSpace(action.Message.ReplyToMessage?.Text))
         {
-            bottomifiedText = Common.Helper.Bottomify.EncodeString(Ctx.GetMessage().ReplyToMessage.Text);
+            bottomifiedText = Common.Helper.Bottomify.EncodeString(action.Message.ReplyToMessage.Text);
 
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), bottomifiedText,
-                replyToMessageId: Ctx.GetMessage().ReplyToMessage.MessageId,
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, bottomifiedText,
+                replyToMessageId: action.Message.ReplyToMessage.MessageId,
                 cancellationToken: cancellationToken);
                 
-            return Unit.Value;
+            return Success();
         }
 
-        var input = Ctx.GetMessage().Text.Remove(0, Ctx.GetMessage().Text.IndexOf(' ') + 1);
+        var input = action.Message.Text.Remove(0, action.Message.Text.IndexOf(' ') + 1);
 
-        if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(request.Command))
+        if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(action.Command))
         {
             bottomifiedText = Common.Helper.Bottomify.EncodeString(input);
                 
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), bottomifiedText,
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, bottomifiedText,
                 cancellationToken: cancellationToken);
                 
-            return Unit.Value;
+            return Success();
         }
 
         bottomifiedText = Common.Helper.Bottomify.EncodeString(Lines[RandomProvider.GetThreadRandom().Next(0, Lines.Length)]);
             
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), bottomifiedText,
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, bottomifiedText,
             cancellationToken: cancellationToken);
                 
-        return Unit.Value;
+        return Success();
     }
 
     private static readonly string[] Lines =

@@ -1,25 +1,29 @@
 using FOSCBot.Common.Helper;
-using MediatR;
-using Microsoft.Extensions.Caching.Memory;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Microsoft.Extensions.Caching.Distributed;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
 public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteractiveAction>
 {
-    private readonly IMemoryCache _memoryCache;
-    public QuestionsInteractiveActionHandler(INavigatorContext ctx, IMemoryCache memoryCache) : base(ctx)
+    private readonly IDistributedCache _distributedCache;
+
+    public QuestionsInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor, IDistributedCache distributedCache) : base(navigatorContextAccessor)
     {
-        _memoryCache = memoryCache;
+        _distributedCache = distributedCache;
     }
 
-    public override async Task<Unit> Handle(QuestionsInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(QuestionsInteractiveAction action, CancellationToken cancellationToken)
     {
         string response;
+        var cacheKey = $"_{nameof(QuestionsInteractiveActionHandler)}_{NavigatorContext.GetTelegramChat().Id}";
 
-        if (_memoryCache.TryGetValue($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", out int questionsAsked))
+        var cacheValue = await _distributedCache.GetStringAsync(cacheKey, cancellationToken);
+
+        if (int.TryParse(cacheValue, out var questionsAsked))
         {
             response = questionsAsked switch
             {
@@ -33,16 +37,18 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
             response = QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList();
         }
 
-        _memoryCache.Set($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", questionsAsked + 1, TimeSpan.FromMinutes(30));
+        await _distributedCache.SetStringAsync(cacheKey, $"{questionsAsked + 1}",
+            new DistributedCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)), cancellationToken);
+        
         if (response.IsSticker())
         {
-            await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken);
         }
         else
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken);
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

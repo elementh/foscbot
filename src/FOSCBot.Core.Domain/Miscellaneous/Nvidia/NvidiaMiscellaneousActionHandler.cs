@@ -1,21 +1,21 @@
 ﻿using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Nvidia;
 
 public class NvidiaMiscellaneousActionHandler : ActionHandler<NvidiaMiscellaneousAction>
 {
-    public NvidiaMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public NvidiaMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(NvidiaMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NvidiaMiscellaneousAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nvidia, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nvidia, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

@@ -1,13 +1,17 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Uwu;
 
 public class UwuMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public UwuMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (ctx.Update.Message.Text?.ToLower().Contains("uwu") ?? false);
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (Message.Text?.ToLower().Contains("uwu") ?? false);
     }
 }

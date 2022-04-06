@@ -1,8 +1,8 @@
 ﻿using FOSCBot.Infrastructure.Contract.Service;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Command.Quote;
 
@@ -10,17 +10,17 @@ public class QuoteCommandActionHandler : ActionHandler<QuoteCommandAction>
 {
     private readonly IInspiroService _inspiroService;
 
-    public QuoteCommandActionHandler(INavigatorContext ctx, IInspiroService inspiroService) : base(ctx)
+    public QuoteCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor, IInspiroService inspiroService) : base(navigatorContextAccessor)
     {
         _inspiroService = inspiroService;
     }
 
-    public override async Task<Unit> Handle(QuoteCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(QuoteCommandAction action, CancellationToken cancellationToken)
     {
         var image = await _inspiroService.GetInspiroImage(cancellationToken);
 
-        await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), image, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, image, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
 }

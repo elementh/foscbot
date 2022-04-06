@@ -1,26 +1,26 @@
 ﻿using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Command.Succ;
 
 public class SuccCommandActionHandler : ActionHandler<SuccCommandAction>
 {
 
-    public SuccCommandActionHandler(INavigatorContext ctx) : base(ctx)
+    public SuccCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(SuccCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SuccCommandAction action, CancellationToken cancellationToken)
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.8d)
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Succ, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Succ, cancellationToken: cancellationToken);
         else
-            await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.SuccWithTeeth, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.SuccWithTeeth, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

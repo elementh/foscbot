@@ -1,16 +1,20 @@
 using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
 public class QuestionsInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public QuestionsInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return ctx.IsBotMentioned() && 
-               !ctx.IsBotPinged() && 
-               !ctx.IsBotFlattered() && 
-               !ctx.IsBotBeingToldBadThings();
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return NavigatorContextAccessor.NavigatorContext.IsBotMentioned() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotPinged() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotFlattered() && 
+               !NavigatorContextAccessor.NavigatorContext.IsBotBeingToldBadThings();
     }
 }

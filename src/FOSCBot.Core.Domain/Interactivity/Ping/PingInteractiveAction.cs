@@ -1,13 +1,18 @@
 using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Interactivity.Ping;
 
 public class PingInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public PingInteractiveAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotPinged();
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return NavigatorContextAccessor.NavigatorContext.IsBotQuotedOrMentioned() 
+               && NavigatorContextAccessor.NavigatorContext.IsBotPinged();
     }
 }

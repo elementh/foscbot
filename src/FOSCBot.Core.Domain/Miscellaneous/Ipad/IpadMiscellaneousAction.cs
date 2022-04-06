@@ -1,40 +1,18 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+﻿using Navigator.Context;
+using Navigator.Extensions.Cooldown;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ipad;
 
+[Cooldown(Seconds = 15 * 60)]
 public class IpadMiscellaneousAction : MessageAction
 {
-    private readonly IMemoryCache _memoryCache;
-
-    public IpadMiscellaneousAction(IMemoryCache memoryCache)
+    public IpadMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        _memoryCache = memoryCache;
     }
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
-        if (_memoryCache.TryGetValue($"_{nameof(IpadMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
-        {
-            return false;
-        }
-
-        if (ctx.Update.Message.Text?.ToLower().Contains(" ipad") ?? false)
-        {
-            try
-            {
-                _memoryCache.Set($"_{nameof(IpadMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", 1, TimeSpan.FromMinutes(15));
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        return false;
+        return Message.Text?.ToLower().Contains(" ipad") ?? false;
     }
 }

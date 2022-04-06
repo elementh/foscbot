@@ -1,15 +1,18 @@
 ﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ice;
 
 public class IceMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public IceMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        if (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("fucking ice") ?? false)
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        if (Message.Text?.ToLower().Contains("fucking ice") ?? false)
         {
             return true;
         }
@@ -19,10 +22,10 @@ public class IceMiscellaneousAction : MessageAction
             return false;
         }
 
-        return (ctx.Update.Message.Text?.ToLower().StartsWith("ice") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" ice ") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" ice?") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" hielo ") ?? false)
-               || ctx.GetMessageOrDefault()?.Sticker?.Emoji == "🥶";
+        return (Message.Text?.ToLower().StartsWith("ice") ?? false)
+               || (Message.Text?.ToLower().Contains(" ice ") ?? false)
+               || (Message.Text?.ToLower().Contains(" ice?") ?? false)
+               || (Message.Text?.ToLower().Contains(" hielo ") ?? false)
+               || Message.Sticker?.Emoji == "🥶";
     }
 }

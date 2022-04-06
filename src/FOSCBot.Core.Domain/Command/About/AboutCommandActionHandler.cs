@@ -1,22 +1,23 @@
 ﻿using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Domain.Command.About;
 
 public class AboutCommandActionHandler : ActionHandler<AboutCommandAction>
 {
-    public AboutCommandActionHandler(INavigatorContext ctx) : base(ctx)
+    public AboutCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(AboutCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(AboutCommandAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), CoreResources.AboutText, ParseMode.Markdown, cancellationToken: cancellationToken);
-            
-        return Unit.Value;
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!,
+            CoreResources.AboutText, ParseMode.Markdown, cancellationToken: cancellationToken);
+
+        return Success();
     }
 }

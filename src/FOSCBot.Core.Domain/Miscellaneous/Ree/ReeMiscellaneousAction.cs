@@ -1,13 +1,16 @@
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ree;
 
 public class ReeMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public ReeMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
-        return ctx.GetMessageOrDefault()?.Text?.Contains("REE") ?? false;
+    }
+
+    public override bool CanHandleCurrentContext()
+    {
+        return Message.Text?.Contains("REE") ?? false;
     }
 }

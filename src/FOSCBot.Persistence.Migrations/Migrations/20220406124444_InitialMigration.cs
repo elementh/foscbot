@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
 
 namespace FOSCBot.Persistence.Migrations.Migrations
 {
@@ -12,12 +13,9 @@ namespace FOSCBot.Persistence.Migrations.Migrations
                 name: "Chats",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: true),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<string>(type: "text", nullable: false),
+                    FirstInteractionAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,12 +26,9 @@ namespace FOSCBot.Persistence.Migrations.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IsBot = table.Column<bool>(type: "boolean", nullable: false),
-                    LanguageCode = table.Column<string>(type: "text", nullable: true),
-                    Username = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<string>(type: "text", nullable: false),
+                    FirstInteractionAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,13 +39,15 @@ namespace FOSCBot.Persistence.Migrations.Migrations
                 name: "Conversations",
                 columns: table => new
                 {
-                    ChatId = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<string>(type: "text", nullable: false),
+                    FirstInteractionAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Conversations", x => new { x.ChatId, x.UserId });
+                    table.PrimaryKey("PK_Conversations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Conversations_Chats_ChatId",
                         column: x => x.ChatId,
@@ -64,6 +61,11 @@ namespace FOSCBot.Persistence.Migrations.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Conversations_ChatId",
+                table: "Conversations",
+                column: "ChatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Conversations_UserId",

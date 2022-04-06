@@ -1,21 +1,21 @@
-﻿using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+﻿using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Sad;
 
 public class SadMiscellaneousActionHandler : ActionHandler<SadMiscellaneousAction>
 {
-    public SadMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public SadMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(SadMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(SadMiscellaneousAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), SadCrstian, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, SadCrstian, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
         
     public static readonly string SadCrstian = "CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE";

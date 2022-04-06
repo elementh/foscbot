@@ -1,21 +1,21 @@
 ﻿using FOSCBot.Core.Domain.Resources;
-using MediatR;
-using Navigator.Abstractions;
-using Navigator.Abstractions.Extensions;
-using Navigator.Extensions.Actions;
+using Navigator.Actions;
+using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.ForOurStolenCode;
 
 public class ForOurStolenCodeMiscellaneousActionHandler : ActionHandler<ForOurStolenCodeMiscellaneousAction>
 {
-    public ForOurStolenCodeMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public ForOurStolenCodeMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(ForOurStolenCodeMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(ForOurStolenCodeMiscellaneousAction action, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Orks, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Orks, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
 }
