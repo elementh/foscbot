@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace FOSCBot.Infrastructure.Contract.Service
+namespace FOSCBot.Infrastructure.Contract.Service;
+
+public interface IInsultService
 {
-    public interface IInsultService
-    {
-        Task<string> GetInsult(CancellationToken cancellationToken = default);
-    }
+    Task<string> GetInsult(CancellationToken cancellationToken = default);
 }

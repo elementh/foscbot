@@ -1,13 +1,12 @@
 ﻿using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Command.Want
+namespace FOSCBot.Core.Domain.Command.Want;
+
+public class WantCommandAction : CommandAction
 {
-    public class WantCommandAction : CommandAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return Command.ToLower() == "/want";
-        }
+        return Command.ToLower() == "/want";
     }
 }

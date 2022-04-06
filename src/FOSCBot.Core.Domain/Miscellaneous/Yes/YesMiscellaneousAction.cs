@@ -2,19 +2,18 @@
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Yes
-{
-    public class YesMiscellaneousAction : MessageAction
-    {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            if (RandomProvider.GetThreadRandom().NextDouble() < 0.5d )
-            {
-                return false;
-            }
+namespace FOSCBot.Core.Domain.Miscellaneous.Yes;
 
-            return (ctx.Update.Message.Text?.Equals("YES") ?? false) ||
-                   (ctx.Update.Message.Text?.Equals("SI") ?? false);
+public class YesMiscellaneousAction : MessageAction
+{
+    public override bool CanHandle(INavigatorContext ctx)
+    {
+        if (RandomProvider.GetThreadRandom().NextDouble() < 0.5d )
+        {
+            return false;
         }
+
+        return (ctx.Update.Message.Text?.Equals("YES") ?? false) ||
+               (ctx.Update.Message.Text?.Equals("SI") ?? false);
     }
 }

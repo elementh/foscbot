@@ -10,24 +10,23 @@ using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 using Telegram.Bot.Types;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.Nginx
+namespace FOSCBot.Core.Domain.Miscellaneous.Nginx;
+
+public class NginxMiscellaneousActionHandler : ActionHandler<NginxMiscellaneousAction>
 {
-    public class NginxMiscellaneousActionHandler : ActionHandler<NginxMiscellaneousAction>
+    public NginxMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
     {
-        public NginxMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    }
+
+    public override async Task<Unit> Handle(NginxMiscellaneousAction request, CancellationToken cancellationToken)
+    {
+        var bytes = Convert.FromBase64String(CoreResources.NginxImage);
+        await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())
         {
+            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), new InputMedia(stream, "nginx.jpg"), 
+                cancellationToken: cancellationToken);
         }
 
-        public override async Task<Unit> Handle(NginxMiscellaneousAction request, CancellationToken cancellationToken)
-        {
-            var bytes = Convert.FromBase64String(CoreResources.NginxImage);
-            await using (var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync())
-            {
-                await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), new InputMedia(stream, "nginx.jpg"), 
-                    cancellationToken: cancellationToken);
-            }
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

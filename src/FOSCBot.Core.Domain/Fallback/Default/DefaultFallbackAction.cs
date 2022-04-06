@@ -2,15 +2,14 @@
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Fallback.Default
-{
-    public class DefaultFallbackAction : MessageAction
-    {
-        public new int Order = 1100;
+namespace FOSCBot.Core.Domain.Fallback.Default;
 
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return true;
-        }
+public class DefaultFallbackAction : MessageAction
+{
+    public new int Order = 1100;
+
+    public override bool CanHandle(INavigatorContext ctx)
+    {
+        return true;
     }
 }

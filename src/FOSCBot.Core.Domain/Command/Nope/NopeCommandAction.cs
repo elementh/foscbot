@@ -1,13 +1,12 @@
 ﻿using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Command.Nope
+namespace FOSCBot.Core.Domain.Command.Nope;
+
+public class NopeCommandAction : CommandAction
 {
-    public class NopeCommandAction : CommandAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return Command.ToLower() == "/nope";
-        }
+        return Command.ToLower() == "/nope";
     }
 }

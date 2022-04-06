@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace FOSCBot.Infrastructure.Contract.Service
+namespace FOSCBot.Infrastructure.Contract.Service;
+
+public interface IYesNoService
 {
-    public interface IYesNoService
-    {
-        Task<string> GetYesImage(CancellationToken cancellationToken);
-        Task<string> GetNoImage(CancellationToken cancellationToken);
-        Task<string> GetMaybeImage(CancellationToken cancellationToken);
-    }
+    Task<string> GetYesImage(CancellationToken cancellationToken);
+    Task<string> GetNoImage(CancellationToken cancellationToken);
+    Task<string> GetMaybeImage(CancellationToken cancellationToken);
 }

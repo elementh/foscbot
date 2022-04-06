@@ -8,36 +8,35 @@ using System.Threading.Tasks;
 using FOSCBot.Infrastructure.Contract.Client;
 using Microsoft.Extensions.Options;
 
-namespace FOSCBot.Infrastructure.Implementation.Client
+namespace FOSCBot.Infrastructure.Implementation.Client;
+
+public class BaconClient : IBaconClient
 {
-    public class BaconClient : IBaconClient
+    protected readonly HttpClient Client;
+    protected readonly BaconClientOptions Options;
+
+    public BaconClient(HttpClient client, IOptions<BaconClientOptions> options)
     {
-        protected readonly HttpClient Client;
-        protected readonly BaconClientOptions Options;
+        Client = client;
+        Options = options.Value;
 
-        public BaconClient(HttpClient client, IOptions<BaconClientOptions> options)
-        {
-            Client = client;
-            Options = options.Value;
+        Client.BaseAddress = new Uri(Options.ApiUrl);
+    }
 
-            Client.BaseAddress = new Uri(Options.ApiUrl);
-        }
+    public async Task<string> Get(string type, int sentences, CancellationToken cancellationToken = default)
+    {
+        var response = await Client.GetAsync($"api/?type={type}&sentences={sentences}", cancellationToken);
 
-        public async Task<string> Get(string type, int sentences, CancellationToken cancellationToken = default)
-        {
-            var response = await Client.GetAsync($"api/?type={type}&sentences={sentences}", cancellationToken);
+        response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
+        var bacons = await JsonSerializer.DeserializeAsync<IEnumerable<string>>(await response.Content.ReadAsStreamAsync(), 
+            cancellationToken: cancellationToken);
 
-            var bacons = await JsonSerializer.DeserializeAsync<IEnumerable<string>>(await response.Content.ReadAsStreamAsync(), 
-                cancellationToken: cancellationToken);
-
-            return bacons.FirstOrDefault();
-        }
+        return bacons.FirstOrDefault();
+    }
         
-        public class BaconClientOptions
-        {
-            public string ApiUrl { get; set; }
-        }
+    public class BaconClientOptions
+    {
+        public string ApiUrl { get; set; }
     }
 }

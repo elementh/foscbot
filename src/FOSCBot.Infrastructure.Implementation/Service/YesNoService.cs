@@ -5,65 +5,64 @@ using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Logging;
 
-namespace FOSCBot.Infrastructure.Implementation.Service
+namespace FOSCBot.Infrastructure.Implementation.Service;
+
+public class YesNoService : IYesNoService
 {
-    public class YesNoService : IYesNoService
+    private readonly ILogger<YesNoService> _logger;
+    private readonly IYesNoClient _yesNoClient;
+
+    public YesNoService(ILogger<YesNoService> logger, IYesNoClient yesNoClient)
     {
-        private readonly ILogger<YesNoService> _logger;
-        private readonly IYesNoClient _yesNoClient;
+        _logger = logger;
+        _yesNoClient = yesNoClient;
+    }
 
-        public YesNoService(ILogger<YesNoService> logger, IYesNoClient yesNoClient)
+    public async Task<string> GetYesImage(CancellationToken cancellationToken)
+    {
+        try
         {
-            _logger = logger;
-            _yesNoClient = yesNoClient;
+            var answer = await _yesNoClient.GetAnswer("yes", cancellationToken);
+
+            return answer.Image;
         }
-
-        public async Task<string> GetYesImage(CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var answer = await _yesNoClient.GetAnswer("yes", cancellationToken);
+            _logger.LogError(e, "Unhandled error retrieving answer.");
 
-                return answer.Image;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unhandled error retrieving answer.");
-
-                return default;
-            }
+            return default;
         }
+    }
 
-        public async Task<string> GetNoImage(CancellationToken cancellationToken)
+    public async Task<string> GetNoImage(CancellationToken cancellationToken)
+    {
+        try
         {
-            try
-            {
-                var answer = await _yesNoClient.GetAnswer("no", cancellationToken);
+            var answer = await _yesNoClient.GetAnswer("no", cancellationToken);
 
-                return answer.Image;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unhandled error retrieving answer.");
-
-                return default;
-            }
+            return answer.Image;
         }
-
-        public async Task<string> GetMaybeImage(CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var answer = await _yesNoClient.GetAnswer("maybe", cancellationToken);
+            _logger.LogError(e, "Unhandled error retrieving answer.");
 
-                return answer.Image;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unhandled error retrieving answer.");
+            return default;
+        }
+    }
 
-                return default;
-            }
+    public async Task<string> GetMaybeImage(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var answer = await _yesNoClient.GetAnswer("maybe", cancellationToken);
+
+            return answer.Image;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Unhandled error retrieving answer.");
+
+            return default;
         }
     }
 }

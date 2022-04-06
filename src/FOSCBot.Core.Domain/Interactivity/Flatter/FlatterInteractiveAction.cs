@@ -2,13 +2,12 @@ using FOSCBot.Common.Helper;
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Interactivity.Flatter
+namespace FOSCBot.Core.Domain.Interactivity.Flatter;
+
+public class FlatterInteractiveAction : MessageAction
 {
-    public class FlatterInteractiveAction : MessageAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
-        }
+        return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
     }
 }

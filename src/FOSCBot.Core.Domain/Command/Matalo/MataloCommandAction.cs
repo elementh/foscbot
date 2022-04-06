@@ -1,13 +1,12 @@
 ﻿using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Command.Matalo
+namespace FOSCBot.Core.Domain.Command.Matalo;
+
+public class MataloCommandAction : CommandAction
 {
-    public class MataloCommandAction : CommandAction
+    public override bool CanHandle(INavigatorContext ctx)
     {
-        public override bool CanHandle(INavigatorContext ctx)
-        {
-            return Command.ToLower() == "/matalo";
-        }
+        return Command.ToLower() == "/matalo";
     }
 }

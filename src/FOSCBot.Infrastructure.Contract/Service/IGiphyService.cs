@@ -2,10 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FOSCBot.Infrastructure.Contract.Service
+namespace FOSCBot.Infrastructure.Contract.Service;
+
+public interface IGiphyService
 {
-    public interface IGiphyService
-    {
-        Task<Uri?> Get(string text, CancellationToken cancellationToken = default);
-    }
+    Task<Uri?> Get(string text, CancellationToken cancellationToken = default);
 }

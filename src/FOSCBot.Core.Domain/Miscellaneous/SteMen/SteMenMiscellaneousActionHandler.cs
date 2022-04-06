@@ -6,19 +6,18 @@ using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Miscellaneous.SteMen
-{
-    public class SteMenMiscellaneousActionHandler : ActionHandler<SteMenMiscellaneousAction>
-    {
-        public SteMenMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
-        {
-        }
+namespace FOSCBot.Core.Domain.Miscellaneous.SteMen;
 
-        public override async Task<Unit> Handle(SteMenMiscellaneousAction request, CancellationToken cancellationToken)
-        {
-            await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.Stemen, cancellationToken: cancellationToken);
+public class SteMenMiscellaneousActionHandler : ActionHandler<SteMenMiscellaneousAction>
+{
+    public SteMenMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    {
+    }
+
+    public override async Task<Unit> Handle(SteMenMiscellaneousAction request, CancellationToken cancellationToken)
+    {
+        await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), CoreLinks.Stemen, cancellationToken: cancellationToken);
             
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

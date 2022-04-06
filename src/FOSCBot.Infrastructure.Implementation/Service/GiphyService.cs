@@ -5,33 +5,32 @@ using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Logging;
 
-namespace FOSCBot.Infrastructure.Implementation.Service
+namespace FOSCBot.Infrastructure.Implementation.Service;
+
+public class GiphyService : IGiphyService
 {
-    public class GiphyService : IGiphyService
+    private readonly ILogger<GiphyService> _logger;
+    private readonly IGiphyClient _giphyClient;
+
+    public GiphyService(ILogger<GiphyService> logger, IGiphyClient giphyClient)
     {
-        private readonly ILogger<GiphyService> _logger;
-        private readonly IGiphyClient _giphyClient;
+        _logger = logger;
+        _giphyClient = giphyClient;
+    }
 
-        public GiphyService(ILogger<GiphyService> logger, IGiphyClient giphyClient)
+    public async Task<Uri?> Get(string text, CancellationToken cancellationToken = default)
+    {
+        try
         {
-            _logger = logger;
-            _giphyClient = giphyClient;
-        }
-
-        public async Task<Uri?> Get(string text, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                var gifUrl = await _giphyClient.Get(text, cancellationToken);
+            var gifUrl = await _giphyClient.Get(text, cancellationToken);
                 
-                return gifUrl;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unhandled error retrieving gif");
+            return gifUrl;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Unhandled error retrieving gif");
 
-                return default;
-            }
+            return default;
         }
     }
 }

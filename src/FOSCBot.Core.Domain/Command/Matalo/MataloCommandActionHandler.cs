@@ -6,43 +6,42 @@ using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;
 
-namespace FOSCBot.Core.Domain.Command.Matalo
+namespace FOSCBot.Core.Domain.Command.Matalo;
+
+public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
 {
-    public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
+    private readonly IInsultService _insultService;
+    private readonly IYesNoService _yesNoService;
+
+    public MataloCommandActionHandler(INavigatorContext ctx, IInsultService insultService, IYesNoService yesNoService) : base(ctx)
     {
-        private readonly IInsultService _insultService;
-        private readonly IYesNoService _yesNoService;
+        _insultService = insultService;
+        _yesNoService = yesNoService;
+    }
 
-        public MataloCommandActionHandler(INavigatorContext ctx, IInsultService insultService, IYesNoService yesNoService) : base(ctx)
+    public override async Task<Unit> Handle(MataloCommandAction request, CancellationToken cancellationToken)
+    {
+        if (request.ReplyToMessageId.HasValue)
         {
-            _insultService = insultService;
-            _yesNoService = yesNoService;
+            var insult = await _insultService.GetInsult(cancellationToken);
+
+            if (!string.IsNullOrWhiteSpace(insult))
+            {
+                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), insult, replyToMessageId: request.ReplyToMessageId.Value,
+                    cancellationToken: cancellationToken);
+            }
+        }
+        else
+        {
+            var answer = await _yesNoService.GetNoImage(cancellationToken);
+
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), answer, replyToMessageId: request.MessageId,
+                    cancellationToken: cancellationToken);
+            }
         }
 
-        public override async Task<Unit> Handle(MataloCommandAction request, CancellationToken cancellationToken)
-        {
-            if (request.ReplyToMessageId.HasValue)
-            {
-                var insult = await _insultService.GetInsult(cancellationToken);
-
-                if (!string.IsNullOrWhiteSpace(insult))
-                {
-                    await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), insult, replyToMessageId: request.ReplyToMessageId.Value,
-                        cancellationToken: cancellationToken);
-                }
-            }
-            else
-            {
-                var answer = await _yesNoService.GetNoImage(cancellationToken);
-
-                if (!string.IsNullOrWhiteSpace(answer))
-                {
-                    await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), answer, replyToMessageId: request.MessageId,
-                        cancellationToken: cancellationToken);
-                }
-            }
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }
