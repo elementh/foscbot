@@ -28,7 +28,7 @@ public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
             });
         }
 
-        await NavigatorContext.GetTelegramClient().AnswerInlineQueryAsync(action.InlineQueryId, responses, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().AnswerInlineQueryAsync(action.InlineQuery.Id, responses, cancellationToken: cancellationToken);
 
         return Success();
     }
