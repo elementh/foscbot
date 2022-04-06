@@ -8,7 +8,7 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Navigator.Extensions.Store.Telegram" Version="1.9.1-beta1" />
+        <PackageReference Include="Navigator.Extensions.Store.Telegram" Version="1.9.1-beta2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
           <PrivateAssets>all</PrivateAssets>

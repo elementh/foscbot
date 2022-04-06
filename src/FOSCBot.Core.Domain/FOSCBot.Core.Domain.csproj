@@ -10,8 +10,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-        <PackageReference Include="Navigator.Extensions.Cooldown" Version="1.9.1-beta1" />
-        <PackageReference Include="Navigator.Providers.Telegram" Version="1.9.1-beta1" />
+        <PackageReference Include="Navigator.Extensions.Cooldown" Version="1.9.1-beta2" />
+        <PackageReference Include="Navigator.Providers.Telegram" Version="1.9.1-beta2" />
     </ItemGroup>
 
     <ItemGroup>
