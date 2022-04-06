@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace FOSCBot.Infrastructure.Contract.Service;
+﻿namespace FOSCBot.Infrastructure.Contract.Service;
 
 public interface ILipsumService
 {

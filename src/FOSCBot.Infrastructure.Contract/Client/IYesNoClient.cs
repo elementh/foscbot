@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Model;
+﻿using FOSCBot.Infrastructure.Contract.Model;
 
 namespace FOSCBot.Infrastructure.Contract.Client;
 

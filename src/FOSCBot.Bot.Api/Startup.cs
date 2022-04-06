@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using Ele.Extensions.Configuration;
 using FOSCBot.Common.Pipeline;
 using FOSCBot.Core.Domain.Inline.Default;
@@ -8,12 +6,7 @@ using FOSCBot.Infrastructure.Contract.Service;
 using FOSCBot.Infrastructure.Implementation.Client;
 using FOSCBot.Infrastructure.Implementation.Service;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Navigator;
 using Navigator.Extensions.Shipyard;
 using Navigator.Extensions.Store;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;

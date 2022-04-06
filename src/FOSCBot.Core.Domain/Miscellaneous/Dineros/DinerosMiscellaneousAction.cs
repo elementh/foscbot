@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Extensions.Caching.Memory;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;

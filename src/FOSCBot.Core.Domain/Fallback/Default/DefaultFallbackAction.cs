@@ -1,5 +1,4 @@
-﻿using FOSCBot.Common.Helper;
-using Navigator.Abstractions;
+﻿using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 
 namespace FOSCBot.Core.Domain.Fallback.Default;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Client;
+﻿using FOSCBot.Infrastructure.Contract.Client;
 using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Infrastructure.Implementation.Client;

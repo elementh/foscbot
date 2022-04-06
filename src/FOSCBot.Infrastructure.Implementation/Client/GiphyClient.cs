@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using FOSCBot.Common.Helper;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Model;

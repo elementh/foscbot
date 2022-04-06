@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Service;
+﻿using FOSCBot.Infrastructure.Contract.Service;
 using MediatR;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;

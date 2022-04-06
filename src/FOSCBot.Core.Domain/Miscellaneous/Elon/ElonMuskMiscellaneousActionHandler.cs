@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Common.Helper;
-using FOSCBot.Core.Domain.Miscellaneous.Bill;
+﻿using FOSCBot.Common.Helper;
 using MediatR;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using FOSCBot.Common.Helper;
+﻿using FOSCBot.Common.Helper;
 using Microsoft.Extensions.Caching.Memory;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;

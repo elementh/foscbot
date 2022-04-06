@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;

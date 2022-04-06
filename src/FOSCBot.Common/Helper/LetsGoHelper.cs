@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace FOSCBot.Common.Helper;
 
 public static class LetsGoHelper

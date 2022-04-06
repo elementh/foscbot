@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Infrastructure.Contract.Client;
+﻿using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Logging;
 

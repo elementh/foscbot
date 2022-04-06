@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Interactivity.Questions;
 using MediatR;

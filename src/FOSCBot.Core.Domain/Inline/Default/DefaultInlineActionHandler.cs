@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Navigator.Abstractions;
 using Navigator.Extensions.Actions;
 using Telegram.Bot.Types.InlineQueryResults;

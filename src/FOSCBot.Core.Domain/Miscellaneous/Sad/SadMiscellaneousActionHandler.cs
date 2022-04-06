@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Navigator.Abstractions;
 using Navigator.Abstractions.Extensions;
 using Navigator.Extensions.Actions;

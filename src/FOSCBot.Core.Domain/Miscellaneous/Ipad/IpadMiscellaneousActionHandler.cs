@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using FOSCBot.Common.Helper;
+﻿using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator.Abstractions;

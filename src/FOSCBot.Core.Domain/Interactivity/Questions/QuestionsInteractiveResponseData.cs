@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
 public static class QuestionsInteractiveResponseData

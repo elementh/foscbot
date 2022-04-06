@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 using FOSCBot.Common.Helper;
 using Navigator.Abstractions;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace FOSCBot.Common.Helper;
+﻿namespace FOSCBot.Common.Helper;
 
 /// <summary>
 /// Random provider thanks to https://csharpindepth.com/Articles/Random
