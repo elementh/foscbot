@@ -19,9 +19,6 @@ public class SadMiscellaneousAction : MessageAction
             
         return (Message.Text?.ToLower().Equals("sad") ?? false)
                ||(Message.Text?.ToLower().Contains(" sad ") ?? false)
-               || Message.Sticker?.Emoji == "😔"
-               || Message.Sticker?.Emoji == "😢"
-               || Message.Sticker?.Emoji == "😞"
-               || Message.Sticker?.Emoji == "😭";
+               || Message.Sticker?.Emoji is "😔" or "😢" or "😞" or "😭";
     }
 }
