@@ -1,10 +1,7 @@
-﻿using System.ComponentModel;
-using FOSCBot.Common.Helper;
-using Microsoft.Extensions.Caching.Memory;
+﻿using FOSCBot.Common.Helper;
 using Navigator.Actions.Attributes;
 using Navigator.Context;
 using Navigator.Extensions.Cooldown;
-using Navigator.Providers.Telegram;
 using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Fallback.RandomWord;

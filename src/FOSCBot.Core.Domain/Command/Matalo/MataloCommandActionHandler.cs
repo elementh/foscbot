@@ -1,5 +1,4 @@
 ﻿using FOSCBot.Infrastructure.Contract.Service;
-using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
 using Navigator.Providers.Telegram;

@@ -1,7 +1,5 @@
 using FOSCBot.Common.Helper;
-using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 using Navigator.Actions;
 using Navigator.Context;
 using Navigator.Providers.Telegram;

@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Navigator.Context;
+﻿using Navigator.Context;
 using Navigator.Extensions.Cooldown;
-using Navigator.Providers.Telegram;
 using Navigator.Providers.Telegram.Actions.Messages;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Ipad;
