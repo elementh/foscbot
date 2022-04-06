@@ -13,7 +13,7 @@ public class YesMiscellaneousAction : MessageAction
             return false;
         }
 
-        return (ctx.Update.Message.Text?.Equals("YES") ?? false) ||
-               (ctx.Update.Message.Text?.Equals("SI") ?? false);
+        return (Message.Text?.Equals("YES") ?? false) ||
+               (Message.Text?.Equals("SI") ?? false);
     }
 }

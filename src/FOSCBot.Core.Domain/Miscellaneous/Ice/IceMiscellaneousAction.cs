@@ -18,10 +18,10 @@ public class IceMiscellaneousAction : MessageAction
             return false;
         }
 
-        return (ctx.Update.Message.Text?.ToLower().StartsWith("ice") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" ice ") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" ice?") ?? false)
-               || (ctx.Update.Message.Text?.ToLower().Contains(" hielo ") ?? false)
+        return (Message.Text?.ToLower().StartsWith("ice") ?? false)
+               || (Message.Text?.ToLower().Contains(" ice ") ?? false)
+               || (Message.Text?.ToLower().Contains(" ice?") ?? false)
+               || (Message.Text?.ToLower().Contains(" hielo ") ?? false)
                || Message.Sticker?.Emoji == "🥶";
     }
 }

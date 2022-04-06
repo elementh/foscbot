@@ -12,7 +12,7 @@ public class HeyBroMiscellaneousAction : MessageAction
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() < 0.8d
-               && ctx.Update.Message.Sticker?.Emoji == StickerEmoji
-               && ctx.Update.Message.Sticker?.SetName == StickerPack;
+               && Message.Sticker?.Emoji == StickerEmoji
+               && Message.Sticker?.SetName == StickerPack;
     }
 }

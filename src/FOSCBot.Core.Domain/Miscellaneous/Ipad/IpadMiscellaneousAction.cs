@@ -21,7 +21,7 @@ public class IpadMiscellaneousAction : MessageAction
             return false;
         }
 
-        if (ctx.Update.Message.Text?.ToLower().Contains(" ipad") ?? false)
+        if (Message.Text?.ToLower().Contains(" ipad") ?? false)
         {
             try
             {

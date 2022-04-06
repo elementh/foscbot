@@ -9,6 +9,6 @@ public class NFTMiscellaneousAction : MessageAction
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() >= 0.4 && 
-               (ctx.Update.Message.Text?.ToLower().Contains("nft") ?? false);
+               (Message.Text?.ToLower().Contains("nft") ?? false);
     }
 }

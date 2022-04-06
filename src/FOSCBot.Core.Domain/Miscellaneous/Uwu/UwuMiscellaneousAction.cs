@@ -8,6 +8,6 @@ public class UwuMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (ctx.Update.Message.Text?.ToLower().Contains("uwu") ?? false);
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (Message.Text?.ToLower().Contains("uwu") ?? false);
     }
 }

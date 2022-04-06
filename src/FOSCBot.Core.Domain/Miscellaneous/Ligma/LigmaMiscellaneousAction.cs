@@ -7,8 +7,8 @@ public class LigmaMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (ctx.Update.Message.Text?.ToLower().Contains("so sad") ?? false) ||
-               (ctx.Update.Message.Text?.ToLower().Contains("ligma") ?? false) ||
-               (ctx.Update.Message.Text?.ToLower().Contains("p4cock") ?? false);
+        return (Message.Text?.ToLower().Contains("so sad") ?? false) ||
+               (Message.Text?.ToLower().Contains("ligma") ?? false) ||
+               (Message.Text?.ToLower().Contains("p4cock") ?? false);
     }
 }

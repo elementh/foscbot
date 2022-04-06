@@ -7,7 +7,7 @@ public class MegatronMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return  (ctx.Update.Message?.Text?.ToLower().Contains("megatron") ?? false) &&
-                (!ctx.Update.Message?.Text?.ToLower().ContainsUrl() ?? false);
+        return  (Message?.Text?.ToLower().Contains("megatron") ?? false) &&
+                (!Message?.Text?.ToLower().ContainsUrl() ?? false);
     }
 }

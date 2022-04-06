@@ -8,6 +8,6 @@ public class NiceMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return RandomProvider.GetThreadRandom().NextDouble() < 0.7d && (ctx.Update.Message.Text?.Contains("NICE") ?? false);
+        return RandomProvider.GetThreadRandom().NextDouble() < 0.7d && (Message.Text?.Contains("NICE") ?? false);
     }
 }

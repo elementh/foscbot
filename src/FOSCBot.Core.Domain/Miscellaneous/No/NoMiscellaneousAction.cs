@@ -13,7 +13,7 @@ public class NoMiscellaneousAction : MessageAction
             return false;
         }
 
-        return (ctx.Update.Message.Text?.Equals("NO") ?? false) ||
-               (ctx.Update.Message.Text?.Equals("NOPE") ?? false);
+        return (Message.Text?.Equals("NO") ?? false) ||
+               (Message.Text?.Equals("NOPE") ?? false);
     }
 }
