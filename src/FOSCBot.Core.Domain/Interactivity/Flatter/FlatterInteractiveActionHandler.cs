@@ -19,7 +19,7 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
 
     public override async Task<Status> Handle(FlatterInteractiveAction action, CancellationToken cancellationToken)
     {
-        var choice = RandomProvider.GetThreadRandom().Next(0, 6);
+        var choice = RandomProvider.GetThreadRandom().Next(0, 8);
         switch (choice)
         {
             case 0:
@@ -44,6 +44,14 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
             case 5:
                 // Croco nice
                 await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgIAAxkBAAEDJNFhdZYD0vurwr7VikMz-SbM0TDhSgACLgkAAhhC7ghmx6Iwr7yx9CEE", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
+                break;     
+            case 6:
+                // like
+                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "Dale a like y suscribete", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
+                break;
+            case 7:
+                // ram
+                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "Me alegro de poder ayudar. Oye, ¿te sobra un stick de ram?", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
                 break;
         }
 
