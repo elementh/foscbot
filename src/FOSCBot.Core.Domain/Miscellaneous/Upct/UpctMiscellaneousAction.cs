@@ -5,6 +5,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Upct;
 
 public class UpctMiscellaneousAction : MessageAction
 {
+    public UpctMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         var message = Message.Text?.ToLower();

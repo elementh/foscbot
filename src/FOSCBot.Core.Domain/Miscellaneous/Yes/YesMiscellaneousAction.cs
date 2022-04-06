@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Yes;
 
 public class YesMiscellaneousAction : MessageAction
 {
+    public YesMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.5d )

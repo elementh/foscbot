@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Uwu;
 
 public class UwuMiscellaneousAction : MessageAction
 {
+    public UwuMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() < 0.3d && (Message.Text?.ToLower().Contains("uwu") ?? false);

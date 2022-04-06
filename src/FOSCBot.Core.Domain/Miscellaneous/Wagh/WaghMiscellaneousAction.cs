@@ -7,6 +7,11 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Wagh;
 public class WaghMiscellaneousAction : MessageAction
 {
     private static readonly string _pattern = @"^WA*GH$";
+
+    public WaghMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         var regex = new Regex(_pattern);

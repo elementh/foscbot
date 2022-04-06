@@ -7,6 +7,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Traktor;
 
 public class TraktorMiscellaneousAction : MessageAction
 {
+    public TraktorMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
