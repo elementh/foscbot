@@ -6,6 +6,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Jeje;
 
 public class JejeMiscellaneousAction : MessageAction
 {
+    public JejeMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.7d )

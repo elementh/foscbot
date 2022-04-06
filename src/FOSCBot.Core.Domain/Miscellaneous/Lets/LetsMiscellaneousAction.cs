@@ -5,6 +5,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Lets;
 
 public class LetsMiscellaneousAction : MessageAction
 {
+    public LetsMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return (Message.Text?.Equals("LETS") ?? false)
