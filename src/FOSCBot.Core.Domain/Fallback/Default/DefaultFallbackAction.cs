@@ -7,7 +7,7 @@ public class DefaultFallbackAction : MessageAction
 {
     public new int Order = 1100;
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return true;
     }

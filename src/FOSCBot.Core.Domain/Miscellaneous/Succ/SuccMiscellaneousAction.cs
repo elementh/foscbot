@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Succ;
 
 public class SuccMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return (ctx.GetMessageOrDefault()?.Text?.Equals("SUCC") ?? false) || (ctx.GetMessageOrDefault()?.Text?.Equals("SAC") ?? false);
     }

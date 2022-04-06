@@ -1,21 +1,23 @@
 ﻿using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.BtwArch;
 
 public class BtwArchMiscellaneousActionHandler : ActionHandler<BtwArchMiscellaneousAction>
 {
-    public BtwArchMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public BtwArchMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(BtwArchMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BtwArchMiscellaneousAction request, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "`Btw I run on Arch Linux.`", ParseMode.Markdown,
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "`Btw I run on Arch Linux.`", ParseMode.Markdown,
             replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

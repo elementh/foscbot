@@ -3,16 +3,18 @@ using FOSCBot.Core.Domain.Resources;
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.NFT;
 
 public class NFTMiscellaneousActionHandler : ActionHandler<NFTMiscellaneousAction>
 {
-    public NFTMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public NFTMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NFTMiscellaneousAction request, CancellationToken cancellationToken)
     {
         var nft = new List<string>
         {
@@ -23,8 +25,8 @@ public class NFTMiscellaneousActionHandler : ActionHandler<NFTMiscellaneousActio
             CoreLinks.NFTu
         }.GetRandomFromList();
             
-        await Ctx.Client.SendPhotoAsync(Ctx.GetTelegramChat(), nft, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, nft, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

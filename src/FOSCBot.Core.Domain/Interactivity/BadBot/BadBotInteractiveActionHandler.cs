@@ -2,16 +2,18 @@ using FOSCBot.Common.Helper;
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Interactivity.BadBot;
 
 public class BadBotInteractiveActionHandler : ActionHandler<BadBotInteractiveAction>
 {
-    public BadBotInteractiveActionHandler(INavigatorContext ctx) : base(ctx)
+    public BadBotInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(BadBotInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(BadBotInteractiveAction request, CancellationToken cancellationToken)
     {
         var reactions = new List<string>
         {
@@ -24,8 +26,8 @@ public class BadBotInteractiveActionHandler : ActionHandler<BadBotInteractiveAct
 
         var response = reactions.GetRandomFromList();
             
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
 }

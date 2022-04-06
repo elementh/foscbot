@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Bill;
 
 public class BillGatesMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("bill gates") ?? false;
     }

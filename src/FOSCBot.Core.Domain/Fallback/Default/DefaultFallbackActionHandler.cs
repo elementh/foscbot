@@ -3,6 +3,8 @@ using FOSCBot.Infrastructure.Contract.Service;
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Domain.Fallback.Default;
@@ -16,11 +18,11 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
         LipsumService = lipsumService;
     }
 
-    public override async Task<Unit> Handle(DefaultFallbackAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DefaultFallbackAction request, CancellationToken cancellationToken)
     {
         if (!string.IsNullOrWhiteSpace(Ctx.GetMessageOrDefault()?.Text) && Bottomify.IsEncoded(Ctx.GetMessage().Text))
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(),
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!,
                 $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(Ctx.GetMessage().Text)}_",
                 ParseMode.Markdown,
                 cancellationToken: cancellationToken);
@@ -28,7 +30,7 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
             
         if (RandomProvider.GetThreadRandom().Next(0, 600) < 598)
         {
-            return Unit.Value;
+            return Success();
         }
             
         var sentence = string.Empty;
@@ -50,10 +52,10 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
 
         if (!string.IsNullOrWhiteSpace(sentence))
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), sentence, ParseMode.Markdown,
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, sentence, ParseMode.Markdown,
                 replyToMessageId: request.MessageId, cancellationToken: cancellationToken);
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

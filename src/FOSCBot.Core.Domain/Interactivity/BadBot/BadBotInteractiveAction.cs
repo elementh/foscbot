@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Interactivity.BadBot;
 
 public class BadBotInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return ctx.IsBotQuotedOrMentioned() && ctx.IsBotBeingToldBadThings();
     }

@@ -2,19 +2,21 @@
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Command.Nope;
 
 public class NopeCommandActionHandler : ActionHandler<NopeCommandAction>
 {
-    public NopeCommandActionHandler(INavigatorContext ctx) : base(ctx)
+    public NopeCommandActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(NopeCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(NopeCommandAction request, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Nope, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Nope, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

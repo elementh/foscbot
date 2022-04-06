@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Source;
 
 public class SourceMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("source?") ?? false)
                || (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("source") ?? false)

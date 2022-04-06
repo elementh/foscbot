@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Inline.Default;
 
 public class DefaultInlineAction : InlineQueryAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return true;
     }

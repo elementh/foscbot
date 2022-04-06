@@ -20,7 +20,7 @@ public class RandomWordFallbackAction : MessageAction
         _memoryCache = memoryCache;
     }
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         if (_memoryCache.TryGetValue($"_{nameof(RandomWordFallbackAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
         {

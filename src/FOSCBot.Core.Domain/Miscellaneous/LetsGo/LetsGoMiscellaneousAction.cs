@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.LetsGo;
 
 public class LetsGoMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("let's fucking go") ?? false)
                || (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("lets fucking go") ?? false)

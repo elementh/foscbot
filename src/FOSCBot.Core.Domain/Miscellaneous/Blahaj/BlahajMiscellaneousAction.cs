@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Blahaj;
 
 public class BlahajMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("blahaj") ?? false;
     }

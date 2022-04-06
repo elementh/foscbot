@@ -2,19 +2,21 @@
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Dineros;
 
 public class DinerosMiscellaneousActionHandler : ActionHandler<DinerosMiscellaneousAction>
 {
-    public DinerosMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public DinerosMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(DinerosMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DinerosMiscellaneousAction request, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Dineros, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Dineros, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
 }

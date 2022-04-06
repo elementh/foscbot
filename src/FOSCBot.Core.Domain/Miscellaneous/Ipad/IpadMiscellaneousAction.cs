@@ -14,7 +14,7 @@ public class IpadMiscellaneousAction : MessageAction
         _memoryCache = memoryCache;
     }
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         if (_memoryCache.TryGetValue($"_{nameof(IpadMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
         {

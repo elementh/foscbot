@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Elegant;
 
 public class ElegantMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return  (ctx.Update.Message?.Text?.ToLower().Contains("elegant") ?? false) &&
                 (!ctx.Update.Message?.Text?.ToLower().ContainsUrl() ?? false);

@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
 public class QuestionsInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return ctx.IsBotMentioned() && 
                !ctx.IsBotPinged() && 

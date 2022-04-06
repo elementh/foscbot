@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Jeje;
 
 public class JejeMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         if (RandomProvider.GetThreadRandom().NextDouble() < 0.7d )
         {

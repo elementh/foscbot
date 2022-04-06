@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Command.Quote;
 
 public class QuoteCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/quote";
     }

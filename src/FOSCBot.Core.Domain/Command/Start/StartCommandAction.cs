@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Command.Start;
 
 public class StartCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/start";
     }

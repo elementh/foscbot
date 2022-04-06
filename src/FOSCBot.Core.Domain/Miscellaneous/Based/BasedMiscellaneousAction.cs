@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Based;
 
 public class BasedMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
                (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("based") ?? false)

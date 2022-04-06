@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Upct;
 
 public class UpctMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         var message = ctx.GetMessageOrDefault()?.Text?.ToLower();
         return (message?.Contains("upct") ?? false) && !message.Contains("/upct");

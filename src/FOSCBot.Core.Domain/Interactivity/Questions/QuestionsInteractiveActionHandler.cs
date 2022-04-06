@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Interactivity.Questions;
 
@@ -14,7 +16,7 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
         _memoryCache = memoryCache;
     }
 
-    public override async Task<Unit> Handle(QuestionsInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(QuestionsInteractiveAction request, CancellationToken cancellationToken)
     {
         string response;
 
@@ -35,13 +37,13 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
         _memoryCache.Set($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}", questionsAsked + 1, TimeSpan.FromMinutes(30));
         if (response.IsSticker())
         {
-            await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken);
         }
         else
         {
-            await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), response, cancellationToken: cancellationToken);
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken);
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Nginx;
 
 public class NginxMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("nginx") ?? false);
     }

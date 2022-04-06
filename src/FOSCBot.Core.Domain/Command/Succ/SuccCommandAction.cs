@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Command.Succ;
 
 public class SuccCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/succ";
     }

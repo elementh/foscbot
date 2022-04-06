@@ -2,22 +2,24 @@
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Jeje;
 
 public class JejeMiscellaneousActionHandler : ActionHandler<JejeMiscellaneousAction>
 {
-    public JejeMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public JejeMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(JejeMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(JejeMiscellaneousAction request, CancellationToken cancellationToken)
     {
         var randomSticker = Stickers[RandomProvider.GetThreadRandom().Next(0, Stickers.Length)];
 
-        await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), randomSticker, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, randomSticker, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
         
     public static readonly string[] Stickers = {

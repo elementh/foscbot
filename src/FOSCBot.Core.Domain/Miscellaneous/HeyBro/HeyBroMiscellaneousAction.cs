@@ -9,7 +9,7 @@ public class HeyBroMiscellaneousAction : MessageAction
     protected static readonly string StickerEmoji = "😚";
     protected static readonly string StickerPack = "foscupct";
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() < 0.8d
                && ctx.Update.Message.Sticker?.Emoji == StickerEmoji

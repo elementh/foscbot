@@ -2,6 +2,8 @@
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Command.Matalo;
 
@@ -16,7 +18,7 @@ public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
         _yesNoService = yesNoService;
     }
 
-    public override async Task<Unit> Handle(MataloCommandAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(MataloCommandAction request, CancellationToken cancellationToken)
     {
         if (request.ReplyToMessageId.HasValue)
         {
@@ -24,7 +26,7 @@ public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
 
             if (!string.IsNullOrWhiteSpace(insult))
             {
-                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), insult, replyToMessageId: request.ReplyToMessageId.Value,
+                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, insult, replyToMessageId: request.ReplyToMessageId.Value,
                     cancellationToken: cancellationToken);
             }
         }
@@ -34,11 +36,11 @@ public class MataloCommandActionHandler : ActionHandler<MataloCommandAction>
 
             if (!string.IsNullOrWhiteSpace(answer))
             {
-                await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), answer, replyToMessageId: request.MessageId,
+                await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, answer, replyToMessageId: request.MessageId,
                     cancellationToken: cancellationToken);
             }
         }
 
-        return Unit.Value;
+        return Success();
     }
 }

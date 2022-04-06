@@ -16,7 +16,7 @@ public class DinerosMiscellaneousAction : MessageAction
         _memoryCache = memoryCache;
     }
 
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         if (_memoryCache.TryGetValue($"_{nameof(DinerosMiscellaneousAction)}_{ctx.GetTelegramChatOrDefault()?.Id}", out _))
         {

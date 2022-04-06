@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Elon;
 
 public class ElonMuskMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return (ctx.GetMessageOrDefault()?.Text?.ToLower().Contains("elon musk") ?? false) ||
                (ctx.GetMessageOrDefault()?.Text?.ToLower().StartsWith("elon") ?? false) ||

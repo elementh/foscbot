@@ -7,7 +7,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Traktor;
 
 public class TraktorMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
                 (ctx.GetMessageOrDefault()?.Text?.ToLower().Equals("blyat") ?? false))

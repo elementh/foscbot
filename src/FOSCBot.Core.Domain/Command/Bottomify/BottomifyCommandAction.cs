@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Command.Bottomify;
 
 public class BottomifyCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/bottomify";
     }

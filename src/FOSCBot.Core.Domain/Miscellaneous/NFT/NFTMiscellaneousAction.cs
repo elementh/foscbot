@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Miscellaneous.NFT;
 
 public class NFTMiscellaneousAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() >= 0.4 && 
                (ctx.Update.Message.Text?.ToLower().Contains("nft") ?? false);

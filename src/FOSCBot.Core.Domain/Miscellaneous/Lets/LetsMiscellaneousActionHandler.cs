@@ -2,24 +2,26 @@ using FOSCBot.Common.Helper;
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Lets;
 
 public class LetsMiscellaneousActionHandler : ActionHandler<LetsMiscellaneousAction>
 {
-    public LetsMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public LetsMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(LetsMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(LetsMiscellaneousAction request, CancellationToken cancellationToken)
     {
         var stickerList = LetsGoHelper.LetsGoStickers;
         var randomSticker = stickerList[RandomProvider.GetThreadRandom().Next(0, stickerList.Length)];
             
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "FUCKING", cancellationToken: cancellationToken);
-        await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "GO", cancellationToken: cancellationToken);
-        await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), randomSticker, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "FUCKING", cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "GO", cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, randomSticker, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
 }

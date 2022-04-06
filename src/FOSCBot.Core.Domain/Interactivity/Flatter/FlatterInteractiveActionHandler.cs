@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Interactivity.Flatter;
 
@@ -15,33 +17,33 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
         _memoryCache = memoryCache;
     }
 
-    public override async Task<Unit> Handle(FlatterInteractiveAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(FlatterInteractiveAction request, CancellationToken cancellationToken)
     {
         var choice = RandomProvider.GetThreadRandom().Next(0, 6);
         switch (choice)
         {
             case 0:
-                await Ctx.Client.SendTextMessageAsync(Ctx.GetTelegramChat(), "De nada hermozo 😘", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "De nada hermozo 😘", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
             case 1:
                 // Smiling rani 
-                await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgIAAxkBAAEDJMNhdZKneWmWSMJ-5BOOyTK5y4dRpgACCgEAAjDUnRFWVFdpxm65byEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgIAAxkBAAEDJMNhdZKneWmWSMJ-5BOOyTK5y4dRpgACCgEAAjDUnRFWVFdpxm65byEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
             case 2:
                 // Moon smiling broken 
-                await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgIAAxkBAAEDJMlhdZQmchXArRkMCRchHWpgPNLZfgACQQoAAiqWeEhXs1wuuE0lniEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgIAAxkBAAEDJMlhdZQmchXArRkMCRchHWpgPNLZfgACQQoAAiqWeEhXs1wuuE0lniEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
             case 3:
                 // Me aburris tio
-                await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgQAAxkBAAEDJMthdZQwLAIyUcECwynw-TuPe_87fAACUgMAApjnowABWVTvcB6NosQhBA", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgQAAxkBAAEDJMthdZQwLAIyUcECwynw-TuPe_87fAACUgMAApjnowABWVTvcB6NosQhBA", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
             case 4:
                 // P4 Arch broken
-                await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgQAAxkBAAEDJM1hdZU5WpnzPHDOqI1SLIc5oZuz9gACWwIAApDUrQYyy_1Go-xzYiEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgQAAxkBAAEDJM1hdZU5WpnzPHDOqI1SLIc5oZuz9gACWwIAApDUrQYyy_1Go-xzYiEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
             case 5:
                 // Croco nice
-                await Ctx.Client.SendStickerAsync(Ctx.GetTelegramChat(), "CAACAgIAAxkBAAEDJNFhdZYD0vurwr7VikMz-SbM0TDhSgACLgkAAhhC7ghmx6Iwr7yx9CEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
+                await NavigatorContext.GetTelegramClient().SendStickerAsync(NavigatorContext.GetTelegramChat()!, "CAACAgIAAxkBAAEDJNFhdZYD0vurwr7VikMz-SbM0TDhSgACLgkAAhhC7ghmx6Iwr7yx9CEE", cancellationToken: cancellationToken, replyToMessageId: request.MessageId);
                 break;
         }
 
@@ -50,6 +52,6 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
             _memoryCache.Remove($"_{nameof(QuestionsInteractiveActionHandler)}_{Ctx.GetTelegramChatOrDefault()?.Id}");
         }
             
-        return Unit.Value;
+        return Success();
     }
 }

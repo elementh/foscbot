@@ -1,17 +1,19 @@
 ﻿using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 using Telegram.Bot.Types.InlineQueryResults;
 
 namespace FOSCBot.Core.Domain.Inline.Default;
 
 public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
 {
-    public DefaultInlineActionHandler(INavigatorContext ctx) : base(ctx)
+    public DefaultInlineActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(DefaultInlineAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(DefaultInlineAction request, CancellationToken cancellationToken)
     {
         var responses = new List<InlineQueryResultArticle>();
 
@@ -26,9 +28,9 @@ public class DefaultInlineActionHandler : ActionHandler<DefaultInlineAction>
             });
         }
 
-        await Ctx.Client.AnswerInlineQueryAsync(request.InlineQueryId, responses, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().AnswerInlineQueryAsync(request.InlineQueryId, responses, cancellationToken: cancellationToken);
 
-        return Unit.Value;
+        return Success();
     }
         
     protected static readonly IEnumerable<(string, string, string)> Links = new[]

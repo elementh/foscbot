@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter;
 
 public class FlatterInteractiveAction : MessageAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return ctx.IsBotQuotedOrMentioned() && ctx.IsBotFlattered();
     }

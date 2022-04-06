@@ -5,7 +5,7 @@ namespace FOSCBot.Core.Domain.Command.Want;
 
 public class WantCommandAction : CommandAction
 {
-    public override bool CanHandle(INavigatorContext ctx)
+    public override bool CanHandleCurrentContext()
     {
         return Command.ToLower() == "/want";
     }

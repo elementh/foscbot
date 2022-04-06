@@ -2,19 +2,21 @@
 using MediatR;
 using Navigator.Actions;
 using Navigator.Context;
+using Navigator.Providers.Telegram;
+using Telegram.Bot;
 
 namespace FOSCBot.Core.Domain.Miscellaneous.Wagh;
 
 public class WaghMiscellaneousActionHandler : ActionHandler<WaghMiscellaneousAction>
 {
-    public WaghMiscellaneousActionHandler(INavigatorContext ctx) : base(ctx)
+    public WaghMiscellaneousActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
     }
 
-    public override async Task<Unit> Handle(WaghMiscellaneousAction request, CancellationToken cancellationToken)
+    public override async Task<Status> Handle(WaghMiscellaneousAction request, CancellationToken cancellationToken)
     {
-        await Ctx.Client.SendVideoAsync(Ctx.GetTelegramChat(), CoreLinks.Orks, cancellationToken: cancellationToken);
+        await NavigatorContext.GetTelegramClient().SendVideoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.Orks, cancellationToken: cancellationToken);
             
-        return Unit.Value;
+        return Success();
     }
 }
