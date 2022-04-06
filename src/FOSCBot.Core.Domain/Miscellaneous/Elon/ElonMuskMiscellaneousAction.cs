@@ -5,6 +5,10 @@ namespace FOSCBot.Core.Domain.Miscellaneous.Elon;
 
 public class ElonMuskMiscellaneousAction : MessageAction
 {
+    public ElonMuskMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return (Message.Text?.ToLower().Contains("elon musk") ?? false) ||

@@ -7,9 +7,13 @@ namespace FOSCBot.Core.Domain.Miscellaneous.GoAhead;
 
 public class GoAheadMiscellaneousAction : MessageAction
 {
+    public GoAheadMiscellaneousAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    {
+    }
+
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() <= 0.8d
-               && Regex.IsMatch(ctx.Update.Message.Text ?? string.Empty, @"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+");
+               && Regex.IsMatch(Message.Text ?? string.Empty, @"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+");
     }
 }
