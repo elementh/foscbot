@@ -23,9 +23,9 @@ public class DinerosMiscellaneousAction : MessageAction
             return false;
         }
 
-        if ((action.Message.Text?.ToLower().Contains("pobres") ?? false) 
-            || (action.Message.Text?.ToLower().Contains("tesla") ?? false)
-            || (action.Message.Text?.ToLower().Contains("dineros") ?? false))
+        if ((Message.Text?.ToLower().Contains("pobres") ?? false) 
+            || (Message.Text?.ToLower().Contains("tesla") ?? false)
+            || (Message.Text?.ToLower().Contains("dineros") ?? false))
         {
             try
             {

@@ -7,7 +7,7 @@ public class CagasteMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (action.Message.Text?.ToLower().Equals("cagaste") ?? false)
-               || (action.Message.Text?.ToLower().Equals("kgaste") ?? false);
+        return (Message.Text?.ToLower().Equals("cagaste") ?? false)
+               || (Message.Text?.ToLower().Equals("kgaste") ?? false);
     }
 }

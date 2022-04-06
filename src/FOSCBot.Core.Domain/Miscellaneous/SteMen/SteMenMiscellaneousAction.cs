@@ -7,6 +7,6 @@ public class SteMenMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return action.Message.Text?.ToLower().Contains("ste men") ?? false;
+        return Message.Text?.ToLower().Contains("ste men") ?? false;
     }
 }

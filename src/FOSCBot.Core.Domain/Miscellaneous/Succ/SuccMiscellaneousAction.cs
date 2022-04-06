@@ -7,6 +7,6 @@ public class SuccMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (action.Message.Text?.Equals("SUCC") ?? false) || (action.Message.Text?.Equals("SAC") ?? false);
+        return (Message.Text?.Equals("SUCC") ?? false) || (Message.Text?.Equals("SAC") ?? false);
     }
 }

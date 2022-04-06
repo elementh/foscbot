@@ -8,7 +8,7 @@ public class IceMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        if (action.Message.Text?.ToLower().Contains("fucking ice") ?? false)
+        if (Message.Text?.ToLower().Contains("fucking ice") ?? false)
         {
             return true;
         }
@@ -22,6 +22,6 @@ public class IceMiscellaneousAction : MessageAction
                || (ctx.Update.Message.Text?.ToLower().Contains(" ice ") ?? false)
                || (ctx.Update.Message.Text?.ToLower().Contains(" ice?") ?? false)
                || (ctx.Update.Message.Text?.ToLower().Contains(" hielo ") ?? false)
-               || action.Message.Sticker?.Emoji == "🥶";
+               || Message.Sticker?.Emoji == "🥶";
     }
 }

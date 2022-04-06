@@ -7,7 +7,7 @@ public class LetsMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (action.Message.Text?.Equals("LETS") ?? false)
-               || (action.Message.Text?.Equals("LET'S") ?? false);
+        return (Message.Text?.Equals("LETS") ?? false)
+               || (Message.Text?.Equals("LET'S") ?? false);
     }
 }

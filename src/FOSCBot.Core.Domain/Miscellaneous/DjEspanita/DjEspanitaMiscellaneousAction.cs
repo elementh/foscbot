@@ -9,6 +9,6 @@ public class DjEspanitaMiscellaneousAction : MessageAction
     public override bool CanHandleCurrentContext()
     {
         return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && 
-               (action.Message.Text?.ToLower().Contains("himno de españa") ?? false);
+               (Message.Text?.ToLower().Contains("himno de españa") ?? false);
     }
 }

@@ -8,6 +8,6 @@ public class StonksMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (action.Message.Text?.ToLower().Contains("stonks") ?? false);
+        return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (Message.Text?.ToLower().Contains("stonks") ?? false);
     }
 }

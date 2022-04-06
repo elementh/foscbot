@@ -10,11 +10,11 @@ public class TraktorMiscellaneousAction : MessageAction
     public override bool CanHandleCurrentContext()
     {
         return (RandomProvider.GetThreadRandom().NextDouble() <= 0.2d &&
-                (action.Message.Text?.ToLower().Equals("blyat") ?? false))
-               || (action.Message.Text?.ToLower().Equals("traktor") ?? false)
-               || (action.Message.Text?.ToLower().Equals("блядь") ?? false)
-               || (action.Message.Text?.ToLower().Equals("трактор") ?? false)
-               || Regex.IsMatch(action.Message.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]+[Tt]+")
-               || Regex.IsMatch(action.Message.Text ?? string.Empty, @"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+");
+                (Message.Text?.ToLower().Equals("blyat") ?? false))
+               || (Message.Text?.ToLower().Equals("traktor") ?? false)
+               || (Message.Text?.ToLower().Equals("блядь") ?? false)
+               || (Message.Text?.ToLower().Equals("трактор") ?? false)
+               || Regex.IsMatch(Message.Text ?? string.Empty, @"[Bb][Ll][Yy][Aa]+[Tt]+")
+               || Regex.IsMatch(Message.Text ?? string.Empty, @"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+");
     }
 }

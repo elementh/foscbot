@@ -11,6 +11,6 @@ public class WaghMiscellaneousAction : MessageAction
     {
         var regex = new Regex(_pattern);
 
-        return regex.IsMatch(action.Message.Text ?? string.Empty);
+        return regex.IsMatch(Message.Text ?? string.Empty);
     }
 }

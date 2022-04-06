@@ -7,7 +7,7 @@ public class UpctMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        var message = action.Message.Text?.ToLower();
+        var message = Message.Text?.ToLower();
         return (message?.Contains("upct") ?? false) && !message.Contains("/upct");
     }
 }

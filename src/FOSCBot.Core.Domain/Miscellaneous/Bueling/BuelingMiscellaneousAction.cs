@@ -8,9 +8,9 @@ public class BuelingMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (action.Message.Text?.ToLower().Contains("vueling") ?? false) ||
+        return (Message.Text?.ToLower().Contains("vueling") ?? false) ||
                RandomProvider.GetThreadRandom().NextDouble() > 0.6d &&
-               ((action.Message.Text?.ToLower().Contains("volar") ?? false) ||
-                (action.Message.Text?.ToLower().Contains("avion") ?? false));
+               ((Message.Text?.ToLower().Contains("volar") ?? false) ||
+                (Message.Text?.ToLower().Contains("avion") ?? false));
     }
 }

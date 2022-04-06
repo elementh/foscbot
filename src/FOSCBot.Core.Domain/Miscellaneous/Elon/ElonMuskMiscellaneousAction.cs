@@ -7,12 +7,12 @@ public class ElonMuskMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return (action.Message.Text?.ToLower().Contains("elon musk") ?? false) ||
-               (action.Message.Text?.ToLower().StartsWith("elon") ?? false) ||
-               (action.Message.Text?.ToLower().Contains("elon ") ?? false) ||
-               (action.Message.Text?.ToLower().EndsWith(" elon") ?? false) ||
-               (action.Message.Text?.ToLower().StartsWith("musk") ?? false) ||
-               (action.Message.Text?.ToLower().Contains("musk ") ?? false) ||
-               (action.Message.Text?.ToLower().EndsWith(" musk") ?? false);
+        return (Message.Text?.ToLower().Contains("elon musk") ?? false) ||
+               (Message.Text?.ToLower().StartsWith("elon") ?? false) ||
+               (Message.Text?.ToLower().Contains("elon ") ?? false) ||
+               (Message.Text?.ToLower().EndsWith(" elon") ?? false) ||
+               (Message.Text?.ToLower().StartsWith("musk") ?? false) ||
+               (Message.Text?.ToLower().Contains("musk ") ?? false) ||
+               (Message.Text?.ToLower().EndsWith(" musk") ?? false);
     }
 }

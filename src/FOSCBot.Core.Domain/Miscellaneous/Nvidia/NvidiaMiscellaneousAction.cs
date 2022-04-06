@@ -8,6 +8,6 @@ public class NvidiaMiscellaneousAction : MessageAction
 {
     public override bool CanHandleCurrentContext()
     {
-        return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (action.Message.Text?.ToLower().Contains("nvidia") ?? false);
+        return RandomProvider.GetThreadRandom().NextDouble() > 0.6d && (Message.Text?.ToLower().Contains("nvidia") ?? false);
     }
 }
