@@ -16,7 +16,7 @@ Leaving commands aside there are a lot of jokes and triggers which will launch t
 
 ## Host it yourself
 
-You can find the container images [here](https://github.com/users/elementh/packages/container/package/foscbot)
+You can find the container images [here](https://github.com/users/elementh/packages/container/package/foscbot).
 
 You will need to setup some ENV variables:
 
