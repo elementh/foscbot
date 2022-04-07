@@ -7,7 +7,7 @@ using Navigator.Providers.Telegram.Actions.Messages;
 namespace FOSCBot.Core.Domain.Fallback.RandomWord;
 
 [Cooldown(Seconds = 15 * 60)]
-[ActionPriority(Navigator.Actions.Priority.High)]
+[ActionPriority(Navigator.Actions.Priority.Low - 100)]
 public class RandomWordFallbackAction : MessageAction
 {
     public string Word { get; protected set; }
