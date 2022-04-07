@@ -1,3 +1,4 @@
+using FOSCBot.Bot.Api.Health;
 using FOSCBot.Common.Pipeline;
 using FOSCBot.Core.Domain.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
@@ -40,7 +41,7 @@ builder.Services.AddNavigator(options =>
         options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]);
         options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
     }).WithProvider.Telegram(options => { options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]); })
-    .WithExtension.Interop()
+    .WithExtension.Interop(options => { options.Runtime = builder.Configuration["INTEROP_PYTHON"]; })
     .WithExtension.Store(dbBuilder =>
     {
         dbBuilder.UseNpgsql(builder.Configuration["DB_CONNECTION_STRING"],
@@ -117,7 +118,8 @@ builder.Services.AddScoped<IGiphyService, GiphyService>();
 
 #region Healthchecks
 
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddCheck<PythonHealthCheck>("Python");
 builder.Services.CheckLamarConfiguration();
 
 #endregion
