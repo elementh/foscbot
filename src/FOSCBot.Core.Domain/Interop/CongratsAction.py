@@ -9,11 +9,10 @@ def can_handle_current_context(context, event):
     # In this particular case we also check if the message contains any text.
     if (event.Message is None) or (event.Message.Text is None):
         return False
-
-    if "congrats" in event.Message.Text.lower() or "congratulations" in event.Message.Text.lower():
+    elif "congrats" in event.Message.Text.lower() or "congratulations" in event.Message.Text.lower():
         return True
-
-    return False
+    else:
+        return False
 
 
 # Handler of the event, this is were the magic happens
