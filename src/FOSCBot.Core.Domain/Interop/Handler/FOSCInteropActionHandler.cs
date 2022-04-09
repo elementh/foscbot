@@ -1,5 +1,6 @@
 using Navigator.Context;
 using Navigator.Extensions.Interop;
+using Navigator.Extensions.Store.Bundled.Extensions;
 using Navigator.Providers.Telegram;
 using Telegram.Bot.Types;
 
@@ -18,6 +19,7 @@ public class FOSCInteropActionHandler : InteropActionHandler
             context = NavigatorContext,
             client = NavigatorContext.GetTelegramClient(),
             chat = new ChatId(NavigatorContext.GetTelegramChat().Id),
+            store = NavigatorContext.GetStore()
         });
     }
 }
