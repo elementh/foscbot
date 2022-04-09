@@ -62,6 +62,9 @@
       <None Update="Interop\LantraAction.py">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Interop\rgbAction.py">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     
 </Project>
