@@ -50,6 +50,7 @@
       </Compile>
     </ItemGroup>
 
+    <!--  Interop Actions  -->
     <ItemGroup>
       <None Update="Interop\SpeakPythonAction.py">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
