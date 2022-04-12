@@ -6,7 +6,7 @@ import System
 def can_handle_current_context(context, event):
     if (event.Message is None) or (event.Message.Text is None):
         return False
-    elif "rgb" in event.Message.Text:
+    elif "rgb" in event.Message.Text.lower():
         return True
     else:
         return False
