@@ -21,12 +21,15 @@ RUN apt-get update -y && apt-get install python3.9 pip -y
 COPY ./requirements.txt ./
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
+ 
+ARG BOT_VERSION
 
 WORKDIR /app
 COPY --from=build /app ./
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS http://*:5100
+ENV BOT_VERSION $BOT_VERSION
 ENV INTEROP_PYTHON="/usr/lib/x86_64-linux-gnu/libpython3.9.so"
 
 EXPOSE 5100
