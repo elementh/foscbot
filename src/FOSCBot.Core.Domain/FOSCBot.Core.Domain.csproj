@@ -11,7 +11,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
         <PackageReference Include="Navigator.Extensions.Cooldown" Version="2.0.1" />
-        <PackageReference Include="Navigator.Extensions.Interop" Version="1.2.1" />
+        <PackageReference Include="Navigator.Extensions.Interop" Version="1.3.0" />
         <PackageReference Include="Navigator.Extensions.Store" Version="1.9.3-beta1" />
         <PackageReference Include="Navigator.Providers.Telegram" Version="1.9.3-beta1" />
     </ItemGroup>
