@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Navigator.Context;
 using Navigator.Extensions.Interop;
 using Navigator.Extensions.Store.Bundled.Extensions;
@@ -8,7 +9,7 @@ namespace FOSCBot.Core.Domain.Interop;
 
 public class FOSCInteropActionHandler : InteropActionHandler
 {
-    public FOSCInteropActionHandler(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
+    public FOSCInteropActionHandler(INavigatorContextAccessor navigatorContextAccessor, ILogger<FOSCInteropActionHandler> logger) : base(navigatorContextAccessor, logger)
     {
     }
 
