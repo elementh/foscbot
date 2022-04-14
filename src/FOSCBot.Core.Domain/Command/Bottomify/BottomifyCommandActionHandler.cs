@@ -27,7 +27,7 @@ public class BottomifyCommandActionHandler : ActionHandler<BottomifyCommandActio
             return Success();
         }
 
-        var input = action.Message.Text.Remove(0, action.Message.Text.IndexOf(' ') + 1);
+        var input = action.Message.Text?.Remove(0, action.Message.Text.IndexOf(' ') + 1);
 
         if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(action.Command))
         {

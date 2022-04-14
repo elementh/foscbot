@@ -10,7 +10,7 @@ namespace FOSCBot.Core.Domain.Fallback.RandomWord;
 [ActionPriority(Navigator.Actions.Priority.Low - 100)]
 public class RandomWordFallbackAction : MessageAction
 {
-    public string Word { get; protected set; }
+    public string Word { get; protected set; } = string.Empty;
  
     public RandomWordFallbackAction(INavigatorContextAccessor navigatorContextAccessor) : base(navigatorContextAccessor)
     {
@@ -24,7 +24,7 @@ public class RandomWordFallbackAction : MessageAction
             return false;
         }
 
-        Word = Message.Text?.Trim().Split(" ")?.FirstOrDefault() ?? string.Empty;
+        Word = Message.Text?.Trim().Split(" ").FirstOrDefault() ?? string.Empty;
 
         return !string.IsNullOrWhiteSpace(Word) && Word.IsAllUpper() && Word.Length >= 4 && !Word.Contains("XDDD");
     }
