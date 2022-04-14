@@ -20,4 +20,4 @@ def handle(conversation, event, args):
     # To send a sticker or any kind of image or gif, we need to construct an InputOnlineFile object.
     # It accepts media ids (stickers, gifs, previous images, etc.) and also accepts urls for images and gifs.
     photo = InputOnlineFile("https://raw.githubusercontent.com/elementh/foscbot/main/assets/monke.mp4")
-    Navigator.SendVideoAsync(args.client, args.chat, photo, captcion="RETURN TO MONKE FTW")
+    Navigator.SendVideoAsync(args.client, args.chat, photo, caption="RETURN TO MONKE FTW")
