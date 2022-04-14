@@ -10,10 +10,10 @@
     <ItemGroup>
         <PackageReference Include="Navigator.Extensions.Store.Telegram" Version="1.9.3-beta1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.4" />
     </ItemGroup>
 </Project>
