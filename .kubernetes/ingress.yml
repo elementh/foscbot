@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foscbot
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`foscbot.lucasmarino.me`)
+      kind: Rule
+      services:
+        - name: foscbot
+          port: 5100
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foscbot
+spec:
+  selector:
+    app: foscbot
+  ports:
+    - port: 5100
+

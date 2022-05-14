@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: foscbot
+  name: foscbot
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: foscbot
+  template:
+    metadata:
+      labels:
+        app: foscbot
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-elementh
+      containers:
+        - image: ghcr.io/elementh/foscbot:main
+          imagePullPolicy: Always
+          name: foscbot
+          ports:
+          - containerPort: 5100
+          envFrom:
+          - secretRef:
+              name: foscbot
