@@ -1,4 +1,5 @@
 using FOSCBot.Common.Helper;
+using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Caching.Distributed;
 using Navigator.Actions;
 using Navigator.Context;
@@ -10,10 +11,12 @@ namespace FOSCBot.Core.Domain.Interactivity.Questions;
 public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteractiveAction>
 {
     private readonly IDistributedCache _distributedCache;
+    private readonly ILlamaService _llamaService;
 
-    public QuestionsInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor, IDistributedCache distributedCache) : base(navigatorContextAccessor)
+    public QuestionsInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor, IDistributedCache distributedCache, ILlamaService llamaService) : base(navigatorContextAccessor)
     {
         _distributedCache = distributedCache;
+        _llamaService = llamaService;
     }
 
     public override async Task<Status> Handle(QuestionsInteractiveAction action, CancellationToken cancellationToken)
@@ -34,7 +37,7 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
         }
         else
         {
-            response = QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList();
+            response = await _llamaService.GetResponse(new[] { action.Message.Text! }, default) ?? QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList();
         }
 
         await _distributedCache.SetStringAsync(cacheKey, $"{questionsAsked + 1}",

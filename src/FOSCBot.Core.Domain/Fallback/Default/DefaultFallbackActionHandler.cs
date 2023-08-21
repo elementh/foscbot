@@ -11,10 +11,12 @@ namespace FOSCBot.Core.Domain.Fallback.Default;
 public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
 {
     private readonly ILipsumService _lipsumService;
-
-    public DefaultFallbackActionHandler(INavigatorContextAccessor navigatorContextAccessor, ILipsumService lipsumService) : base(navigatorContextAccessor)
+    private readonly ILlamaService _llamaService;
+    
+    public DefaultFallbackActionHandler(INavigatorContextAccessor navigatorContextAccessor, ILipsumService lipsumService, ILlamaService llamaService) : base(navigatorContextAccessor)
     {
         _lipsumService = lipsumService;
+        _llamaService = llamaService;
     }
 
     public override async Task<Status> Handle(DefaultFallbackAction action, CancellationToken cancellationToken)
@@ -26,14 +28,23 @@ public class DefaultFallbackActionHandler : ActionHandler<DefaultFallbackAction>
                 ParseMode.Markdown,
                 cancellationToken: cancellationToken);
         }
+
             
         if (RandomProvider.GetThreadRandom().Next(0, 600) < 598)
         {
             return Success();
         }
+        
             
         var sentence = string.Empty;
+        
+        if (action.Message.Text?.Length > 200)
+        {
+            var response = await _llamaService.GetResponse(new[] { action.Message.Text }, default);
 
+            sentence = response;
+        }
+        
         var odds = RandomProvider.GetThreadRandom().Next(0, 20);
 
         if (odds >= 0 && odds < 5)
