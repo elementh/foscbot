@@ -22,7 +22,7 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
 
     public override async Task<Status> Handle(FlatterInteractiveAction action, CancellationToken cancellationToken)
     {
-        var choice = RandomProvider.GetThreadRandom().Next(0, 9);
+        var choice = RandomProvider.GetThreadRandom().Next(0, 20);
         switch (choice)
         {
             case 0:
@@ -56,7 +56,7 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
                 // ram
                 await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "Me alegro de poder ayudar. Oye, ¿te sobra un stick de ram?", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
                 break;
-            case 8:
+            default:
                 // Llama
                 var response = await _llamaService.GetResponse(new[] { action.Message.Text ?? "Thank you very much @foscbot" }, default);
 
@@ -69,6 +69,7 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
                     await Handle(action, cancellationToken);
                 }
                 break;
+            
         }
 
         if (await _distributedCache.GetAsync($"_{nameof(QuestionsInteractiveActionHandler)}_{NavigatorContext.GetTelegramChat().Id}", cancellationToken) is not null)

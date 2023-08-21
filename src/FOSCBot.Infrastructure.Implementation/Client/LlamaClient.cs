@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using FOSCBot.Infrastructure.Contract.Client;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -34,12 +35,14 @@ public class LlamaClient: ILlamaClient
                     Role = "user",
                     Content = chat
                 }
-            }
+            },
+            Max_Tokens = 4000,
+            Temperature = 0.9
         });
 
         var content = await response.Content.ReadFromJsonAsync<LlamaResponse>();
 
-        return content?.Choices.First().Message.Content;
+        return content?.Choices.First().Message.Content?.Replace('#', default);
     }
     
     public class LlamaClientOptions
@@ -50,7 +53,9 @@ public class LlamaClient: ILlamaClient
     public class LlamaRequest
     {
         public Message[] Messages { get; set; }
+        [JsonPropertyName("max_tokens")]
         public int Max_Tokens { get; set; } = 4000;
+        [JsonPropertyName("temperature")]
         public double Temperature { get; set; } = 1;
             
             
