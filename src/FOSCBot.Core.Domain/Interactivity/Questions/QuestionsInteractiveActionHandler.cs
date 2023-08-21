@@ -26,6 +26,13 @@ public class QuestionsInteractiveActionHandler : ActionHandler<QuestionsInteract
 
         var cacheValue = await _distributedCache.GetStringAsync(cacheKey, cancellationToken);
 
+        var odds = RandomProvider.GetThreadRandom().Next(0, 20);
+
+        if (odds > 10)
+        {
+            response = await _llamaService.GetResponse(new[] { action.Message.Text! }, default) ?? QuestionsInteractiveResponseData.ChillResponses.GetRandomFromList();
+        }
+        
         if (int.TryParse(cacheValue, out var questionsAsked))
         {
             response = questionsAsked switch
