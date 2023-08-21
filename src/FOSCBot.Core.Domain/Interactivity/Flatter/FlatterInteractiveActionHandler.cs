@@ -1,5 +1,6 @@
 using FOSCBot.Common.Helper;
 using FOSCBot.Core.Domain.Interactivity.Questions;
+using FOSCBot.Infrastructure.Contract.Service;
 using Microsoft.Extensions.Caching.Distributed;
 using Navigator.Actions;
 using Navigator.Context;
@@ -11,15 +12,17 @@ namespace FOSCBot.Core.Domain.Interactivity.Flatter;
 public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveAction>
 {
     private readonly IDistributedCache _distributedCache;
+    private readonly ILlamaService _llamaService;
 
-    public FlatterInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor, IDistributedCache distributedCache) : base(navigatorContextAccessor)
+    public FlatterInteractiveActionHandler(INavigatorContextAccessor navigatorContextAccessor, IDistributedCache distributedCache, ILlamaService llamaService) : base(navigatorContextAccessor)
     {
         _distributedCache = distributedCache;
+        _llamaService = llamaService;
     }
 
     public override async Task<Status> Handle(FlatterInteractiveAction action, CancellationToken cancellationToken)
     {
-        var choice = RandomProvider.GetThreadRandom().Next(0, 8);
+        var choice = RandomProvider.GetThreadRandom().Next(0, 20);
         switch (choice)
         {
             case 0:
@@ -53,6 +56,20 @@ public class FlatterInteractiveActionHandler : ActionHandler<FlatterInteractiveA
                 // ram
                 await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, "Me alegro de poder ayudar. Oye, ¿te sobra un stick de ram?", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
                 break;
+            default:
+                // Llama
+                var response = await _llamaService.GetResponse(new[] { action.Message.Text ?? "Thank you very much @foscbot" }, default);
+
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, response, cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
+                }
+                else
+                {
+                    await Handle(action, cancellationToken);
+                }
+                break;
+            
         }
 
         if (await _distributedCache.GetAsync($"_{nameof(QuestionsInteractiveActionHandler)}_{NavigatorContext.GetTelegramChat().Id}", cancellationToken) is not null)

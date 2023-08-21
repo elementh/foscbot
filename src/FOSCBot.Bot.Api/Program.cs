@@ -41,7 +41,7 @@ builder.Services.AddNavigator(options =>
         options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]);
         options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
     }).WithProvider.Telegram(options => { options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]); })
-    .WithExtension.Interop(options => { options.Runtime = builder.Configuration["INTEROP_PYTHON"]; })
+    // .WithExtension.Interop(options => { options.Runtime = builder.Configuration["INTEROP_PYTHON"]; })
     .WithExtension.Store(dbBuilder =>
     {
         dbBuilder.UseNpgsql(builder.Configuration["DB_CONNECTION_STRING"],
@@ -78,6 +78,11 @@ builder.Services.AddOptions<GiphyClient.GiphyClientOptions>().Configure(options 
     options.ApiKey =builder.Configuration["GIPHY_API_KEY"];
 });
 
+builder.Services.AddOptions<LlamaClient.LlamaClientOptions>().Configure(options =>
+{
+    options.ApiUrl = builder.Configuration["LLAMA_API_URL"];
+});
+
 builder.Services.AddHttpClient<IBaconClient, BaconClient>()
     .AddTransientHttpErrorPolicy(builder =>
         builder.WaitAndRetryAsync(3, retryCount =>
@@ -108,11 +113,17 @@ builder.Services.AddHttpClient<IGiphyClient, GiphyClient>()
         builder.WaitAndRetryAsync(3, retryCount =>
             TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
+builder.Services.AddHttpClient<ILlamaClient, LlamaClient>()
+    .AddTransientHttpErrorPolicy(builder =>
+        builder.WaitAndRetryAsync(3, retryCount =>
+            TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+
 builder.Services.AddScoped<ILipsumService, LipsumService>();
 builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
+builder.Services.AddScoped<ILlamaService, LlamaService>();
 
 #endregion
 
