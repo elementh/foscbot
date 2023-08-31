@@ -52,7 +52,7 @@ public class MemeService : IMemeService
                 return done;
             }
             
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(1250, cancellationToken);
 
             times -= 1;
         }
