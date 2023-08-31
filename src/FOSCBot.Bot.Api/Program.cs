@@ -128,6 +128,7 @@ builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
+builder.Services.AddScoped<ILlamaService, LlamaService>();
 builder.Services.AddScoped<IMemeService, MemeService>();
 
 #endregion
