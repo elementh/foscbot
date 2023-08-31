@@ -17,7 +17,11 @@ public class PingInteractiveActionHandler : ActionHandler<PingInteractiveAction>
         var messageTime = action.Message.Date;
         var delaySinceMessageWasSent = requestTime - messageTime;
 
-        if (delaySinceMessageWasSent.TotalSeconds < 12)
+        if (delaySinceMessageWasSent.TotalSeconds < 0)
+        {
+            await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"⬛ acho puta u🅱ct arreglad ya el NTP. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
+        }
+        else if (delaySinceMessageWasSent.TotalSeconds < 12)
         {
             await NavigatorContext.GetTelegramClient().SendTextMessageAsync(NavigatorContext.GetTelegramChat()!, $"🟩 toy refinisimo bro. Delay: {delaySinceMessageWasSent.TotalSeconds}s", cancellationToken: cancellationToken, replyToMessageId: action.Message.MessageId);
         } 
