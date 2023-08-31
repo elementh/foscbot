@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using FOSCBot.Infrastructure.Contract.Client;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Infrastructure.Implementation.Client;
@@ -37,9 +38,9 @@ public class MemeClient : IMemeClient
 
     public async Task<bool> CheckIfDone(Uri uri, CancellationToken cancellationToken)
     {
-        var response = await Client.GetAsync(uri, cancellationToken);
+        var response = await Client.GetStreamAsync(uri, cancellationToken);
 
-        return response is { IsSuccessStatusCode: true, Content.Headers.ContentLength: > 100 };
+        return !response.GetType().ToString().Contains("EmptyReadStream");
     }
 
     public async Task<Stream?> Download(Uri uri, CancellationToken cancellationToken)
