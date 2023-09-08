@@ -1,4 +1,5 @@
 ﻿using FOSCBot.Core.Domain.Command.Quote;
+using FOSCBot.Core.Domain.Resources;
 using FOSCBot.Infrastructure.Contract.Service;
 using Navigator.Actions;
 using Navigator.Context;
