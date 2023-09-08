@@ -248,5 +248,11 @@ namespace FOSCBot.Core.Domain.Resources {
                 return ResourceManager.GetString("MegatronCbtImmediate", resourceCulture);
             }
         }
+
+        internal static string MuchoTexto {
+            get {
+                return ResourceManager.GetString("MuchoTexto", resourceCulture);
+            }
+        }
     }
 }
