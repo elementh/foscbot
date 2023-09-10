@@ -1,4 +1,5 @@
 ﻿using FOSCBot.Core.Domain.Command.Quote;
+using FOSCBot.Core.Domain.Resources;
 using FOSCBot.Infrastructure.Contract.Service;
 using Navigator.Actions;
 using Navigator.Context;
@@ -20,13 +21,22 @@ public class MemeCommandActionHandler : ActionHandler<MemeCommandAction>
     public override async Task<Status> Handle(MemeCommandAction action, CancellationToken cancellationToken)
     {
         Stream? image = default;
+        var input = string.Empty;
         
         if (action.IsReply && !string.IsNullOrEmpty(action.Message.ReplyToMessage?.Text))
         {
-            image = await _memeService.GenerateMeme(action.Message.ReplyToMessage.Text, cancellationToken);
+            input = action.Message.ReplyToMessage.Text;
+        }
+        else
+        {
+            input = action.Message.Text?.Remove(0, action.Message.Text.IndexOf(' ') + 1);
         }
 
-        var input = action.Message.Text?.Remove(0, action.Message.Text.IndexOf(' ') + 1);
+        if (input.Length > 350)
+        {
+            await NavigatorContext.GetTelegramClient().SendPhotoAsync(NavigatorContext.GetTelegramChat()!, CoreLinks.MuchoTexto, cancellationToken: cancellationToken);
+            return Success();
+        }
 
         if (!string.IsNullOrWhiteSpace(input) && !input.StartsWith(action.Command))
         {
