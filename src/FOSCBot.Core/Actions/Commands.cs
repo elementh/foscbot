@@ -164,5 +164,21 @@ public static class Commands
             
             await client.SendStickerAsync(chat, sticker);
         });
+        
+        catalog.OnCommand("want", async (INavigatorClient client, Chat chat) =>
+        {
+            string[] stickers =
+            [
+                "CAACAgQAAxkBAAI5Yl59xpGz9uvLhFud46MfBOsOKAEZAAKRAAPXYpsOoD4HwY0npyEYBA",
+                "CAACAgIAAxkBAAI5Y159xpQAAcud_5qj0XBWWtBYqzJ5OAACLVQAAp7OCwAB3ByKGvkbQr8YBA",
+                "CAACAgIAAxkBAAI5Zl59xpcmSV8AAW8fzV2mOUkGCQeJCQACAwEAAladvQoC5dF4h-X6TxgE",
+                "CAACAgQAAxkBAAI5aF59xp59Pnx0Y9_7iFLQwq56EP0jAAJ1FwAC_wRTAAGZhZMAARxrsr0YBA",
+                "CAACAgEAAxkBAAI5al59xrCk3wAB13zrjcEKqtCJlnvpNwACDgcAAknjsAhFpPCKz57EtRgE"
+            ];
+            
+            var randomSticker = stickers[RandomProvider.GetThreadRandom()!.Next(0, stickers.Length)];
+
+            await client.SendStickerAsync(chat, randomSticker);
+        });
     }
 }
