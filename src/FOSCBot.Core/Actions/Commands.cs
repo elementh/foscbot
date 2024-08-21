@@ -119,5 +119,11 @@ public static class Commands
             
             await client.SendPhotoAsync(chat, quote);
         });
+
+        catalog.OnCommand("raniilove", async (INavigatorClient client, Chat chat) =>
+        {
+            const string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
+            await client.SendStickerAsync(chat, RaniiSticker);
+        });
     }
 }
