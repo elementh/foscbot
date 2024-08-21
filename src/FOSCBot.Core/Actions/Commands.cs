@@ -1,4 +1,5 @@
 using Bottom;
+using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
@@ -73,6 +74,30 @@ public static class Commands
             const string coronaSharkSticker = "CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE";
             
             await client.SendStickerAsync(chat, coronaSharkSticker);
+        });
+        
+        catalog.OnCommand("matalo", async (INavigatorClient client, Chat chat, Message message, IInsultService insults, IYesNoService yesNo) =>
+        {
+            if (message.ReplyToMessage is null)
+            {
+                var answer = await yesNo.GetNoImage(CancellationToken.None);
+
+                if (!string.IsNullOrWhiteSpace(answer))
+                {
+                    return await client.SendVideoAsync(chat, answer, replyParameters: message);
+                }
+            }
+            else
+            {
+                var insult = await insults.GetInsult(CancellationToken.None);
+            
+                if (!string.IsNullOrWhiteSpace(insult))
+                {
+                    return await client.SendTextMessageAsync(chat, insult, replyParameters: message);
+                }
+            }
+
+            return default;
         });
     }
 }

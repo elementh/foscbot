@@ -46,4 +46,8 @@
       </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FOSCBot.Infrastructure.Contract\FOSCBot.Infrastructure.Contract.csproj" />
+    </ItemGroup>
+
 </Project>
