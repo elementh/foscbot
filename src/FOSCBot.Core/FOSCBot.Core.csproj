@@ -10,4 +10,38 @@
       <PackageReference Include="Navigator" Version="3.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Resources\CoreLinks.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreLinks.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\CoreResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreResources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\CoreLinks.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreLinks.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\CoreResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CoreResources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\CoreLinks.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CoreLinks.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CoreResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CoreResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>
