@@ -8,6 +8,9 @@
 //------------------------------------------------------------------------------
 
 namespace FOSCBot.Core.Resources {
+    using System;
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,7 +28,7 @@ namespace FOSCBot.Core.Resources {
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.CoreLinks", typeof(CoreLinks).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("FOSCBot.Core.Resources.CoreLinks", typeof(CoreLinks).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,12 +66,6 @@ namespace FOSCBot.Core.Resources {
         internal static string Nice {
             get {
                 return ResourceManager.GetString("Nice", resourceCulture);
-            }
-        }
-        
-        internal static string Nope {
-            get {
-                return ResourceManager.GetString("Nope", resourceCulture);
             }
         }
         
@@ -245,7 +242,7 @@ namespace FOSCBot.Core.Resources {
                 return ResourceManager.GetString("MegatronCbtImmediate", resourceCulture);
             }
         }
-
+        
         internal static string MuchoTexto {
             get {
                 return ResourceManager.GetString("MuchoTexto", resourceCulture);

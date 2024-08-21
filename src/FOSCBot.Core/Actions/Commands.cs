@@ -1,4 +1,5 @@
 using Bottom;
+using FOSCBot.Core.Resources;
 using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
 using Navigator.Catalog.Factory;
@@ -99,5 +100,12 @@ public static class Commands
 
             return default;
         });
+        
+        catalog.OnCommand("nope", async (INavigatorClient client, Chat chat) =>
+        {
+            await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4");
+        });
+        
+        
     }
 }
