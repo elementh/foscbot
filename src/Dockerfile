@@ -3,7 +3,7 @@ WORKDIR /src
 
 COPY *.sln ./
 
-COPY FOSCBot.Bot.Api/*.csproj FOSCBot.Bot.Api/
+COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
 COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core.Domain/*.csproj FOSCBot.Core.Domain/
 COPY FOSCBot.Infrastructure.Contract/*.csproj FOSCBot.Infrastructure.Contract/
@@ -32,4 +32,4 @@ ENV INTEROP_PYTHON="/usr/lib/x86_64-linux-gnu/libpython3.9.so"
 
 EXPOSE 5100
 
-ENTRYPOINT ["dotnet", "FOSCBot.Bot.Api.dll"]
+ENTRYPOINT ["dotnet", "FOSCBot.Bot.dll"]

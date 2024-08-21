@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Python.Runtime;
 
-namespace FOSCBot.Bot.Api.Health;
+namespace FOSCBot.Bot.Health;
 
 public class PythonHealthCheck : IHealthCheck
 {

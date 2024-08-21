@@ -1,4 +1,4 @@
-using FOSCBot.Bot.Api.Health;
+using FOSCBot.Bot.Health;
 using FOSCBot.Common.Pipeline;
 using FOSCBot.Core.Domain.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
@@ -10,15 +10,9 @@ using Incremental.Common.Logging;
 using Lamar.Diagnostics;
 using Lamar.Microsoft.DependencyInjection;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Navigator;
 using Navigator.Configuration;
-using Navigator.Extensions.Cooldown;
-using Navigator.Extensions.Interop;
 using Navigator.Extensions.Store;
-using Navigator.Extensions.Store.Context;
-using Navigator.Extensions.Store.Context.Extension;
-using Navigator.Extensions.Store.Telegram;
 using Navigator.Providers.Telegram;
 using Polly;
 
@@ -37,17 +31,10 @@ builder.Services.AddDistributedMemoryCache();
 #region Navigator
 
 builder.Services.AddNavigator(options =>
-    {
-        options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]);
-        options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
-    }).WithProvider.Telegram(options => { options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]); })
-    // .WithExtension.Interop(options => { options.Runtime = builder.Configuration["INTEROP_PYTHON"]; })
-    .WithExtension.Store(dbBuilder =>
-    {
-        dbBuilder.UseNpgsql(builder.Configuration["DB_CONNECTION_STRING"],
-            dbContextOptionsBuilder => { dbContextOptionsBuilder.MigrationsAssembly("FOSCBot.Persistence.Migrations"); });
-    }).WithExtension.StoreForTelegram()
-    .WithExtension.Cooldown();
+{
+    options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]);
+    options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
+}).WithProvider.Telegram(options => { options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]); });
 
 #endregion
 
