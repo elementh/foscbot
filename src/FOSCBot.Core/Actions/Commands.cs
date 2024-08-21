@@ -157,5 +157,12 @@ public static class Commands
 
             await client.SendVideoAsync(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
         });
+        
+        catalog.OnCommand("upct", async (INavigatorClient client, Chat chat) =>
+        {
+            const string sticker = "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE";
+            
+            await client.SendStickerAsync(chat, sticker);
+        });
     }
 }
