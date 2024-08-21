@@ -165,12 +165,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string BasedDepartment {
-            get {
-                return ResourceManager.GetString("BasedDepartment", resourceCulture);
-            }
-        }
-        
         internal static string Traktor {
             get {
                 return ResourceManager.GetString("Traktor", resourceCulture);

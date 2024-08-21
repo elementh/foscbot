@@ -75,9 +75,6 @@
   <data name="CbtExplanation" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4</value>
   </data>
-  <data name="BasedDepartment" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4</value>
-  </data>
   <data name="Traktor" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/traktor.mp4</value>
   </data>
