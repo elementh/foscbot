@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4B0AB378-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Bot", "FOSCBot.Bot\FOSCBot.Bot.csproj", "{991625E4-8D55-4F9B-99D3-01402BE50329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Core.Domain", "FOSCBot.Core.Domain\FOSCBot.Core.Domain.csproj", "{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Core.Old", "FOSCBot.Core.Old\FOSCBot.Core.Old.csproj", "{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{82D3B8CF-6971-4906-9F7F-7838EAC2911B}"
 ProjectSection(SolutionItems) = preProject

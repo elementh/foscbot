@@ -1,6 +1,6 @@
 using FOSCBot.Bot.Health;
 using FOSCBot.Common.Pipeline;
-using FOSCBot.Core.Domain.Inline.Default;
+using FOSCBot.Core.Old.Inline.Default;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using FOSCBot.Infrastructure.Implementation.Client;
