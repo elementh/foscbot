@@ -19,7 +19,6 @@
     <ItemGroup>
       <ProjectReference Include="..\FOSCBot.Core.Domain\FOSCBot.Core.Domain.csproj" />
       <ProjectReference Include="..\FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj" />
-      <ProjectReference Include="..\FOSCBot.Persistence.Migrations\FOSCBot.Persistence.Migrations.csproj" />
     </ItemGroup>
     
 </Project>

@@ -148,9 +148,6 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
-serviceScope?.ServiceProvider.GetRequiredService<NavigatorDbContext>().Database.Migrate();
-
 app.MapNavigator()
     .ForProvider.Telegram();
 

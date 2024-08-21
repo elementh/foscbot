@@ -8,8 +8,6 @@ COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core.Domain/*.csproj FOSCBot.Core.Domain/
 COPY FOSCBot.Infrastructure.Contract/*.csproj FOSCBot.Infrastructure.Contract/
 COPY FOSCBot.Infrastructure.Implementation/*.csproj FOSCBot.Infrastructure.Implementation/
-COPY FOSCBot.Persistence.Migrations/*.csproj FOSCBot.Persistence.Migrations/
-
 RUN dotnet restore -r linux-musl-x64
 
 COPY . .
