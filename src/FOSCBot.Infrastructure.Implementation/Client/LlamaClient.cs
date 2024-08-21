@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using FOSCBot.Infrastructure.Contract.Client;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Infrastructure.Implementation.Client;
