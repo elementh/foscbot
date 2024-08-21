@@ -112,5 +112,12 @@ public static class Commands
 
             await client.SendStickerAsync(chat, P4Sticker, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
         });
+        
+        catalog.OnCommand("quote", async (INavigatorClient client, Chat chat, IInspiroService quotes) =>
+        {
+            var quote = await quotes.GetInspiroImage();
+            
+            await client.SendPhotoAsync(chat, quote);
+        });
     }
 }
