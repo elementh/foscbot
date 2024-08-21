@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
       <PackageReference Include="Navigator" Version="3.0.0" />
     </ItemGroup>
 

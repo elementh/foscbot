@@ -8,6 +8,9 @@
 //------------------------------------------------------------------------------
 
 namespace FOSCBot.Core.Resources {
+    using System;
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,7 +28,7 @@ namespace FOSCBot.Core.Resources {
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("FOSCBot.Core.Domain.Resources.CoreResources", typeof(CoreResources).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("FOSCBot.Core.Resources.CoreResources", typeof(CoreResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -39,12 +42,6 @@ namespace FOSCBot.Core.Resources {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        internal static string AboutText {
-            get {
-                return ResourceManager.GetString("AboutText", resourceCulture);
             }
         }
         
