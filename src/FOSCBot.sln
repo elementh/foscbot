@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Cont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Implementation", "FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj", "{7CC4C395-7F2A-494F-896B-571C1A580C13}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{5F42FA00-DFEB-4CB2-88F8-096DB884CF66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
