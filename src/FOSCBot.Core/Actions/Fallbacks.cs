@@ -16,6 +16,13 @@ public static class Fallbacks
 {
     public static void RegisterFallbacks(this BotActionCatalogFactory catalog)
     {
+        // De-Bottomify Fallback
+        catalog.OnText(Bottomify.IsEncoded, async (INavigatorClient client, Chat chat, string text) =>
+        {
+                await client.SendTextMessageAsync(chat, $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",
+                    parseMode: ParseMode.Markdown);
+        });
+        
         // Random Word Fallback
         catalog.OnText((string text) =>
         {
@@ -47,13 +54,6 @@ public static class Fallbacks
         // Catch All Fallback
         catalog.OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, ILlamaService llm) =>
         {
-            if (string.IsNullOrWhiteSpace(message.Text) && Bottomify.IsEncoded(message.Text))
-            {
-                await client.SendTextMessageAsync(chat,
-                    $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(message.Text)}_",
-                    parseMode: ParseMode.Markdown);
-            }
-            
             if (RandomProvider.GetThreadRandom()!.Next(0, 600) < 598) return;
 
             var sentence = string.Empty;
