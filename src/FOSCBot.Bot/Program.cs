@@ -118,6 +118,7 @@ var app = builder.Build();
 var bot = app.GetBot();
 
 bot.RegisterCommands();
+bot.RegisterInlineQueries();
 
 app.MapNavigator();
 
