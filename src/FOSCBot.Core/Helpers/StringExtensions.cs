@@ -1,8 +1,6 @@
-﻿using static System.Char;
+﻿namespace FOSCBot.Core.Helpers;
 
-namespace FOSCBot.Common.Helper;
-
-public static class StringExtension
+public static class StringExtensions
 {
     public static bool ContainsWord(this string str, string word)
     {
@@ -70,7 +68,7 @@ public static class StringExtension
         
     public static bool IsAllUpper(this string? input)
     {
-        return input?.All(t => !IsLetter(t) || IsUpper(t)) ?? false;
+        return input?.All(t => !char.IsLetter(t) || char.IsUpper(t)) ?? false;
     }
 
     public static bool IsSticker(this string? input)
