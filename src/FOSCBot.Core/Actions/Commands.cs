@@ -105,7 +105,12 @@ public static class Commands
         {
             await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4");
         });
-        
-        
+
+        catalog.OnCommand("p4cock", async (INavigatorClient client, Chat chat, Message message) =>
+        {
+            const string P4Sticker = "CAACAgQAAxkBAAMvXn0csAE-VH1a5YlL_C3y_uvmyhoAAk4DAAIv22sAAQYHFmm8oYuhGAQ";
+
+            await client.SendStickerAsync(chat, P4Sticker, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
+        });
     }
 }
