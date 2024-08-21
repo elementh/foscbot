@@ -67,5 +67,12 @@ public static class Commands
             
             return await client.SendTextMessageAsync(chat, randomText);
         });
+        
+        catalog.OnCommand("coronashark", async (INavigatorClient client, Chat chat) =>
+        {
+            const string coronaSharkSticker = "CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE";
+            
+            await client.SendStickerAsync(chat, coronaSharkSticker);
+        });
     }
 }
