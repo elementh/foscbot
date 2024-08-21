@@ -17,12 +17,13 @@ public static class Commands
     {
         catalog.OnCommand("about", async (INavigatorClient client, Chat chat) =>
         {
-            const string about = """
-                                 More info about FOSC at [fosc.space](https://fosc.space).
-                                 Check out my source code at [foscbot](https://github.com/elementh/foscbot).
+            const string about = 
+                """
+                More info about FOSC at [fosc.space](https://fosc.space).
+                Check out my source code at [foscbot](https://github.com/elementh/foscbot).
 
-                                 Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) & many others for all the cool people at [FOSC](https://fosc.space). 
-                                 """;
+                Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) & many others for all the cool people at [FOSC](https://fosc.space). 
+                """;
             
             await client.SendTextMessageAsync(chat, about, parseMode: ParseMode.Markdown);
         });
@@ -124,6 +125,18 @@ public static class Commands
         {
             const string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
             await client.SendStickerAsync(chat, RaniiSticker);
+        });
+        
+        catalog.OnCommand("start", async (INavigatorClient client, Chat chat) =>
+        {
+            const string start = 
+                """
+                Hey there _newbie_. What is *FOSC*?
+                
+                FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture.
+                """;
+            
+            await client.SendTextMessageAsync(chat, start);
         });
     }
 }

@@ -74,11 +74,5 @@ namespace FOSCBot.Core.Resources {
                 return ResourceManager.GetString("NginxImage", resourceCulture);
             }
         }
-        
-        internal static string StartText {
-            get {
-                return ResourceManager.GetString("StartText", resourceCulture);
-            }
-        }
     }
 }
