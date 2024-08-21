@@ -124,7 +124,15 @@ public static class Commands
         catalog.OnCommand("raniilove", async (INavigatorClient client, Chat chat) =>
         {
             const string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
+            
             await client.SendStickerAsync(chat, RaniiSticker);
+        });
+        
+        catalog.OnCommand("sad", async (INavigatorClient client, Chat chat) =>
+        {
+            const string sadCrstian = "CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE";
+            
+            await client.SendStickerAsync(chat, sadCrstian);
         });
         
         catalog.OnCommand("start", async (INavigatorClient client, Chat chat) =>
