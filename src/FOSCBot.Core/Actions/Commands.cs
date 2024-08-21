@@ -144,7 +144,7 @@ public static class Commands
                 FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture.
                 """;
             
-            await client.SendTextMessageAsync(chat, start);
+            await client.SendTextMessageAsync(chat, start, parseMode: ParseMode.Markdown);
         });
 
         catalog.OnCommand("succ", async (INavigatorClient client, Chat chat, Message message) =>

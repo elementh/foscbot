@@ -1,6 +1,5 @@
-using FOSCBot.Bot.Health;
-using FOSCBot.Common.Pipeline;
-using FOSCBot.Core.Old.Inline.Default;
+
+using FOSCBot.Core.Actions;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
 using FOSCBot.Infrastructure.Implementation.Client;
@@ -9,11 +8,9 @@ using Incremental.Common.Configuration;
 using Incremental.Common.Logging;
 using Lamar.Diagnostics;
 using Lamar.Microsoft.DependencyInjection;
-using MediatR;
 using Navigator;
 using Navigator.Configuration;
-using Navigator.Extensions.Store;
-using Navigator.Providers.Telegram;
+using Navigator.Configuration.Options;
 using Polly;
 
 
@@ -23,27 +20,16 @@ builder.Configuration.AddCommonConfiguration();
 builder.Host.UseCommonLogging();
 builder.Host.UseLamar();
 
-builder.Services.AddControllers()
-    .AddNewtonsoftJson();
-
 builder.Services.AddDistributedMemoryCache();
-
+builder.Services.AddMemoryCache();
 #region Navigator
 
 builder.Services.AddNavigator(options =>
 {
-    options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]);
-    options.RegisterActionsFromAssemblies(typeof(DefaultInlineAction).Assembly);
-}).WithProvider.Telegram(options => { options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]); });
-
-#endregion
-
-#region Pipeline
-
-builder.Services.AddScoped<Watcher, Watcher>();
-
-builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipeline<,>));
-
+    options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
+    options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
+    options.EnableTypingNotification();
+});
 #endregion
 
 #region Infrastructure
@@ -122,21 +108,18 @@ builder.Services.AddScoped<IMemeService, MemeService>();
 
 #region Healthchecks
 
-builder.Services.AddHealthChecks()
-    .AddCheck<PythonHealthCheck>("Python");
+builder.Services.AddHealthChecks();
 builder.Services.CheckLamarConfiguration();
 
 #endregion
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-}
+var bot = app.GetBot();
 
-app.MapNavigator()
-    .ForProvider.Telegram();
+bot.RegisterCommands();
+
+app.MapNavigator();
 
 app.MapHealthChecks("/health");
 
