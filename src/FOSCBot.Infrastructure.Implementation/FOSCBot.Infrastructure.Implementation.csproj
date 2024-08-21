@@ -8,11 +8,11 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj"/>
         <ProjectReference Include="..\FOSCBot.Infrastructure.Contract\FOSCBot.Infrastructure.Contract.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     </ItemGroup>
