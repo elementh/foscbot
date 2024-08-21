@@ -120,6 +120,7 @@ var bot = app.GetBot();
 bot.RegisterCommands();
 bot.RegisterInlineQueries();
 bot.RegisterFallbacks();
+bot.RegisterInteractivity();
 
 app.MapNavigator();
 
