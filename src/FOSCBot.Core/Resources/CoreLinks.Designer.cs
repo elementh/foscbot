@@ -105,18 +105,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Succ {
-            get {
-                return ResourceManager.GetString("Succ", resourceCulture);
-            }
-        }
-        
-        internal static string SuccWithTeeth {
-            get {
-                return ResourceManager.GetString("SuccWithTeeth", resourceCulture);
-            }
-        }
-        
         internal static string Conke {
             get {
                 return ResourceManager.GetString("Conke", resourceCulture);

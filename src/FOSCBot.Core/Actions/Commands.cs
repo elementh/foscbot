@@ -146,5 +146,16 @@ public static class Commands
             
             await client.SendTextMessageAsync(chat, start);
         });
+
+        catalog.OnCommand("succ", async (INavigatorClient client, Chat chat, Message message) =>
+        {
+            var chance = RandomProvider.GetThreadRandom()!.NextDouble();
+            
+            var link = chance < 0.7d 
+                ? "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ.mp4" 
+                : "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4";
+
+            await client.SendVideoAsync(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
+        });
     }
 }
