@@ -93,11 +93,8 @@ public static class Miscellaneous
             .WithName("Miscellaneous.BtwArch");
 
         catalog
-            .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase),
-                async (INavigatorClient client, Chat chat) =>
-                {
-                    await client.SendStickerAsync(chat, "CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA");
-                })
+            .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase))
+            .SendSticker("CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA")
             .WithChances(0.4)
             .WithName("Miscellaneous.DjEspanita");
 

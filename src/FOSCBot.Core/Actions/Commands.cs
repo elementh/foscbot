@@ -1,6 +1,5 @@
 using Bottom;
 using FOSCBot.Core.Helpers;
-using FOSCBot.Core.Resources;
 using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
 using Navigator.Catalog.Factory;
@@ -47,29 +46,20 @@ public static class Commands
             ];
 
             if (string.IsNullOrWhiteSpace(message.ReplyToMessage?.Text) is false)
-            {
                 return await client.SendTextMessageAsync(chat, Bottomify.EncodeString(message.ReplyToMessage.Text),
                     replyParameters: message.ReplyToMessage);
-            }
 
             var input = message.Text?.Remove(0, message.Text.IndexOf(' ') + 1);
 
-            if (!string.IsNullOrWhiteSpace(input))
-            {
-                return await client.SendTextMessageAsync(chat, Bottomify.EncodeString(input));
-            }
+            if (!string.IsNullOrWhiteSpace(input)) return await client.SendTextMessageAsync(chat, Bottomify.EncodeString(input));
 
             var randomText = Bottomify.EncodeString(lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)]);
 
             return await client.SendTextMessageAsync(chat, randomText);
         });
 
-        catalog.OnCommand("coronashark", async (INavigatorClient client, Chat chat) =>
-        {
-            const string coronaSharkSticker = "CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE";
-
-            await client.SendStickerAsync(chat, coronaSharkSticker);
-        });
+        catalog.OnCommand("coronashark")
+            .SendSticker("CAACAgQAAxkBAAI4_l59L095Ep-xxos5f_7KBYkVlbu5AAKcBgACL9trAAF-dsaP9FZw_hgE");
 
         catalog.OnCommand("matalo",
             async (INavigatorClient client, Chat chat, Message message, IInsultService insults, IYesNoService yesNo) =>
@@ -78,19 +68,14 @@ public static class Commands
                 {
                     var answer = await yesNo.GetNoImage(CancellationToken.None);
 
-                    if (!string.IsNullOrWhiteSpace(answer))
-                    {
-                        return await client.SendVideoAsync(chat, answer, replyParameters: message);
-                    }
+                    if (!string.IsNullOrWhiteSpace(answer)) return await client.SendVideoAsync(chat, answer, replyParameters: message);
                 }
                 else
                 {
                     var insult = await insults.GetInsult(CancellationToken.None);
 
                     if (!string.IsNullOrWhiteSpace(insult))
-                    {
                         return await client.SendTextMessageAsync(chat, insult, replyParameters: message);
-                    }
                 }
 
                 return default;
@@ -102,12 +87,8 @@ public static class Commands
                 await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4");
             });
 
-        catalog.OnCommand("p4cock", async (INavigatorClient client, Chat chat, Message message) =>
-        {
-            const string P4Sticker = "CAACAgQAAxkBAAMvXn0csAE-VH1a5YlL_C3y_uvmyhoAAk4DAAIv22sAAQYHFmm8oYuhGAQ";
-
-            await client.SendStickerAsync(chat, P4Sticker, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
-        });
+        catalog.OnCommand("p4cock")
+            .SendSticker("CAACAgQAAxkBAAMvXn0csAE-VH1a5YlL_C3y_uvmyhoAAk4DAAIv22sAAQYHFmm8oYuhGAQ", toReply: true);
 
         catalog.OnCommand("quote", async (INavigatorClient client, Chat chat, IInspiroService quotes) =>
         {
@@ -116,19 +97,11 @@ public static class Commands
             await client.SendPhotoAsync(chat, quote);
         });
 
-        catalog.OnCommand("raniilove", async (INavigatorClient client, Chat chat) =>
-        {
-            const string RaniiSticker = "CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA";
+        catalog.OnCommand("raniilove")
+            .SendSticker("CAACAgEAAxkBAAMyXn0ejAABhNQUUOtuxi41w8zpW1kbAAKNAAM4DoIRRihUBMGXYkoYBA");
 
-            await client.SendStickerAsync(chat, RaniiSticker);
-        });
-
-        catalog.OnCommand("sad", async (INavigatorClient client, Chat chat) =>
-        {
-            const string sadCrstian = "CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE";
-
-            await client.SendStickerAsync(chat, sadCrstian);
-        });
+        catalog.OnCommand("sad")
+            .SendSticker("CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE");
 
         catalog.OnCommand("start", async (INavigatorClient client, Chat chat) =>
         {
@@ -153,12 +126,8 @@ public static class Commands
             await client.SendVideoAsync(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
         });
 
-        catalog.OnCommand("upct", async (INavigatorClient client, Chat chat) =>
-        {
-            const string sticker = "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE";
-
-            await client.SendStickerAsync(chat, sticker);
-        });
+        catalog.OnCommand("upct")
+            .SendSticker("CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE");
 
         catalog.OnCommand("want").SendRandomStickerFrom([
             "CAACAgQAAxkBAAI5Yl59xpGz9uvLhFud46MfBOsOKAEZAAKRAAPXYpsOoD4HwY0npyEYBA",
