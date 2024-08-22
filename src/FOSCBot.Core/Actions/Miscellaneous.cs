@@ -35,7 +35,7 @@ public static class Miscellaneous
                 "CAACAgIAAxkBAAI7I16Akqs0MGoJKRvozewtn8rD-s-BAAKYBwACYyviCTG5W40KakR2GAQ",
                 "CAACAgIAAxkBAAI7Jl6Akxqjt-lLYrVUo5I4NjgNaNigAAKDBwACYyviCX-4JBrvWaA3GAQ"
             ])
-            .WithName("B$llGates");
+            .WithName("Mischellaneous.B$llGates");
 
         catalog
             .OnText((string text) => text.Contains("blahaj", StringComparison.InvariantCultureIgnoreCase))
@@ -79,7 +79,7 @@ public static class Miscellaneous
                 "CAACAgIAAxkBAAI5qF595LRyI-3cunhHD-CUZ1IM2Ku8AALKDwAC6NbiEvmAF_7XoCYTGAQ",
                 "CAACAgIAAxkBAAI5ql595LWQ7XvK70ghpTZSrNMiTl7BAALLDwAC6NbiEppFzKtgf6JyGAQ"
             ])
-            .WithName("Blahaj");
+            .WithName("Miscellaneous.Blahaj");
 
         catalog
             .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase),
@@ -90,7 +90,16 @@ public static class Miscellaneous
                 })
             .WithChances(0.4)
             .WithName("Miscellaneous.BtwArch");
-        
+
+        catalog
+            .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase),
+                async (INavigatorClient client, Chat chat) =>
+                {
+                    await client.SendStickerAsync(chat, "CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA");
+                })
+            .WithChances(0.4)
+            .WithName("Miscellaneous.DjEspanita");
+
         catalog
             .OnText((string text) =>
                 text.ToLower().Contains("elon musk") ||
@@ -122,8 +131,8 @@ public static class Miscellaneous
                     await client.SendPhotoAsync(chat, new InputFileStream(stream, "heybroniced.jpg"));
                 })
             .WithChances(0.5)
-            .WithName("HeyBro");
-        
+            .WithName("Miscellaneous.HeyBro");
+
         catalog
             .OnText((string text) =>
                 text.ToLower().Contains("je ") ||
@@ -180,6 +189,6 @@ public static class Miscellaneous
                 "CAACAgEAAxkBAAI5V159xHeYdoptiC57-xPpRa394tDgAAIgAwACzcclBdluT-36S2ydGAQ"
             ])
             .WithChances(0.3)
-            .WithName("UwU");
+            .WithName("Miscellaneous.UwU");
     }
 }
