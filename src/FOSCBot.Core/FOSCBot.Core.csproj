@@ -9,7 +9,7 @@
     <ItemGroup>
       <PackageReference Include="Bottom.NET" Version="3.1.0" />
       <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
-      <PackageReference Include="Navigator" Version="3.1.0" />
+      <PackageReference Include="Navigator" Version="3.2.0" />
     </ItemGroup>
 
     <ItemGroup>
