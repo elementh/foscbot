@@ -45,12 +45,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Ice {
-            get {
-                return ResourceManager.GetString("Ice", resourceCulture);
-            }
-        }
-        
         internal static string Ipad {
             get {
                 return ResourceManager.GetString("Ipad", resourceCulture);

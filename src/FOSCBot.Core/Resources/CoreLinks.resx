@@ -15,9 +15,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Ice" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4</value>
-  </data>
   <data name="Ipad" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/ipad.png</value>
   </data>

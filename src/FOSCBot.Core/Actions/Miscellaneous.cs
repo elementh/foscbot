@@ -1,5 +1,6 @@
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Resources;
+using Incremental.Common.Random;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
@@ -134,6 +135,29 @@ public static class Miscellaneous
             .WithName("Miscellaneous.HeyBro");
 
         catalog
+            .OnMessage((Message message) =>
+                {
+                    if (message.Text?.Contains("fucking ice", StringComparison.CurrentCultureIgnoreCase) is true) return true;
+
+                    if (RandomProvider.GetThreadRandom()!.NextDouble() < 0.2d) return false;
+
+                    return message.Text?.StartsWith("ice", StringComparison.CurrentCultureIgnoreCase) is true ||
+                           message.Text?.Contains(" ice ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                           message.Text?.Contains(" ice?", StringComparison.CurrentCultureIgnoreCase) is true ||
+                           message.Text?.Contains(" hielo ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                           message.Text?.Contains(" cold ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                           message.Sticker?.Emoji?.Equals("🥶") is true ||
+                           message.Sticker?.Emoji?.Equals("🧊") is true ||
+                           message.Sticker?.Emoji?.Equals("❄️") is true;
+                },
+                async (INavigatorClient client, Chat chat) =>
+                {
+                    await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4");
+                })
+            .WithName("Miscellaneous.Ice");
+
+
+        catalog
             .OnText((string text) =>
                 text.ToLower().Contains("je ") ||
                 text.ToLower().Contains(" je") ||
@@ -152,7 +176,7 @@ public static class Miscellaneous
                 "CAACAgIAAxkBAAI5Gl59vfg4AefyKXIXUAMOdoCs6gNAAALNBwACGELuCPlfWYiQZaQiGAQ"
             ])
             .WithName("Miscellaneous.Jeje");
-        
+
         catalog
             .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase),
                 async (INavigatorClient client, Chat chat) =>
@@ -161,7 +185,7 @@ public static class Miscellaneous
                 })
             .WithChances(0.8)
             .WithName("Miscellaneous.KeepItSimple");
-        
+
         catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
