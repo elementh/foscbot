@@ -68,8 +68,7 @@ public static class Stickers
             .WithName("Blahaj");
 
         catalog
-            .OnText((string text) => RandomProvider.GetThreadRandom()!.NextDouble() <= 0.3 &&
-                                     text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
                 "CAACAgEAAxkBAAI5JF59w6XM_AcpKByOoe1DtXyJuAr0AAL4AgACzcclBQ7jFynAjnWwGAQ",
                 "CAACAgEAAxkBAAI5JV59w6Vh9gyqRgRr0l0OWEtDLfT8AAL5AgACzcclBeHXi8c4JWp_GAQ",
@@ -103,6 +102,7 @@ public static class Stickers
                 "CAACAgEAAxkBAAI5VF59xHaB-gErBEkh9DXZaHDe9eLaAAIOAwACzcclBfGcKSkKZF2bGAQ",
                 "CAACAgEAAxkBAAI5V159xHeYdoptiC57-xPpRa394tDgAAIgAwACzcclBdluT-36S2ydGAQ"
             ])
+            .WithChances(0.3)
             .WithName("UwU");
 
         catalog

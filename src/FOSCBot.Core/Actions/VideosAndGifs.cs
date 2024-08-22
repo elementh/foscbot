@@ -15,12 +15,12 @@ public static class VideosAndGifs
         // Based
         catalog.OnText((string text) =>
         {
-            return RandomProvider.GetThreadRandom()!.NextDouble() <= 0.2d && text.ToLower().Equals("based") ||
-                   text.Equals("BASED");
+            return text.ToLower().Equals("based") || text.Equals("BASED");
         }, async (INavigatorClient client, Chat chat) =>
         {
             const string based = "https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4";
             await client.SendVideoAsync(chat, based);
-        });
+        })
+        .WithChances(0.2);
     }
 }
