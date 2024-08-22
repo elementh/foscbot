@@ -152,7 +152,16 @@ public static class Miscellaneous
                 "CAACAgIAAxkBAAI5Gl59vfg4AefyKXIXUAMOdoCs6gNAAALNBwACGELuCPlfWYiQZaQiGAQ"
             ])
             .WithName("Miscellaneous.Jeje");
-
+        
+        catalog
+            .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase),
+                async (INavigatorClient client, Chat chat) =>
+                {
+                    await client.SendTextMessageAsync(chat, "Keep it simple, and don't be a dick, bro. 🤗");
+                })
+            .WithChances(0.8)
+            .WithName("Miscellaneous.KeepItSimple");
+        
         catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
