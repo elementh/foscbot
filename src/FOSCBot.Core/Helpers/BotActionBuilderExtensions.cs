@@ -19,18 +19,24 @@ public static class BotActionBuilderExtensions
     public static BotActionBuilder SendRandomStickerFrom(this BotActionBuilder builder, string[] stickers, bool asReply = false,
         bool toReply = false)
     {
-        builder.SetHandler(async (INavigatorClient client, Chat chat, Message message) =>
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
         {
-            var randomSticker = stickers[RandomProvider.GetThreadRandom()!.Next(0, stickers.Length)];
+            if (stickers.Length == 0 || chat is null) return;
 
+            var randomSticker = stickers.Length switch
+            {
+                1 => stickers[0],
+                _ => stickers[RandomProvider.GetThreadRandom()!.Next(0, stickers.Length)]
+            };
+            
             var replyParameters = default(ReplyParameters);
 
-            if (asReply)
+            if (asReply && message is not null)
             {
                 replyParameters = message;
             }
 
-            if (toReply && message.ReplyToMessage is not null)
+            if (toReply && message?.ReplyToMessage is not null)
             {
                 replyParameters = message.ReplyToMessage;
             }

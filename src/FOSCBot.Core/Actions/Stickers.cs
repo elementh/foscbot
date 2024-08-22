@@ -68,7 +68,8 @@ public static class Stickers
             .WithName("Blahaj");
 
         catalog
-            .OnText((string text) => RandomProvider.GetThreadRandom()!.NextDouble() <= 0.3 && text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => RandomProvider.GetThreadRandom()!.NextDouble() <= 0.3 &&
+                                     text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
                 "CAACAgEAAxkBAAI5JF59w6XM_AcpKByOoe1DtXyJuAr0AAL4AgACzcclBQ7jFynAjnWwGAQ",
                 "CAACAgEAAxkBAAI5JV59w6Vh9gyqRgRr0l0OWEtDLfT8AAL5AgACzcclBeHXi8c4JWp_GAQ",
@@ -103,5 +104,25 @@ public static class Stickers
                 "CAACAgEAAxkBAAI5V159xHeYdoptiC57-xPpRa394tDgAAIgAwACzcclBdluT-36S2ydGAQ"
             ])
             .WithName("UwU");
+
+        catalog
+            .OnText((string text) =>
+                text.ToLower().Contains("elon musk") ||
+                text.ToLower().StartsWith("elon") ||
+                text.ToLower().Contains("elon ") ||
+                text.ToLower().EndsWith(" elon") ||
+                text.ToLower().StartsWith("musk") ||
+                text.ToLower().Contains("musk ") ||
+                text.ToLower().EndsWith(" musk")
+            )
+            .SendRandomStickerFrom([
+                "CAACAgIAAxkBAAECGX9gWyite1lkgqD944zLdk31Cn_MbQACmggAAnlc4gmF6N5K1J_nix4E",
+                "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
+                "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
+                "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
+                "CAACAgIAAxkBAAECGYtgWyj4FPWvacn18y11asl4Qq8rZgAC7wgAAnlc4gnztBdi0FWsRh4E",
+                "CAACAgIAAxkBAAECGY1gWyj6c-QMcGzNPWtfiGaPZE0WcwACkggAAnlc4glg2uUwtwJdvR4E"
+            ])
+            .WithName("Felon Mask");
     }
 }
