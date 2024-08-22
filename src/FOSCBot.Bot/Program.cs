@@ -121,9 +121,7 @@ bot.RegisterCommands();
 bot.RegisterInlineQueries();
 bot.RegisterFallbacks();
 bot.RegisterInteractivity();
-bot.RegisterPhotos();
-bot.RegisterStickers();
-bot.RegisterVideosAndGifs();
+bot.RegisterMiscellaneous();
 
 app.MapNavigator();
 
