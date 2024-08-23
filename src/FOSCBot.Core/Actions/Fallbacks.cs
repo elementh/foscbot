@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Bottom;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Infrastructure.Contract.Service;
@@ -12,19 +13,19 @@ using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Actions;
 
-public static class Fallbacks
+public static partial class Fallbacks
 {
+    [Experimental("SKEXP0001")]
     public static void RegisterFallbacks(this BotActionCatalogFactory catalog)
     {
-        // De-Bottomify Fallback
         catalog.OnText(Bottomify.IsEncoded, async (INavigatorClient client, Chat chat, string text) =>
-        {
-            await client.SendTextMessageAsync(chat,
-                $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",
-                parseMode: ParseMode.Markdown);
-        });
+            {
+                await client.SendTextMessageAsync(chat,
+                    $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",
+                    parseMode: ParseMode.Markdown);
+            })
+            .WithName("Fallback.DeBottomify");
 
-        // Random Word Fallback
         catalog.OnText((string text) =>
             {
                 var word = text.Trim().Split(" ").FirstOrDefault() ?? string.Empty;
@@ -33,16 +34,13 @@ public static class Fallbacks
             {
                 var gifUrl = await giphy.Get(text.Trim().Split(" ").FirstOrDefault() ?? string.Empty);
 
-                if (gifUrl is not null)
-                {
-                    await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
-                }
+                if (gifUrl is not null) await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
             })
             .WithChances(0.4)
             .WithCooldown(TimeSpan.FromMinutes(15))
-            .WithPriority(Priority.Low - 100);
+            .WithPriority(Priority.Low - 100)
+            .WithName("Fallback.SomewhatRandomGIF");
 
-        // Chinese Police Fallback
         catalog.OnMessage(() => true, async (INavigatorClient client, Chat chat) =>
             {
                 const string text =
@@ -55,7 +53,8 @@ public static class Fallbacks
             })
             .WithChances(0.7)
             .WithCooldown(TimeSpan.FromDays(15))
-            .WithPriority(Priority.Low);
+            .WithPriority(Priority.Low)
+            .WithName("Fallback.ChinesePolice");
 
         // Catch All Fallback
         catalog
@@ -70,27 +69,35 @@ public static class Fallbacks
                     sentence = response;
                 }
 
-                var odds = RandomProvider.GetThreadRandom().Next(0, 20);
+                var odds = RandomProvider.GetThreadRandom()!.Next(0, 20);
 
-                if (odds is >= 0 and < 3)
+                switch (odds)
                 {
-                    sentence = await lipsum.GetBacon();
-                }
-                else if (odds is >= 3 and < 10)
-                {
-                    sentence = await lipsum.GetMetaphorSentence();
-                }
-                else if (message.Text?.Split(' ').Length > 3)
-                {
-                    sentence = MockFilter.Apply(message.Text);
+                    case >= 0 and < 3:
+                        sentence = await lipsum.GetBacon();
+                        break;
+                    case >= 3 and < 10:
+                        sentence = await lipsum.GetMetaphorSentence();
+                        break;
+                    default:
+                    {
+                        if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
+                        break;
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(sentence))
-                {
                     await client.SendTextMessageAsync(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
-                }
             })
-            .WithChances(0.99)
-            .WithPriority(Priority.Low + 1000);
+            .WithChances(0.02)
+            .WithPriority(Priority.Low)
+            .WithName("Fallback.CatchAllOLD");
+
+        catalog
+            .OnMessage(() => true)
+            .SetHandler(CatchAllHandler)
+            // .WithChances(0.05)
+            .WithPriority(Priority.Low)
+            .WithName("Fallback.CatchAll");
     }
 }

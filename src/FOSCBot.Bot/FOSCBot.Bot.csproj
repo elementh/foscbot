@@ -7,16 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Incremental.Common.Configuration" Version="3.0.1" />
-        <PackageReference Include="Incremental.Common.Logging" Version="2.2.0" />
-        <PackageReference Include="Lamar.Diagnostics" Version="13.1.0" />
-        <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="13.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.8" />
+        <PackageReference Include="Incremental.Common.Configuration" Version="3.0.1"/>
+        <PackageReference Include="Incremental.Common.Logging" Version="2.2.0"/>
+        <PackageReference Include="Lamar.Diagnostics" Version="13.1.0"/>
+        <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="13.1.0"/>
+        <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.17.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj" />
-      <ProjectReference Include="..\FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj" />
+        <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj"/>
+        <ProjectReference Include="..\FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj"/>
     </ItemGroup>
-    
+
 </Project>
