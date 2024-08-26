@@ -250,6 +250,12 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Nginx");
 
         catalog
+            .OnText((string text) => text.Equals("NO") || text.Equals("NOPE"))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4")
+            .WithChances(0.5)
+            .WithName("Miscellaneous.Nope");
+
+        catalog
             .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
             .WithChances(0.4)
