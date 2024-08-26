@@ -107,7 +107,8 @@ public static class Miscellaneous
             .WithChances(0.4)
             .WithName("Miscellaneous.DjEspanita");
 
-        catalog.OnText((string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) && !text.ToLower().ContainsUrl())
+        catalog.OnText(
+                (string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) && !text.ToLower().ContainsUrl())
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4",
                 "Elegance is achieved when all that is superfluous has been discarded and the human being discovers simplicity and concentration: the simpler and more sober the posture, the more beautiful it will be.")
             .WithName("Miscellaneous.Elegant");
@@ -193,6 +194,16 @@ public static class Miscellaneous
                 })
             .WithChances(0.8)
             .WithName("Miscellaneous.KeepItSimple");
+
+        catalog.OnMessage((Message message) =>
+            {
+                return message.Text?.ToLower().Equals("sad") is true
+                       || message.Text?.ToLower().Contains(" sad ") is true
+                       || message.Sticker?.Emoji is "😔" or "😢" or "😞" or "😭";
+            })
+            .SendSticker("CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE")
+            .WithChances(0.6)
+            .WithName("Miscellaneous.Sad");
 
         catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
