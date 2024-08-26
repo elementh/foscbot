@@ -40,21 +40,6 @@
     <data name="CbtExplanation" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4</value>
   </data>
-    <data name="NFT" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nft.jpg</value>
-  </data>
-    <data name="NFToad" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftoad.jpg</value>
-  </data>
-    <data name="NFTractor" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftractor.jpg</value>
-  </data>
-    <data name="NFTattoo" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftattoo.jpg</value>
-  </data>
-    <data name="NFTu" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png</value>
-  </data>
     <data name="MuchoTexto" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/muchotexto.jpg</value>
   </data>

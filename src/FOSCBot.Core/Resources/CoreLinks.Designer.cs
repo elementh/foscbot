@@ -87,36 +87,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string NFT {
-            get {
-                return ResourceManager.GetString("NFT", resourceCulture);
-            }
-        }
-        
-        internal static string NFToad {
-            get {
-                return ResourceManager.GetString("NFToad", resourceCulture);
-            }
-        }
-        
-        internal static string NFTractor {
-            get {
-                return ResourceManager.GetString("NFTractor", resourceCulture);
-            }
-        }
-        
-        internal static string NFTattoo {
-            get {
-                return ResourceManager.GetString("NFTattoo", resourceCulture);
-            }
-        }
-        
-        internal static string NFTu {
-            get {
-                return ResourceManager.GetString("NFTu", resourceCulture);
-            }
-        }
-        
         internal static string MuchoTexto {
             get {
                 return ResourceManager.GetString("MuchoTexto", resourceCulture);

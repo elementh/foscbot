@@ -255,11 +255,11 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("nft", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomPhotoFrom([
-                CoreLinks.NFT,
-                CoreLinks.NFToad,
-                CoreLinks.NFTractor,
-                CoreLinks.NFTattoo,
-                CoreLinks.NFTu
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nft.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftoad.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftractor.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftattoo.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png"
             ])
             .WithChances(0.6)
             .WithName("Miscellaneous.NFT");
