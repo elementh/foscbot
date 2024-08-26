@@ -25,9 +25,6 @@
     <data name="IpadAudio" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/audio/ipad.ogg</value>
   </data>
-    <data name="Nice" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4</value>
-  </data>
     <data name="P4hit" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/p4hit.mp4</value>
   </data>
@@ -58,7 +55,7 @@
     <data name="NFTu" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png</value>
   </data>
-  <data name="MuchoTexto" xml:space="preserve">
+    <data name="MuchoTexto" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/muchotexto.jpg</value>
   </data>
 </root>

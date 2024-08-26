@@ -57,12 +57,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Nice {
-            get {
-                return ResourceManager.GetString("Nice", resourceCulture);
-            }
-        }
-        
         internal static string P4hit {
             get {
                 return ResourceManager.GetString("P4hit", resourceCulture);

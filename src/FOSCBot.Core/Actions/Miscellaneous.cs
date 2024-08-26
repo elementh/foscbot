@@ -19,7 +19,7 @@ public static partial class Miscellaneous
             .OnText((string text) => text.ToLower().Equals("based") || text.Equals("BASED"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4")
             .WithChances(0.2)
-            .WithName("Mischellaneous.Based");
+            .WithName("Miscellaneous.Based");
 
         catalog
             .OnText((string text) => text.Contains("bill gates", StringComparison.CurrentCultureIgnoreCase) ||
@@ -33,7 +33,7 @@ public static partial class Miscellaneous
                 "CAACAgIAAxkBAAI7I16Akqs0MGoJKRvozewtn8rD-s-BAAKYBwACYyviCTG5W40KakR2GAQ",
                 "CAACAgIAAxkBAAI7Jl6Akxqjt-lLYrVUo5I4NjgNaNigAAKDBwACYyviCX-4JBrvWaA3GAQ"
             ])
-            .WithName("Mischellaneous.B$llGates");
+            .WithName("Miscellaneous.B$llGates");
 
         catalog
             .OnText((string text) => text.Contains("blahaj", StringComparison.InvariantCultureIgnoreCase))
@@ -230,7 +230,14 @@ public static partial class Miscellaneous
             .WithChances(0.6)
             .WithName("Miscellaneous.NFT");
 
-        catalog.OnText((string text) => text.Contains("nginx", StringComparison.CurrentCultureIgnoreCase))
+        catalog
+            .OnText((string text) => text.Contains("NICE"))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4")
+            .WithChances(0.7)
+            .WithName("Miscellaneous.Nice");
+
+        catalog
+            .OnText((string text) => text.Contains("nginx", StringComparison.CurrentCultureIgnoreCase))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
                 var bytes = Convert.FromBase64String(CoreResources.NginxImage);
