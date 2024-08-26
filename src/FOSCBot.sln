@@ -6,11 +6,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4B0AB378-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Bot", "FOSCBot.Bot\FOSCBot.Bot.csproj", "{991625E4-8D55-4F9B-99D3-01402BE50329}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{82D3B8CF-6971-4906-9F7F-7838EAC2911B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{82D3B8CF-6971-4906-9F7F-7838EAC2911B}"
 ProjectSection(SolutionItems) = preProject
 	.dockerignore = .dockerignore
 	Dockerfile = Dockerfile
 	..\.github\workflows\service.yml = ..\.github\workflows\service.yml
+	global.json = global.json
+	..\LICENSE = ..\LICENSE
+	..\README.md = ..\README.md
+	nuget.config = nuget.config
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}"
