@@ -219,6 +219,18 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Megratron");
 
         catalog
+            .OnText((string text) => text.Contains("nft", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomPhotoFrom([
+                CoreLinks.NFT,
+                CoreLinks.NFToad,
+                CoreLinks.NFTractor,
+                CoreLinks.NFTattoo,
+                CoreLinks.NFTu
+            ])
+            .WithChances(0.6)
+            .WithName("Miscellaneous.NFT");
+
+        catalog
             .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
             .WithChances(0.4)
