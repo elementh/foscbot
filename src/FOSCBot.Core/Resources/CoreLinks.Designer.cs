@@ -63,12 +63,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Nvidia {
-            get {
-                return ResourceManager.GetString("Nvidia", resourceCulture);
-            }
-        }
-        
         internal static string P4hit {
             get {
                 return ResourceManager.GetString("P4hit", resourceCulture);

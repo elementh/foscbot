@@ -204,11 +204,18 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.KeepItSimple");
 
         catalog
+            .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
+            .WithChances(0.4)
+            .WithName("Miscellaneous.Nvidia");
+
+        catalog
             .OnText((string text) => text.Contains("REE"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4")
             .WithName("Miscellaneous.Ree");
 
-        catalog.OnMessage((Message message) =>
+        catalog
+            .OnMessage((Message message) =>
             {
                 return message.Text?.ToLower().Equals("sad") is true
                        || message.Text?.ToLower().Contains(" sad ") is true
@@ -313,7 +320,8 @@ public static partial class Miscellaneous
             .WithChances(0.3)
             .WithName("Miscellaneous.UwU");
 
-        catalog.OnText((string text) => WaghRegex().IsMatch(text))
+        catalog
+            .OnText((string text) => WaghRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
             .WithName("Miscellaneous.Wagh");
 
