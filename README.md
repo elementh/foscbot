@@ -25,10 +25,6 @@ You will need to setup some ENV variables:
 - `BOT_URL`. This bot runs on webhooks, you need to specify the domain which your bot will receive updates.
 - `GIPHY_API_KEY`. Your giphy api key for the gif responses.
 
-And optionally:
-
-- `AWS_ACCESS_KEY` and `AWS_SECRET_KEY`. For sending the logs to AWS CloudWatch.
-
 ## License
 
 FOSCBot - FOSC's official telegram bot.
@@ -36,14 +32,14 @@ FOSCBot - FOSC's official telegram bot.
 Copyright (C) 2022  Lucas Maximiliano Marino <https://lucasmarino.me>
 
 This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published
+it under the terms of the GNU General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.

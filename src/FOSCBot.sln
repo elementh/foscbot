@@ -4,20 +4,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bot", "Bot", "{D4C15C65-C72
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4B0AB378-55D2-4A88-8C5D-A665885C33CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Bot.Api", "FOSCBot.Bot.Api\FOSCBot.Bot.Api.csproj", "{991625E4-8D55-4F9B-99D3-01402BE50329}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Bot", "FOSCBot.Bot\FOSCBot.Bot.csproj", "{991625E4-8D55-4F9B-99D3-01402BE50329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Core.Domain", "FOSCBot.Core.Domain\FOSCBot.Core.Domain.csproj", "{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{82D3B8CF-6971-4906-9F7F-7838EAC2911B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{82D3B8CF-6971-4906-9F7F-7838EAC2911B}"
 ProjectSection(SolutionItems) = preProject
 	.dockerignore = .dockerignore
 	Dockerfile = Dockerfile
 	..\.github\workflows\service.yml = ..\.github\workflows\service.yml
+	global.json = global.json
+	..\LICENSE = ..\LICENSE
+	..\README.md = ..\README.md
+	nuget.config = nuget.config
 EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A6D1EE06-1A24-4540-8A6E-67C28391C8C3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Common", "FOSCBot.Common\FOSCBot.Common.csproj", "{1DF1F3B1-A429-41BC-80B3-807265437DBF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}"
 EndProject
@@ -25,9 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Cont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Infrastructure.Implementation", "FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj", "{7CC4C395-7F2A-494F-896B-571C1A580C13}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{5F42FA00-DFEB-4CB2-88F8-096DB884CF66}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Persistence.Migrations", "FOSCBot.Persistence.Migrations\FOSCBot.Persistence.Migrations.csproj", "{019E51D6-30B2-488B-B740-C9BE5D2E18EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FOSCBot.Core", "FOSCBot.Core\FOSCBot.Core.csproj", "{92FA9FEA-9923-48BE-A1D3-520EB6F2C293}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,25 +32,15 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{991625E4-8D55-4F9B-99D3-01402BE50329} = {D4C15C65-C726-4656-B71A-3ECD1BFE0BF1}
-		{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09} = {4B0AB378-55D2-4A88-8C5D-A665885C33CB}
-		{1DF1F3B1-A429-41BC-80B3-807265437DBF} = {A6D1EE06-1A24-4540-8A6E-67C28391C8C3}
 		{2205BE4A-59A2-4A21-8AE5-035B72BFAD2F} = {4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}
 		{7CC4C395-7F2A-494F-896B-571C1A580C13} = {4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}
-		{019E51D6-30B2-488B-B740-C9BE5D2E18EC} = {5F42FA00-DFEB-4CB2-88F8-096DB884CF66}
+		{92FA9FEA-9923-48BE-A1D3-520EB6F2C293} = {4B0AB378-55D2-4A88-8C5D-A665885C33CB}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{991625E4-8D55-4F9B-99D3-01402BE50329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{991625E4-8D55-4F9B-99D3-01402BE50329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991625E4-8D55-4F9B-99D3-01402BE50329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991625E4-8D55-4F9B-99D3-01402BE50329}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4EBDF16-D0D8-4133-9DCA-2605BFA27C09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DF1F3B1-A429-41BC-80B3-807265437DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DF1F3B1-A429-41BC-80B3-807265437DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DF1F3B1-A429-41BC-80B3-807265437DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DF1F3B1-A429-41BC-80B3-807265437DBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2205BE4A-59A2-4A21-8AE5-035B72BFAD2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2205BE4A-59A2-4A21-8AE5-035B72BFAD2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2205BE4A-59A2-4A21-8AE5-035B72BFAD2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,9 +49,9 @@ Global
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC4C395-7F2A-494F-896B-571C1A580C13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{019E51D6-30B2-488B-B740-C9BE5D2E18EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92FA9FEA-9923-48BE-A1D3-520EB6F2C293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92FA9FEA-9923-48BE-A1D3-520EB6F2C293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92FA9FEA-9923-48BE-A1D3-520EB6F2C293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92FA9FEA-9923-48BE-A1D3-520EB6F2C293}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

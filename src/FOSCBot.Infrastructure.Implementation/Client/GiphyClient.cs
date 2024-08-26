@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using FOSCBot.Common.Helper;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Model;
+using Incremental.Common.Random;
 using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Infrastructure.Implementation.Client;
@@ -22,7 +22,7 @@ public class GiphyClient : IGiphyClient
     public async Task<Uri?> Get(string text, CancellationToken cancellationToken = default)
     {
         var response = await Client.GetAsync(
-            $"v1/gifs/translate?api_key={Options.ApiKey}&s={text}&weirdness={RandomProvider.GetThreadRandom().Next(1, 10)}", cancellationToken);
+            $"v1/gifs/translate?api_key={Options.ApiKey}&s={text}&weirdness={RandomProvider.GetThreadRandom()!.Next(1, 10)}", cancellationToken);
 
         response.EnsureSuccessStatusCode();
 
