@@ -3,13 +3,14 @@ using Navigator.Actions.Builder;
 using Navigator.Client;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Chat = Telegram.Bot.Types.Chat;
 
 namespace FOSCBot.Core.Helpers;
 
 public static class BotActionBuilderExtensions
 {
-    public static BotActionBuilder SendPhoto(this BotActionBuilder builder, string photo, bool asReply = false,
+    public static BotActionBuilder SendPhoto(this BotActionBuilder builder, string photo, string? caption = null, bool asReply = false,
         bool toReply = false)
     {
         builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
@@ -22,7 +23,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendPhotoAsync(chat, photo, replyParameters: replyParameters);
+            await client.SendPhotoAsync(chat, photo, caption: caption, replyParameters: replyParameters);
         });
 
         return builder;
@@ -101,6 +102,51 @@ public static class BotActionBuilderExtensions
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
             await client.SendStickerAsync(chat, randomSticker, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+    public static BotActionBuilder SendText(this BotActionBuilder builder, string text, ParseMode parseMode = ParseMode.Markdown,
+        bool asReply = false, bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (chat is null) return;
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendTextMessageAsync(chat, text, parseMode: parseMode, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+    public static BotActionBuilder SendRandomTextFrom(this BotActionBuilder builder, string[] texts,
+        ParseMode parseMode = ParseMode.Markdown,
+        bool asReply = false, bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (texts.Length == 0 || chat is null) return;
+
+            var randomText = texts.Length switch
+            {
+                1 => texts[0],
+                _ => texts[RandomProvider.GetThreadRandom()!.Next(0, texts.Length)]
+            };
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendTextMessageAsync(chat, randomText, parseMode: parseMode, replyParameters: replyParameters);
         });
 
         return builder;

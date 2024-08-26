@@ -96,9 +96,16 @@ public static partial class Miscellaneous
             ])
             .WithName("Miscellaneous.Cagaste");
 
-        catalog.OnText((string text) => text.Contains("pobres", StringComparison.CurrentCultureIgnoreCase) ||
-                                        text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase) ||
-                                        text.Contains("dineros", StringComparison.CurrentCultureIgnoreCase))
+        catalog
+            .OnText((string text) => text.Contains("congrats", StringComparison.CurrentCultureIgnoreCase) ||
+                                     text.Contains("congratulations", StringComparison.CurrentCultureIgnoreCase))
+            .SendSticker("CAACAgIAAxkBAAEEZYRiTrRMXTzG543N43iKgLsPlyK_1wACwwcAAhhC7gjyFcEHatcw1CME", toReply: true)
+            .WithName("Miscellaneous.Congrats");
+
+        catalog
+            .OnText((string text) => text.Contains("pobres", StringComparison.CurrentCultureIgnoreCase) ||
+                                     text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase) ||
+                                     text.Contains("dineros", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/dineros.mp4")
             .WithName("Miscellaneous.Dineros");
 
@@ -224,6 +231,12 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.KeepItSimple");
 
         catalog
+            .OnText((string text) => text.Contains("elantro", StringComparison.CurrentCultureIgnoreCase)
+                                     || text.Contains("lantra", StringComparison.CurrentCultureIgnoreCase))
+            .SendPhoto("https://raw.githubusercontent.com/elementh/foscbot/main/assets/lantra.jpg", "Elantro")
+            .WithName("Miscellaneous.Lantra");
+
+        catalog
             .OnText((string text) => text.Contains("megratron", StringComparison.CurrentCultureIgnoreCase)
                                      || text.Contains("tronco", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomVideoFrom([
@@ -231,6 +244,13 @@ public static partial class Miscellaneous
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4"
             ])
             .WithName("Miscellaneous.Megratron");
+
+        catalog
+            .OnText((string text) => text.Contains("monke", StringComparison.CurrentCultureIgnoreCase)
+                                     || text.Contains("monos", StringComparison.CurrentCultureIgnoreCase)
+                                     || text.Contains("puto mono", StringComparison.CurrentCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/main/assets/monke.mp4", "RETURN. TO. MONKE.")
+            .WithName("Miscellaneous.Monke");
 
         catalog
             .OnText((string text) => text.Contains("nft", StringComparison.CurrentCultureIgnoreCase))
@@ -276,9 +296,23 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Nvidia");
 
         catalog
+            .OnText((Update update, string text) =>
+                update.IsBotMentioned() && text.Contains("python", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomTextFrom([
+                "Aprendí python para que los plebs puedan entenderme 🥱",
+                "I'm `c̵̰̉ṳ̸̪̑̿̚̚r̴̟͕̗̄̓̀̉̄s̵̰̩̎̈e̷͙̯͍̲̋̊͘ḍ̴͂̊ ̶̘̈́a̷̹̲͗͗͊͋̾ṡ̸̨̢̰͂̀͗̕ ̵̧͓͑̈́̍͝f̷̦̠̹̤͊͛̈́u̸͇͔̓c̶̼͓͂̇k̴͍͐̽̏̈͗`, que alguien me desconecte joder 🤡🤡"
+            ], ParseMode.MarkdownV2, true)
+            .WithName("Miscellaneous.SpeakPython");
+
+        catalog
             .OnText((string text) => text.Contains("REE"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4")
             .WithName("Miscellaneous.Ree");
+
+        catalog
+            .OnText((string text) => text.Contains("rgb", StringComparison.CurrentCultureIgnoreCase))
+            .SendText("eL rGb n0 Da FpS")
+            .WithName("Miscellaneous.RGB");
 
         catalog
             .OnMessage((Message message) =>
@@ -331,6 +365,11 @@ public static partial class Miscellaneous
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4"
             ])
             .WithName("Miscellaneous.Succ");
+
+        catalog
+            .OnText((string text) => text.Contains("synology", StringComparison.CurrentCultureIgnoreCase))
+            .SendText("Shitn0plogy", asReply: true)
+            .WithName("Miscellaneous.Synology");
 
         catalog
             .OnText((string text) =>
