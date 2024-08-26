@@ -26,6 +26,8 @@ public static class BotActionBuilderExtensions
             await client.SendPhotoAsync(chat, photo, caption: caption, replyParameters: replyParameters);
         });
 
+        builder.WithChatAction(ChatAction.UploadPhoto);
+
         return builder;
     }
 
@@ -51,6 +53,8 @@ public static class BotActionBuilderExtensions
             await client.SendPhotoAsync(chat, randomPhoto, replyParameters: replyParameters);
         });
 
+        builder.WithChatAction(ChatAction.UploadPhoto);
+
         return builder;
     }
 
@@ -70,6 +74,8 @@ public static class BotActionBuilderExtensions
 
             await client.SendStickerAsync(chat, sticker, replyParameters: replyParameters);
         });
+
+        builder.WithChatAction(ChatAction.ChooseSticker);
 
         return builder;
     }
@@ -104,6 +110,8 @@ public static class BotActionBuilderExtensions
             await client.SendStickerAsync(chat, randomSticker, replyParameters: replyParameters);
         });
 
+        builder.WithChatAction(ChatAction.ChooseSticker);
+
         return builder;
     }
 
@@ -122,6 +130,8 @@ public static class BotActionBuilderExtensions
 
             await client.SendTextMessageAsync(chat, text, parseMode: parseMode, replyParameters: replyParameters);
         });
+
+        builder.WithChatAction(ChatAction.Typing);
 
         return builder;
     }
@@ -149,6 +159,8 @@ public static class BotActionBuilderExtensions
             await client.SendTextMessageAsync(chat, randomText, parseMode: parseMode, replyParameters: replyParameters);
         });
 
+        builder.WithChatAction(ChatAction.Typing);
+
         return builder;
     }
 
@@ -168,6 +180,8 @@ public static class BotActionBuilderExtensions
 
             await client.SendVideoAsync(chat, video, caption: caption, replyParameters: replyParameters);
         });
+
+        builder.WithChatAction(ChatAction.UploadVideo);
 
         return builder;
     }
@@ -193,6 +207,8 @@ public static class BotActionBuilderExtensions
 
             await client.SendVideoAsync(chat, randomVideo, replyParameters: replyParameters);
         });
+
+        builder.WithChatAction(ChatAction.UploadVideo);
 
         return builder;
     }

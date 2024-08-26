@@ -27,7 +27,8 @@ public static class Commands
                     """;
 
                 await client.SendTextMessageAsync(chat, about, parseMode: ParseMode.Markdown);
-            });
+            })
+            .WithChatAction(ChatAction.Typing);
 
         catalog
             .OnCommand("boi").SendRandomStickerFrom([
@@ -59,7 +60,8 @@ public static class Commands
                 var randomText = Bottomify.EncodeString(lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)]);
 
                 return await client.SendTextMessageAsync(chat, randomText);
-            });
+            })
+            .WithChatAction(ChatAction.Typing);
 
         catalog
             .OnCommand("coronashark")
@@ -84,26 +86,22 @@ public static class Commands
                     }
 
                     return default;
-                });
+                })
+            .WithChatAction(ChatAction.Typing);
 
         catalog
-            .OnCommand("nope",
-                async (INavigatorClient client, Chat chat) =>
-                {
-                    await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4");
-                });
+            .OnCommand("nope")
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4");
 
         catalog
             .OnCommand("p4cock")
             .SendSticker("CAACAgQAAxkBAAMvXn0csAE-VH1a5YlL_C3y_uvmyhoAAk4DAAIv22sAAQYHFmm8oYuhGAQ", toReply: true);
 
         catalog
-            .OnCommand("quote", async (INavigatorClient client, Chat chat, IInspiroService quotes) =>
-            {
-                var quote = await quotes.GetInspiroImage();
-
-                await client.SendPhotoAsync(chat, quote);
-            });
+            .OnCommand("quote",
+                async Task (INavigatorClient client, Chat chat, IInspiroService quotes) =>
+                    await client.SendPhotoAsync(chat, await quotes.GetInspiroImage()))
+            .WithChatAction(ChatAction.UploadPhoto);
 
         catalog
             .OnCommand("raniilove")
@@ -124,7 +122,8 @@ public static class Commands
                     """;
 
                 await client.SendTextMessageAsync(chat, start, parseMode: ParseMode.Markdown);
-            });
+            })
+            .WithChatAction(ChatAction.Typing);
 
         catalog
             .OnCommand("succ", async (INavigatorClient client, Chat chat, Message message) =>
@@ -136,7 +135,8 @@ public static class Commands
                     : "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4";
 
                 await client.SendVideoAsync(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
-            });
+            })
+            .WithChatAction(ChatAction.UploadVideo);
 
         catalog
             .OnCommand("upct")

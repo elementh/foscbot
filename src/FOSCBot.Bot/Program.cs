@@ -25,7 +25,7 @@ builder.Services.AddMemoryCache();
 
 // Semantic Kernel, AKA LLM
 #pragma warning disable SKEXP0010
-builder.Services.AddOpenAIChatCompletion("TODO", new Uri("https://llama.lucasmarino.me"));
+builder.Services.AddOpenAIChatCompletion("TODO", new Uri(builder.Configuration["LLAMA_API_URL"]));
 
 builder.Services.AddTransient(serviceProvider => new Kernel(serviceProvider));
 
@@ -38,7 +38,6 @@ builder.Services.AddNavigator(options =>
     options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
     options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
     options.EnableChatActionNotification();
-    options.EnableMultipleActionsUsage();
 });
 
 #endregion

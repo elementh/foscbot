@@ -6,7 +6,7 @@ namespace FOSCBot.Core.Helpers;
 public static class MentionHelper
 {
     /// <summary>
-    /// The current instance's of FOSCBot ID
+    ///     The current instance's of FOSCBot ID
     /// </summary>
     private const int FoscBotUserId = 970438602;
 
@@ -28,7 +28,7 @@ public static class MentionHelper
 
     public static bool IsBotQuoted(this Update update)
     {
-        return update.Message?.ReplyToMessage?.From?.Id == FoscBotUserId;
+        return update.Message?.ReplyToMessage?.From?.Id == FoscBotUserId && update.Message?.From?.Id != FoscBotUserId;
     }
 
     public static bool IsBotPinged(this Update update)
@@ -38,17 +38,17 @@ public static class MentionHelper
 
     public static bool IsBotFlattered(this Update update)
     {
-        return ((update.Message?.Text?.ToLower().Equals("si") ?? false) ||
-                (update.Message?.Text?.ToLower().Equals("sí") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("acho") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("jajaja") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("gracias") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("te quiero") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("increible") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("increíble") ?? false) ||
-                (update.Message?.Text?.ToLower().Contains("puto amo") ?? false) ||
-                Regex.IsMatch(update.Message?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+"));
+        return (update.Message?.Text?.ToLower().Equals("si") ?? false) ||
+               (update.Message?.Text?.ToLower().Equals("sí") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("acho") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("jajaja") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("gracias") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("te quiero") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("increible") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("increíble") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("puto amo") ?? false) ||
+               Regex.IsMatch(update.Message?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+");
     }
 
     public static bool IsBotBeingToldBadThings(this Update update)
