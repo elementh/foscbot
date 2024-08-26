@@ -38,7 +38,6 @@ builder.Services.AddNavigator(options =>
     options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
     options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
     options.EnableChatActionNotification();
-    options.EnableMultipleActionsUsage();
 });
 
 #endregion

@@ -80,12 +80,8 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Blahaj");
 
         catalog
-            .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase),
-                async (INavigatorClient client, Chat chat, Message message) =>
-                {
-                    await client.SendTextMessageAsync(chat, "`Btw I run on Arch Linux.`", parseMode: ParseMode.Markdown,
-                        replyParameters: message);
-                })
+            .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase))
+            .SendText("`Btw I run on Arch Linux.`", asReply: true)
             .WithChances(0.4)
             .WithName("Miscellaneous.BtwArch");
 
@@ -165,6 +161,7 @@ public static partial class Miscellaneous
                     await client.SendPhotoAsync(chat, new InputFileStream(stream, "heybroniced.jpg"));
                 })
             .WithChances(0.5)
+            .WithChatAction(ChatAction.UploadPhoto)
             .WithName("Miscellaneous.HeyBro");
 
         catalog
@@ -192,10 +189,13 @@ public static partial class Miscellaneous
             {
                 if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.5)
                 {
+                    await client.SendChatActionAsync(chat, ChatAction.UploadPhoto);
                     await client.SendPhotoAsync(chat, CoreLinks.Ipad, caption: "tEnGo Un IpAd");
                 }
                 else
                 {
+                    await client.SendChatActionAsync(chat, ChatAction.UploadVoice);
+
                     var bytes = Convert.FromBase64String(CoreResources.IpadAudio);
                     await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
@@ -240,11 +240,8 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Jonardo");
 
         catalog
-            .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase),
-                async (INavigatorClient client, Chat chat) =>
-                {
-                    await client.SendTextMessageAsync(chat, "Keep it simple, and don't be a dick, bro. 🤗");
-                })
+            .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase))
+            .SendText("Keep it simple, and don't be a dick, bro. 🤗")
             .WithChances(0.8)
             .WithName("Miscellaneous.KeepItSimple");
 
@@ -258,7 +255,8 @@ public static partial class Miscellaneous
             .OnText((string text) => text.Equals("LETS") || text.Equals("LET'S"))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
-                string[] stickerList = [
+                string[] stickerList =
+                [
                     "CAACAgQAAxkBAAECojpg_bnnG-u3pLeJOG5IPolOtN00RAACBQwAApUS8FOOn4aL83n8bSAE",
                     "CAACAgQAAxkBAAECojxg_bnqH-1SeiLQLt_KypOZBI5uowACmQ8AAmFh8FO6uZ5fZWppOiAE",
                     "CAACAgQAAxkBAAECoj5g_bp_i3lF_F8dZQK8ZLEvKK3eJgAC3gkAAvPw8VPNHKHR3O21xiAE",
@@ -270,7 +268,7 @@ public static partial class Miscellaneous
                     "CAACAgQAAxkBAAECokpg_brRLEoWV1mx8Sxlgvwg7XU-WAACLQwAAlWt8VN-tLCZkqsk_yAE",
                     "CAACAgQAAxkBAAECokxg_brVzW5P93IB4ObTMKKxTzSKYAAC6QkAAlWw8FN6EYT5JghtsyAE"
                 ];
-                
+
                 var randomSticker = stickerList[RandomProvider.GetThreadRandom()!.Next(0, stickerList.Length)];
 
                 await client.SendTextMessageAsync(chat, "FUCKING");
@@ -283,6 +281,7 @@ public static partial class Miscellaneous
                 await Task.Delay(200);
                 await client.SendStickerAsync(chat, randomSticker);
             })
+            .WithChatAction(ChatAction.Typing)
             .WithName("Miscellaneous.Lets");
 
         catalog
@@ -302,7 +301,6 @@ public static partial class Miscellaneous
                 "CAACAgQAAxkBAAECokpg_brRLEoWV1mx8Sxlgvwg7XU-WAACLQwAAlWt8VN-tLCZkqsk_yAE",
                 "CAACAgQAAxkBAAECokxg_brVzW5P93IB4ObTMKKxTzSKYAAC6QkAAlWw8FN6EYT5JghtsyAE"
             ])
-            .WithChatAction(ChatAction.ChooseSticker)
             .WithName("Miscellaneous.LetsGo");
 
         catalog
@@ -310,6 +308,8 @@ public static partial class Miscellaneous
                 text.ToLower().Contains("so sad") || text.ToLower().Contains("ligma") || text.ToLower().Contains("p4cock"))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
+                await client.SendChatActionAsync(chat, ChatAction.UploadVoice);
+
                 if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.75)
                 {
                     var bytes = Convert.FromBase64String(CoreResources.LigmaHardAudio);
@@ -372,6 +372,7 @@ public static partial class Miscellaneous
                 await client.SendPhotoAsync(chat, new InputFileStream(stream, "nginx.jpg"));
             })
             .WithChances(0.4)
+            .WithChatAction(ChatAction.UploadPhoto)
             .WithName("Miscellaneous.Nginx");
 
         catalog
@@ -529,8 +530,11 @@ public static partial class Miscellaneous
                 await client.SendStickerAsync(chat, randomSticker);
 
                 if (RandomProvider.GetThreadRandom()!.NextDouble() > 0.8d)
-                    await client.SendTextMessageAsync(chat, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl");
+                    await client.SendChatActionAsync(chat, ChatAction.Typing);
+                await Task.Delay(250);
+                await client.SendTextMessageAsync(chat, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl");
             })
+            .WithChatAction(ChatAction.ChooseSticker)
             .WithName("Miscellaneous.UPCT");
 
         catalog

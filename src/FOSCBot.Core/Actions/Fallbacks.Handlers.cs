@@ -19,32 +19,41 @@ public static partial class Fallbacks
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, IMemoryCache cache,
         IChatCompletionService llm, Update update, ProbabilityService probabilities)
     {
-        if (message.Type is not (MessageType.Text or MessageType.Sticker)) return;
-
-        var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}") ?? new SlidingBuffer<Message>(10);
-
-        buffer.Add(message);
-
-        cache.Set($"fallback.catchall:{chat.Id}", buffer);
-
-        var shouldAnswer = update.IsBotQuotedOrMentioned() || probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
-
-        if (shouldAnswer)
+        try
         {
-            var history = buffer.ToChatHistory();
+            if (message.Type is not (MessageType.Text or MessageType.Sticker)) return;
 
-            var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
+            var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}") ?? new SlidingBuffer<Message>(10);
+
+            buffer.Add(message);
+
+            cache.Set($"fallback.catchall:{chat.Id}", buffer);
+
+            var shouldAnswer = update.IsBotQuotedOrMentioned() || probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
+
+            if (shouldAnswer)
             {
-                MaxTokens = 4000,
-                Temperature = 0.9
-            });
+                await client.SendChatActionAsync(chat, ChatAction.Typing);
 
-            if (response.Content != null)
-            {
-                await client.SendTextMessageAsync(chat.Id, response.Content);
+                var history = buffer.ToChatHistory();
 
-                probabilities.Reset($"fallback.catchall.probabilities:{chat.Id}");
+                var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
+                {
+                    MaxTokens = 4000,
+                    Temperature = 0.9
+                });
+
+                if (response.Content != null)
+                {
+                    await client.SendTextMessageAsync(chat.Id, response.Content);
+
+                    probabilities.Reset($"fallback.catchall.probabilities:{chat.Id}");
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 }

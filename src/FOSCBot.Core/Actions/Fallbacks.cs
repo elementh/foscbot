@@ -24,6 +24,7 @@ public static partial class Fallbacks
                     $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",
                     parseMode: ParseMode.Markdown);
             })
+            .WithChatAction(ChatAction.Typing)
             .WithName("Fallback.DeBottomify");
 
         catalog.OnText((string text) =>
@@ -39,6 +40,7 @@ public static partial class Fallbacks
             .WithChances(0.4)
             .WithCooldown(TimeSpan.FromMinutes(15))
             .WithPriority(Priority.Low - 100)
+            .WithChatAction(ChatAction.UploadVideo)
             .WithName("Fallback.SomewhatRandomGIF");
 
         catalog.OnMessage(() => true, async (INavigatorClient client, Chat chat) =>
@@ -54,6 +56,7 @@ public static partial class Fallbacks
             .WithChances(0.7)
             .WithCooldown(TimeSpan.FromDays(15))
             .WithPriority(Priority.Low)
+            .WithChatAction(ChatAction.Typing)
             .WithName("Fallback.ChinesePolice");
 
         // Catch All Fallback
