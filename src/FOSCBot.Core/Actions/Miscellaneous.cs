@@ -230,6 +230,18 @@ public static partial class Miscellaneous
             .WithChances(0.6)
             .WithName("Miscellaneous.NFT");
 
+        catalog.OnText((string text) => text.Contains("nginx", StringComparison.CurrentCultureIgnoreCase))
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                var bytes = Convert.FromBase64String(CoreResources.NginxImage);
+
+                await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
+
+                await client.SendPhotoAsync(chat, new InputFileStream(stream, "nginx.jpg"));
+            })
+            .WithChances(0.4)
+            .WithName("Miscellaneous.Nginx");
+
         catalog
             .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
