@@ -200,6 +200,20 @@ public static partial class Miscellaneous
             ])
             .WithName("Miscellaneous.Jeje");
 
+        catalog.OnText((string text) => text.Contains("jonardo", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomStickerFrom([
+                "CAACAgQAAxkBAAEMtvNmzFNi3fECy0IdKww6_QLSq2iblAACRAMAAkstbAABM86dNtNv9hU1BA",
+                "CAACAgIAAxkBAAEMtuVmzFLlOxQ5m2JJdXsbe8D0dj-1ogAC9jIAAlupkUqZKiEYNaUYrzUE",
+                "CAACAgIAAxkBAAEMtudmzFL39OSSQl_cr1vtAurW7NW4OAACliYAAtSFmErSRQFOnOH5MDUE",
+                "CAACAgIAAxkBAAEMtulmzFL9WoG8ysqxPuu4Rmrxw8WT9QACvC4AAuPx8EtXGBlONqz1jTUE",
+                "CAACAgIAAxkBAAEMtutmzFMHVI-loOnZFAibOLy8_ybdfwAC_i4AAlaX6EscsCyDfdZ4dDUE",
+                "CAACAgIAAxkBAAEMtu1mzFMLLmYLShp0EGIzG2XoCXXFSgACIEIAAhnkgEho_8zIBxjxDDUE",
+                "CAACAgIAAxkBAAEMtu9mzFMn4qGJoZ0yqvlrbFGe1ZoDVAACWDkAAvYq-UmqEr0HAW9EjzUE",
+                "CAACAgQAAxkBAAEMtvVmzFQ53ImvtIlN1UAJlQ449scjnAACoQwAAssCCVDV12Iit4UzIjUE",
+                "CAACAgQAAxkBAAEMtvFmzFM-8WJEs9UXott_8ZmXPxmciQACaQAD12KbDpEH23X1iY00NQQ"
+            ])
+            .WithName("Miscellaneous.Jonardo");
+
         catalog
             .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase),
                 async (INavigatorClient client, Chat chat) =>
