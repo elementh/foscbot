@@ -186,6 +186,24 @@ public static partial class Miscellaneous
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4")
             .WithName("Miscellaneous.Ice");
 
+        catalog
+            .OnText((string text) => text.Contains(" ipad", StringComparison.CurrentCultureIgnoreCase))
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.5)
+                {
+                    await client.SendPhotoAsync(chat, CoreLinks.Ipad, caption: "tEnGo Un IpAd");
+                }
+                else
+                {
+                    var bytes = Convert.FromBase64String(CoreResources.IpadAudio);
+                    await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
+
+                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "ipad"), duration: 5);
+                }
+            })
+            .WithCooldown(TimeSpan.FromMinutes(15))
+            .WithName("Miscellaneous.Ipad");
 
         catalog
             .OnText((string text) =>
