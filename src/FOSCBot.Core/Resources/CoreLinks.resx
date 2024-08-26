@@ -88,9 +88,6 @@
     <data name="NFTu" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png</value>
   </data>
-    <data name="Elegant" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4</value>
-  </data>
     <data name="MegatronCbtExperience" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4</value>
   </data>

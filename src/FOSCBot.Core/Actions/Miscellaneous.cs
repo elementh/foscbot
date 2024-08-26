@@ -107,6 +107,11 @@ public static class Miscellaneous
             .WithChances(0.4)
             .WithName("Miscellaneous.DjEspanita");
 
+        catalog.OnText((string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) && !text.ToLower().ContainsUrl())
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4",
+                "Elegance is achieved when all that is superfluous has been discarded and the human being discovers simplicity and concentration: the simpler and more sober the posture, the more beautiful it will be.")
+            .WithName("Miscellaneous.Elegant");
+
         catalog
             .OnText((string text) =>
                 text.ToLower().Contains("elon musk") ||

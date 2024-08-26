@@ -106,7 +106,9 @@ public static class BotActionBuilderExtensions
         return builder;
     }
 
-    public static BotActionBuilder SendVideo(this BotActionBuilder builder, string video, bool asReply = false, bool toReply = false)
+    public static BotActionBuilder SendVideo(this BotActionBuilder builder, string video, string? caption = null, bool asReply = false,
+        bool toReply = false)
+
     {
         builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
         {
@@ -118,7 +120,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendVideoAsync(chat, video, replyParameters: replyParameters);
+            await client.SendVideoAsync(chat, video, caption: caption, replyParameters: replyParameters);
         });
 
         return builder;
