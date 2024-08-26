@@ -206,6 +206,10 @@ public static partial class Miscellaneous
             .WithChances(0.6)
             .WithName("Miscellaneous.Sad");
 
+        catalog.OnText((string text) => text.Contains("ste men", StringComparison.CurrentCultureIgnoreCase))
+            .SendPhoto("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.jpg")
+            .WithName("Miscellaneous.Stemen");
+
         catalog.OnText((string text) =>
             {
                 return text.Equals("SUCC")
