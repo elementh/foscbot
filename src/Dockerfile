@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY *.sln ./
+copy ./nuget.config ./nuget.config
 
 COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
 COPY FOSCBot.Core/*.csproj FOSCBot.Core/
