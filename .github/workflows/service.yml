@@ -9,45 +9,38 @@ on:
     types:
       - published
 env:
-  # Stop wasting time caching packages
+  # Stop wasting time caching packages / Disable sending usage data to Microsoft
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  # Disable sending usage data to Microsoft
+  DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
+        uses: actions/setup-dotnet@v3
       - name: Restore
-        working-directory: ./src  
+        working-directory: ./src
         run: dotnet restore
       - name: Build
         working-directory: ./src
         run: dotnet build --no-restore
   test:
     needs: build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
+        uses: actions/setup-dotnet@v3
+      - name: Restore
+        working-directory: ./src
+        run: dotnet restore
       - name: Test
         working-directory: ./src
-        run: dotnet test --verbosity normal
+        run: dotnet test --verbosity normal --no-restore
   publish:
     needs: test
     runs-on: ubuntu-latest
