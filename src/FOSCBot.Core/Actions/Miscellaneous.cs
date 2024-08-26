@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Resources;
 using Incremental.Common.Random;
@@ -10,7 +11,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Actions;
 
-public static class Miscellaneous
+public static partial class Miscellaneous
 {
     public static void RegisterMiscellaneous(this BotActionCatalogFactory catalog)
     {
@@ -206,6 +207,22 @@ public static class Miscellaneous
             .WithName("Miscellaneous.Sad");
 
         catalog
+            .OnText((string text) =>
+            {
+                return text.ToLower().Equals("blyat")
+                       || text.ToLower().Equals("traktor")
+                       || text.ToLower().Equals("блядь")
+                       || text.ToLower().Equals("трактор")
+                       || BlyatRegex().IsMatch(text)
+                       || TraktorRegex().IsMatch(text);
+            })
+            .SendRandomVideoFrom([
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/bueno_flipao.mp4",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/traktor.mp4"
+            ])
+            .WithName("Miscellaneous.Traktor");
+
+        catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
                 "CAACAgEAAxkBAAI5JF59w6XM_AcpKByOoe1DtXyJuAr0AAL4AgACzcclBQ7jFynAjnWwGAQ",
@@ -243,4 +260,10 @@ public static class Miscellaneous
             .WithChances(0.3)
             .WithName("Miscellaneous.UwU");
     }
+
+    [GeneratedRegex(@"[Bb][Ll][Yy][Aa]+[Tt]+")]
+    private static partial Regex BlyatRegex();
+
+    [GeneratedRegex(@"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+")]
+    private static partial Regex TraktorRegex();
 }

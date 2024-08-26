@@ -141,18 +141,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Traktor {
-            get {
-                return ResourceManager.GetString("Traktor", resourceCulture);
-            }
-        }
-        
-        internal static string BuenoFlipao {
-            get {
-                return ResourceManager.GetString("BuenoFlipao", resourceCulture);
-            }
-        }
-        
         internal static string NFT {
             get {
                 return ResourceManager.GetString("NFT", resourceCulture);
