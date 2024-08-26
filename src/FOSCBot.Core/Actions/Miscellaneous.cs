@@ -139,7 +139,13 @@ public static partial class Miscellaneous
                                      || text.Contains("orks", StringComparison.InvariantCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
             .WithChances(0.8)
-            .WithName("Miscellaneous.Orks");
+            .WithName("Miscellaneous.Forks");
+
+        catalog
+            .OnText((string text) => GoAheadRegex().IsMatch(text))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4", "SSSSSSSSSSSUCK YOUR OWN COCKKKKK")
+            .WithChances(0.8)
+            .WithName("Miscellaneous.GoAhead");
 
         catalog
             .OnSticker((Sticker sticker) => sticker.SetName?.Equals("foscupct") is not false && sticker.Emoji?.Equals("😚") is true,
@@ -340,4 +346,7 @@ public static partial class Miscellaneous
 
     [GeneratedRegex(@"^WA*GH$")]
     private static partial Regex WaghRegex();
+
+    [GeneratedRegex(@"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+")]
+    private static partial Regex GoAheadRegex();
 }
