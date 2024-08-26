@@ -255,6 +255,28 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Lantra");
 
         catalog
+            .OnText((string text) =>
+                text.ToLower().Contains("so sad") || text.ToLower().Contains("ligma") || text.ToLower().Contains("p4cock"))
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.75)
+                {
+                    var bytes = Convert.FromBase64String(CoreResources.LigmaHardAudio);
+                    await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
+
+                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "LIGMA BALLS"), duration: 4);
+                }
+                else
+                {
+                    var bytes = Convert.FromBase64String(CoreResources.LigmaSoftAudio);
+                    await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
+
+                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "ligma balls"), duration: 3);
+                }
+            })
+            .WithName("Miscellaneous.Ligma");
+
+        catalog
             .OnText((string text) => text.Contains("megratron", StringComparison.CurrentCultureIgnoreCase)
                                      || text.Contains("tronco", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomVideoFrom([
