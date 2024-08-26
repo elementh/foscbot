@@ -210,6 +210,15 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.KeepItSimple");
 
         catalog
+            .OnText((string text) => text.Contains("megratron", StringComparison.CurrentCultureIgnoreCase)
+                                     || text.Contains("tronco", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomVideoFrom([
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4"
+            ])
+            .WithName("Miscellaneous.Megratron");
+
+        catalog
             .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
             .WithChances(0.4)

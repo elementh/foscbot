@@ -123,18 +123,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string MegatronCbtExperience {
-            get {
-                return ResourceManager.GetString("MegatronCbtExperience", resourceCulture);
-            }
-        }
-        
-        internal static string MegatronCbtImmediate {
-            get {
-                return ResourceManager.GetString("MegatronCbtImmediate", resourceCulture);
-            }
-        }
-        
         internal static string MuchoTexto {
             get {
                 return ResourceManager.GetString("MuchoTexto", resourceCulture);

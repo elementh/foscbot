@@ -58,13 +58,7 @@
     <data name="NFTu" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png</value>
   </data>
-    <data name="MegatronCbtExperience" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4</value>
-  </data>
-    <data name="MegatronCbtImmediate" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4</value>
-  </data>
-    <data name="MuchoTexto" xml:space="preserve">
+  <data name="MuchoTexto" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/muchotexto.jpg</value>
   </data>
 </root>
