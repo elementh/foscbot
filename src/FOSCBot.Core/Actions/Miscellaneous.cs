@@ -428,6 +428,21 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Traktor");
 
         catalog
+            .OnText((string text) => text.Contains("upct") && !text.Contains("/upct"))
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                var randomSticker = RandomProvider.GetThreadRandom()!.NextDouble() > 0.2d
+                    ? "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE"
+                    : "CAACAgQAAxkBAAJNXV6eEJLQHwl-8el7YOYYJUF9l8ymAAJZAgACkNStBjfoiv3ywvd8GAQ";
+
+                await client.SendStickerAsync(chat, randomSticker);
+
+                if (RandomProvider.GetThreadRandom()!.NextDouble() > 0.8d)
+                    await client.SendTextMessageAsync(chat, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl");
+            })
+            .WithName("Miscellaneous.UPCT");
+
+        catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomStickerFrom([
                 "CAACAgEAAxkBAAI5JF59w6XM_AcpKByOoe1DtXyJuAr0AAL4AgACzcclBQ7jFynAjnWwGAQ",
