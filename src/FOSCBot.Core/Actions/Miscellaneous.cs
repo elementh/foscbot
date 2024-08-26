@@ -15,12 +15,8 @@ public static class Miscellaneous
     public static void RegisterMiscellaneous(this BotActionCatalogFactory catalog)
     {
         catalog
-            .OnText((string text) => text.ToLower().Equals("based") || text.Equals("BASED"),
-                async (INavigatorClient client, Chat chat) =>
-                {
-                    const string based = "https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4";
-                    await client.SendVideoAsync(chat, based);
-                })
+            .OnText((string text) => text.ToLower().Equals("based") || text.Equals("BASED"))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4")
             .WithChances(0.2)
             .WithName("Mischellaneous.Based");
 
@@ -92,6 +88,13 @@ public static class Miscellaneous
             .WithChances(0.4)
             .WithName("Miscellaneous.BtwArch");
 
+        catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase()))
+            .SendRandomPhotoFrom([
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagastegoku.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagasteshark.jpg"
+            ])
+            .WithName("Miscellaneous.Cagaste");
+
         catalog
             .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase))
             .SendSticker("CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA")
@@ -146,11 +149,8 @@ public static class Miscellaneous
                            message.Sticker?.Emoji?.Equals("🥶") is true ||
                            message.Sticker?.Emoji?.Equals("🧊") is true ||
                            message.Sticker?.Emoji?.Equals("❄️") is true;
-                },
-                async (INavigatorClient client, Chat chat) =>
-                {
-                    await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4");
                 })
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4")
             .WithName("Miscellaneous.Ice");
 
 

@@ -141,18 +141,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string CagasteGoku {
-            get {
-                return ResourceManager.GetString("CagasteGoku", resourceCulture);
-            }
-        }
-        
-        internal static string CagasteShark {
-            get {
-                return ResourceManager.GetString("CagasteShark", resourceCulture);
-            }
-        }
-        
         internal static string CbtExplanation {
             get {
                 return ResourceManager.GetString("CbtExplanation", resourceCulture);
