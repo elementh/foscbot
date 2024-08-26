@@ -6,7 +6,6 @@ COPY *.sln ./
 COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
 COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core/*.csproj FOSCBot.Core/
-COPY FOSCBot.Core.Old/*.csproj FOSCBot.Core.Old/
 COPY FOSCBot.Infrastructure.Contract/*.csproj FOSCBot.Infrastructure.Contract/
 COPY FOSCBot.Infrastructure.Implementation/*.csproj FOSCBot.Infrastructure.Implementation/
 RUN dotnet restore -r linux-musl-x64

@@ -1,4 +1,6 @@
-namespace FOSCBot.Core.Old.Interactivity.Questions;
+using Incremental.Common.Random;
+
+namespace FOSCBot.Core.Helpers;
 
 public static class QuestionsInteractiveResponseData
 {
@@ -32,4 +34,9 @@ public static class QuestionsInteractiveResponseData
         "CAACAgQAAxkBAAEDVMlhmadGsqKvkgqTkmyBdWe_T2baIAACOQkAAnqK8VEFmr6NRSkbfSIE", //Cat angry
         "CAACAgQAAxkBAAEDVM1hmaeRRjtyTybHxHfynQXRiW8BHgACsw0AAj_0ZgABimuvHem5f9giBA" //Pepe ree
     };
+
+    public static string GetRandomFromList(this List<string> list)
+    {
+        return list[RandomProvider.GetThreadRandom()!.Next(0, list.Count)];
+    }
 }
