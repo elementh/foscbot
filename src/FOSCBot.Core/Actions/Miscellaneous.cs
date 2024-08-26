@@ -290,6 +290,12 @@ public static partial class Miscellaneous
             ])
             .WithChances(0.3)
             .WithName("Miscellaneous.UwU");
+
+        catalog
+            .OnText((string text) => text.Equals("YES") || text.Equals("SI"))
+            .SendSticker("CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE")
+            .WithChances(0.5)
+            .WithName("Miscellaneous.Yes");
     }
 
     [GeneratedRegex(@"[Bb][Ll][Yy][Aa]+[Tt]+")]
