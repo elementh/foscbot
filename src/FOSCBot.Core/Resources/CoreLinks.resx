@@ -43,12 +43,6 @@
     <data name="HomeMalo" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/audio/homer_malo.ogg</value>
   </data>
-    <data name="Source" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/source.jpg</value>
-  </data>
-    <data name="SourceChad" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/source_chad.jpg</value>
-  </data>
     <data name="GoAhead" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4</value>
   </data>

@@ -93,18 +93,6 @@ namespace FOSCBot.Core.Resources {
             }
         }
         
-        internal static string Source {
-            get {
-                return ResourceManager.GetString("Source", resourceCulture);
-            }
-        }
-        
-        internal static string SourceChad {
-            get {
-                return ResourceManager.GetString("SourceChad", resourceCulture);
-            }
-        }
-        
         internal static string GoAhead {
             get {
                 return ResourceManager.GetString("GoAhead", resourceCulture);

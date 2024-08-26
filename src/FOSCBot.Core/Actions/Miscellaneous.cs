@@ -219,6 +219,22 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Sad");
 
         catalog
+            .OnText((string text) =>
+            {
+                return text.ToLower().Equals("source?")
+                       || text.ToLower().Equals("source")
+                       || text.ToLower().Contains("sauce?")
+                       || text.ToLower().Equals("sauce")
+                       || text.ToLower().Equals("saus?")
+                       || text.ToLower().Equals("saus");
+            })
+            .SendRandomVideoFrom([
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/source.jpg",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/source_chad.jpg"
+            ])
+            .WithName("Miscellaneous.Sauce");
+
+        catalog
             .OnText((string text) => text.Contains("ste men", StringComparison.CurrentCultureIgnoreCase))
             .SendPhoto("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.jpg")
             .WithName("Miscellaneous.Stemen");
