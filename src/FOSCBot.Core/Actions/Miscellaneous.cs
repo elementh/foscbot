@@ -206,6 +206,19 @@ public static partial class Miscellaneous
             .WithChances(0.6)
             .WithName("Miscellaneous.Sad");
 
+        catalog.OnText((string text) =>
+            {
+                return text.Equals("SUCC")
+                       || text.Equals("SAC")
+                       || text.Contains("a chuparla", StringComparison.CurrentCultureIgnoreCase)
+                       || text.Contains("a mamarla", StringComparison.CurrentCultureIgnoreCase);
+            })
+            .SendRandomVideoFrom([
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ.mp4",
+                "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4"
+            ])
+            .WithName("Miscellaneous.Succ");
+
         catalog
             .OnText((string text) =>
             {
