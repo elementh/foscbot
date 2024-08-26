@@ -224,6 +224,12 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Stemen");
 
         catalog
+            .OnText((string text) => text.Contains("stonks", StringComparison.CurrentCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stonks.mp4")
+            .WithChances(0.4)
+            .WithName("Miscellaneous.Stonks");
+
+        catalog
             .OnText((string text) =>
             {
                 return text.Equals("SUCC")
@@ -294,7 +300,7 @@ public static partial class Miscellaneous
         catalog.OnText((string text) => WaghRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
             .WithName("Miscellaneous.Wagh");
-        
+
         catalog
             .OnText((string text) => text.Equals("YES") || text.Equals("SI"))
             .SendSticker("CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE")
@@ -307,7 +313,7 @@ public static partial class Miscellaneous
 
     [GeneratedRegex(@"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+")]
     private static partial Regex TraktorRegex();
-    
+
     [GeneratedRegex(@"^WA*GH$")]
     private static partial Regex WaghRegex();
 }
