@@ -37,9 +37,6 @@
     <data name="HomeMalo" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/audio/homer_malo.ogg</value>
   </data>
-    <data name="CbtExplanation" xml:space="preserve">
-    <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4</value>
-  </data>
     <data name="MuchoTexto" xml:space="preserve">
     <value>https://raw.githubusercontent.com/elementh/foscbot/master/assets/muchotexto.jpg</value>
   </data>

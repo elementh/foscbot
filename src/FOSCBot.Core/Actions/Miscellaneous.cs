@@ -414,6 +414,44 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) =>
             {
+                return text.ToLower().Contains("cock and balls torture")
+                       || text.ToLower().Contains("cock and ball torture")
+                       || text.ToLower().Contains("cum blast me")
+                       || text.ToLower().Contains("cbt");
+            })
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                switch (RandomProvider.GetThreadRandom()!.Next(0, 4))
+                {
+                    case 0:
+                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await Task.Delay(200);
+                        await client.SendVideoAsync(chat,
+                            "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4");
+                        break;
+                    case 1:
+                        await client.SendTextMessageAsync(chat, "And make it snappy");
+                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await Task.Delay(200);
+                        await client.SendVideoAsync(chat, CoreLinks.Conke);
+                        break;
+                    case 2:
+                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await Task.Delay(200);
+                        await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4");
+                        break;
+                    case 3:
+                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await Task.Delay(200);
+                        await client.SendVideoAsync(chat, "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4");
+                        break;
+                }
+            })
+            .WithName("Miscellaneous.Torture");
+
+        catalog
+            .OnText((string text) =>
+            {
                 return text.ToLower().Equals("blyat")
                        || text.ToLower().Equals("traktor")
                        || text.ToLower().Equals("блядь")
