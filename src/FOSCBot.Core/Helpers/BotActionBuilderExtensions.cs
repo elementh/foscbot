@@ -3,11 +3,57 @@ using Navigator.Actions.Builder;
 using Navigator.Client;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Chat = Telegram.Bot.Types.Chat;
 
 namespace FOSCBot.Core.Helpers;
 
 public static class BotActionBuilderExtensions
 {
+    public static BotActionBuilder SendPhoto(this BotActionBuilder builder, string photo, bool asReply = false,
+        bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (chat is null) return;
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendPhotoAsync(chat, photo, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+    public static BotActionBuilder SendRandomPhotoFrom(this BotActionBuilder builder, string[] photos, bool asReply = false,
+        bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (photos.Length == 0 || chat is null) return;
+
+            var randomPhoto = photos.Length switch
+            {
+                1 => photos[0],
+                _ => photos[RandomProvider.GetThreadRandom()!.Next(0, photos.Length)]
+            };
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendPhotoAsync(chat, randomPhoto, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+
     public static BotActionBuilder SendSticker(this BotActionBuilder builder, string sticker, bool asReply = false,
         bool toReply = false)
     {
@@ -55,6 +101,49 @@ public static class BotActionBuilderExtensions
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
             await client.SendStickerAsync(chat, randomSticker, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+    public static BotActionBuilder SendVideo(this BotActionBuilder builder, string video, bool asReply = false, bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (chat is null) return;
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendVideoAsync(chat, video, replyParameters: replyParameters);
+        });
+
+        return builder;
+    }
+
+    public static BotActionBuilder SendRandomVideoFrom(this BotActionBuilder builder, string[] videos, bool asReply = false,
+        bool toReply = false)
+    {
+        builder.SetHandler(async (INavigatorClient client, Chat? chat, Message? message) =>
+        {
+            if (videos.Length == 0 || chat is null) return;
+
+            var randomVideo = videos.Length switch
+            {
+                1 => videos[0],
+                _ => videos[RandomProvider.GetThreadRandom()!.Next(0, videos.Length)]
+            };
+
+            var replyParameters = default(ReplyParameters);
+
+            if (asReply && message is not null) replyParameters = message;
+
+            if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
+
+            await client.SendVideoAsync(chat, randomVideo, replyParameters: replyParameters);
         });
 
         return builder;
