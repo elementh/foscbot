@@ -426,6 +426,26 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.UwU");
 
         catalog
+            .OnText((string text) =>
+            {
+                if (text.ToLower().Contains("vueling") || text.ToLower().Contains("bueling")) return true;
+
+                return RandomProvider.GetThreadRandom()!.NextDouble() > 0.6d
+                       && (text.ToLower().Contains("volar") || text.ToLower().Contains("avion"));
+            })
+            .SetHandler(async (INavigatorClient client, Chat chat) =>
+            {
+                await client.SendTextMessageAsync(chat, "Did some carbon based life form just mention...");
+
+                await client.SendChatActionAsync(chat, ChatAction.ChooseSticker);
+
+                await Task.Delay(400);
+
+                await client.SendStickerAsync(chat, "CAACAgQAAxkBAAJJpl6bSONlqhE0C21-0T9V9YHxfqPKAAKZBgACL9trAAHwqRcYUmB_gRgE");
+            })
+            .WithName("Micellaneous.Vueling");
+
+        catalog
             .OnText((string text) => WaghRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
             .WithName("Miscellaneous.Wagh");
