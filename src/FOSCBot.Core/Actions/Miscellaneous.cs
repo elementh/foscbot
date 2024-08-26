@@ -196,6 +196,11 @@ public static partial class Miscellaneous
             .WithChances(0.8)
             .WithName("Miscellaneous.KeepItSimple");
 
+        catalog
+            .OnText((string text) => text.Contains("REE"))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4")
+            .WithName("Miscellaneous.Ree");
+
         catalog.OnMessage((Message message) =>
             {
                 return message.Text?.ToLower().Equals("sad") is true
@@ -206,11 +211,13 @@ public static partial class Miscellaneous
             .WithChances(0.6)
             .WithName("Miscellaneous.Sad");
 
-        catalog.OnText((string text) => text.Contains("ste men", StringComparison.CurrentCultureIgnoreCase))
+        catalog
+            .OnText((string text) => text.Contains("ste men", StringComparison.CurrentCultureIgnoreCase))
             .SendPhoto("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.jpg")
             .WithName("Miscellaneous.Stemen");
 
-        catalog.OnText((string text) =>
+        catalog
+            .OnText((string text) =>
             {
                 return text.Equals("SUCC")
                        || text.Equals("SAC")
