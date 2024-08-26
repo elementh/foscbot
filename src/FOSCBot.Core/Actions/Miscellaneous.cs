@@ -88,12 +88,18 @@ public static class Miscellaneous
             .WithChances(0.4)
             .WithName("Miscellaneous.BtwArch");
 
-        catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase()))
+        catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomPhotoFrom([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagastegoku.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagasteshark.jpg"
             ])
             .WithName("Miscellaneous.Cagaste");
+
+        catalog.OnText((string text) => text.Contains("pobres", StringComparison.CurrentCultureIgnoreCase) ||
+                                        text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase) ||
+                                        text.Contains("dineros", StringComparison.CurrentCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/dineros.mp4")
+            .WithName("Miscellaneous.Dineros");
 
         catalog
             .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase))
@@ -136,20 +142,20 @@ public static class Miscellaneous
 
         catalog
             .OnMessage((Message message) =>
-                {
-                    if (message.Text?.Contains("fucking ice", StringComparison.CurrentCultureIgnoreCase) is true) return true;
+            {
+                if (message.Text?.Contains("fucking ice", StringComparison.CurrentCultureIgnoreCase) is true) return true;
 
-                    if (RandomProvider.GetThreadRandom()!.NextDouble() < 0.2d) return false;
+                if (RandomProvider.GetThreadRandom()!.NextDouble() < 0.2d) return false;
 
-                    return message.Text?.StartsWith("ice", StringComparison.CurrentCultureIgnoreCase) is true ||
-                           message.Text?.Contains(" ice ", StringComparison.CurrentCultureIgnoreCase) is true ||
-                           message.Text?.Contains(" ice?", StringComparison.CurrentCultureIgnoreCase) is true ||
-                           message.Text?.Contains(" hielo ", StringComparison.CurrentCultureIgnoreCase) is true ||
-                           message.Text?.Contains(" cold ", StringComparison.CurrentCultureIgnoreCase) is true ||
-                           message.Sticker?.Emoji?.Equals("🥶") is true ||
-                           message.Sticker?.Emoji?.Equals("🧊") is true ||
-                           message.Sticker?.Emoji?.Equals("❄️") is true;
-                })
+                return message.Text?.StartsWith("ice", StringComparison.CurrentCultureIgnoreCase) is true ||
+                       message.Text?.Contains(" ice ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                       message.Text?.Contains(" ice?", StringComparison.CurrentCultureIgnoreCase) is true ||
+                       message.Text?.Contains(" hielo ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                       message.Text?.Contains(" cold ", StringComparison.CurrentCultureIgnoreCase) is true ||
+                       message.Sticker?.Emoji?.Equals("🥶") is true ||
+                       message.Sticker?.Emoji?.Equals("🧊") is true ||
+                       message.Sticker?.Emoji?.Equals("❄️") is true;
+            })
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ice.mp4")
             .WithName("Miscellaneous.Ice");
 
