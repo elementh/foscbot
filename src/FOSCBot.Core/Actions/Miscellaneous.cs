@@ -135,6 +135,13 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.FelonMask");
 
         catalog
+            .OnText((string text) => text.Contains("for our stolen code", StringComparison.InvariantCultureIgnoreCase)
+                                     || text.Contains("orks", StringComparison.InvariantCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
+            .WithChances(0.8)
+            .WithName("Miscellaneous.Orks");
+
+        catalog
             .OnSticker((Sticker sticker) => sticker.SetName?.Equals("foscupct") is not false && sticker.Emoji?.Equals("😚") is true,
                 async (INavigatorClient client, Chat chat) =>
                 {
