@@ -2,6 +2,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Services;
+using Incremental.Common.Random;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -29,7 +30,9 @@ public static partial class Fallbacks
 
             cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
-            var shouldAnswer = update.IsBotQuotedOrMentioned() || probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
+            var shouldAnswer = update.IsBotQuotedOrMentioned()
+                ? RandomProvider.GetThreadRandom()!.NextDouble() < 0.167
+                : probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
 
             if (shouldAnswer)
             {
