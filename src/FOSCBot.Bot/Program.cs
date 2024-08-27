@@ -5,7 +5,6 @@ using FOSCBot.Infrastructure.Contract.Service;
 using FOSCBot.Infrastructure.Implementation.Client;
 using FOSCBot.Infrastructure.Implementation.Service;
 using Incremental.Common.Configuration;
-using Incremental.Common.Logging;
 using Lamar.Diagnostics;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.SemanticKernel;
@@ -17,7 +16,7 @@ using Polly;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommonConfiguration();
-builder.Host.UseCommonLogging();
+// builder.Host.UseCommonLogging();
 builder.Host.UseLamar();
 
 builder.Services.AddDistributedMemoryCache();
@@ -25,7 +24,9 @@ builder.Services.AddMemoryCache();
 
 // Semantic Kernel, AKA LLM
 #pragma warning disable SKEXP0010
-builder.Services.AddOpenAIChatCompletion("TODO", new Uri(builder.Configuration["LLAMA_API_URL"]));
+builder.Services.AddOpenAIChatCompletion(
+    builder.Configuration["LLAMA_MODEL"],
+    new Uri(builder.Configuration["LLAMA_API_URL"]));
 
 builder.Services.AddTransient(serviceProvider => new Kernel(serviceProvider));
 

@@ -53,7 +53,7 @@ public static partial class Fallbacks
 
                 await client.SendTextMessageAsync(chat, text, parseMode: ParseMode.Markdown);
             })
-            .WithChances(0.7)
+            .WithChances(0.05)
             .WithCooldown(TimeSpan.FromDays(15))
             .WithPriority(Priority.Low)
             .WithChatAction(ChatAction.Typing)
