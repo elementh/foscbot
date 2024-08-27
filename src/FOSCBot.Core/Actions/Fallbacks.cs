@@ -53,7 +53,7 @@ public static partial class Fallbacks
 
                 await client.SendTextMessageAsync(chat, text, parseMode: ParseMode.Markdown);
             })
-            .WithChances(0.05)
+            .WithChances(0.01)
             .WithCooldown(TimeSpan.FromDays(15))
             .WithPriority(Priority.Low)
             .WithChatAction(ChatAction.Typing)
@@ -93,13 +93,12 @@ public static partial class Fallbacks
                     await client.SendTextMessageAsync(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
             })
             .WithChances(0.02)
-            .WithPriority(Priority.Low)
+            .WithPriority(Priority.Low - 100)
             .WithName("Fallback.CatchAllOLD");
 
         catalog
             .OnMessage(() => true)
             .SetHandler(CatchAllHandler)
-            // .WithChances(0.05)
             .WithPriority(Priority.Low)
             .WithName("Fallback.CatchAll");
     }
