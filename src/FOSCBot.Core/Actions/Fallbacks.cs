@@ -43,21 +43,21 @@ public static partial class Fallbacks
             .WithChatAction(ChatAction.UploadVideo)
             .WithName("Fallback.SomewhatRandomGIF");
 
-        catalog.OnMessage(() => true, async (INavigatorClient client, Chat chat) =>
-            {
-                const string text =
-                    "`点击打开LINUXCT查看对应内容击打开HONG SPOTIFY应内容应内容TIANANMEN击打开应内容FENSHAO RISG*RE内容应内SIWANG死亡DESCENDANT查看对VUELING" +
-                    "内容查看WALLPAPER PORT查看对REQIN FUWU热情服务KITERIS内容查FOSC对应内TWITTER DA YONGHU大用户SAFETYNET没有电话MEIYOU DIANHUA卡尔佩SONY XPERIA ZAO TOULE" +
-                    "糟透HONG NETFLIX阿姆斯特丹AMSTERDAM火鸡TURKEY非常便宜FEICHANG PIANYI很暗HEN AN阴暗的空MARK ASS BROWNIE GALAXY Z FOLD 2 REVIEW里诺克斯蒂VERY DARK美国WANTED" +
-                    "通缉5星★★★★★`";
-
-                await client.SendTextMessageAsync(chat, text, parseMode: ParseMode.Markdown);
-            })
-            .WithChances(0.01)
-            .WithCooldown(TimeSpan.FromDays(15))
-            .WithPriority(Priority.Low)
-            .WithChatAction(ChatAction.Typing)
-            .WithName("Fallback.ChinesePolice");
+        // catalog.OnMessage(() => true, async (INavigatorClient client, Chat chat) =>
+        //     {
+        //         const string text =
+        //             "`点击打开LINUXCT查看对应内容击打开HONG SPOTIFY应内容应内容TIANANMEN击打开应内容FENSHAO RISG*RE内容应内SIWANG死亡DESCENDANT查看对VUELING" +
+        //             "内容查看WALLPAPER PORT查看对REQIN FUWU热情服务KITERIS内容查FOSC对应内TWITTER DA YONGHU大用户SAFETYNET没有电话MEIYOU DIANHUA卡尔佩SONY XPERIA ZAO TOULE" +
+        //             "糟透HONG NETFLIX阿姆斯特丹AMSTERDAM火鸡TURKEY非常便宜FEICHANG PIANYI很暗HEN AN阴暗的空MARK ASS BROWNIE GALAXY Z FOLD 2 REVIEW里诺克斯蒂VERY DARK美国WANTED" +
+        //             "通缉5星★★★★★`";
+        //
+        //         await client.SendTextMessageAsync(chat, text, parseMode: ParseMode.Markdown);
+        //     })
+        //     .WithChances(0.01)
+        //     .WithCooldown(TimeSpan.FromDays(15))
+        //     .WithPriority(Priority.Low)
+        //     .WithChatAction(ChatAction.Typing)
+        //     .WithName("Fallback.ChinesePolice");
 
         // Catch All Fallback
         catalog
