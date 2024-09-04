@@ -92,7 +92,7 @@ public static partial class Fallbacks
                 if (!string.IsNullOrWhiteSpace(sentence))
                     await client.SendTextMessageAsync(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
             })
-            .WithChances(0.02)
+            .WithChances(0.002)
             .WithPriority(Priority.Low - 100)
             .WithName("Fallback.CatchAllOLD");
 
