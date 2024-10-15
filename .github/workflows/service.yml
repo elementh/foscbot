@@ -67,6 +67,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
+            type=ref,event=pr
             type=semver,pattern={{version}}
       - name: Build and push Docker image
         if: github.ref == 'refs/heads/main'
