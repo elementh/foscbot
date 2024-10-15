@@ -13,7 +13,7 @@ public static class Administration
     public static void RegisterAdministration(this BotActionCatalogFactory catalog)
     {
         catalog
-            .OnCommand("/setunhinged")
+            .OnCommand("setunhinged")
             .SetHandler((INavigatorClient client, UnhingedService service, Chat chat) =>
             {
                 service.SetUnhinged(chat.Id);
@@ -23,7 +23,7 @@ public static class Administration
             .WithChatAction(ChatAction.Typing);
 
         catalog
-            .OnCommand("/clear")
+            .OnCommand("clear")
             .SetHandler((UnhingedService service, Chat chat) => service.Clear(chat.Id));
     }
 }
