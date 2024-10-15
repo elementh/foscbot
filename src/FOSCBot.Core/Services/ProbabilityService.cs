@@ -4,7 +4,7 @@ namespace FOSCBot.Core.Services;
 
 public class ProbabilityService(IMemoryCache cache)
 {
-    private static readonly int TippingPoint = 600;
+    private static readonly int TippingPoint = 50;
 
     public bool GetResult(string key)
     {
