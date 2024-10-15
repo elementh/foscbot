@@ -1,6 +1,8 @@
 using FOSCBot.Core.Services;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
+using Navigator.Client;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -12,7 +14,12 @@ public static class Administration
     {
         catalog
             .OnCommand("/setunhinged")
-            .SetHandler((UnhingedService service, Chat chat) => service.SetUnhinged(chat.Id))
+            .SetHandler((INavigatorClient client, UnhingedService service, Chat chat) =>
+            {
+                service.SetUnhinged(chat.Id);
+
+                client.SendTextMessageAsync(chat, "`Now I am become Death, the destroyer of worlds`", parseMode: ParseMode.MarkdownV2);
+            })
             .WithChatAction(ChatAction.Typing);
 
         catalog
