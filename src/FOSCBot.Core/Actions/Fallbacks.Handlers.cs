@@ -37,7 +37,7 @@ public static partial class Fallbacks
 
             var shouldAnswer = update.IsBotQuotedOrMentioned()
                 ? RandomProvider.GetThreadRandom()!.NextDouble() < 0.05
-                : probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
+                : probabilities.GetResult(chat.Id);
 
             if (shouldAnswer)
             {
@@ -55,7 +55,7 @@ public static partial class Fallbacks
                 {
                     await client.SendTextMessageAsync(chat.Id, response.Content);
 
-                    probabilities.Reset($"fallback.catchall.probabilities:{chat.Id}");
+                    probabilities.Reset(chat.Id);
                 }
             }
         }
