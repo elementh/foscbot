@@ -1,4 +1,5 @@
 using FOSCBot.Core.Actions;
+using FOSCBot.Core.Options;
 using FOSCBot.Core.Services;
 using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
@@ -31,6 +32,9 @@ builder.Services.AddOpenAIChatCompletion(
 builder.Services.AddTransient(serviceProvider => new Kernel(serviceProvider));
 
 builder.Services.AddTransient<ProbabilityService>();
+builder.Services.AddTransient<UnhingedService>();
+
+builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
 
 #region Navigator
 

@@ -1,10 +1,12 @@
+using FOSCBot.Core.Options;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Core.Services;
 
-public class ProbabilityService(IMemoryCache cache)
+public class ProbabilityService(IMemoryCache cache, IOptions<FosboOptions> options)
 {
-    private static readonly int TippingPoint = 50;
+    private readonly int _tippingPoint = options.Value.TippingPoint;
 
     public bool GetResult(string key)
     {
@@ -12,7 +14,7 @@ public class ProbabilityService(IMemoryCache cache)
         callCount++;
 
         cache.Set(key, callCount);
-        var probability = Math.Min(1.0, (double)callCount / (2 * TippingPoint));
+        var probability = Math.Min(1.0, (double)callCount / (2 * _tippingPoint));
         return new Random().NextDouble() < probability;
     }
 

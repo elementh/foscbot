@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Helpers;
+using FOSCBot.Core.Options;
 using FOSCBot.Core.Services;
 using Incremental.Common.Random;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -18,13 +20,16 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, IMemoryCache cache,
-        IChatCompletionService llm, Update update, ProbabilityService probabilities)
+        IChatCompletionService llm, Update update, ProbabilityService probabilities, IOptions<FosboOptions> options)
     {
         try
         {
             if (message.Type is not (MessageType.Text or MessageType.Sticker)) return;
 
-            var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}") ?? new SlidingBuffer<Message>(10);
+            var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}");
+
+            if (buffer is null || buffer.MaxLength > options.Value.ContextWindow)
+                buffer = new SlidingBuffer<Message>(options.Value.ContextWindow);
 
             buffer.Add(message);
 
@@ -64,14 +69,15 @@ public static partial class Fallbacks
 // Courtesy of Thomas Levesque
 public class SlidingBuffer<T> : IEnumerable<T>
 {
-    private readonly int _maxCount;
     private readonly Queue<T> _queue;
 
     public SlidingBuffer(int maxCount)
     {
-        _maxCount = maxCount;
+        MaxLength = maxCount;
         _queue = new Queue<T>(maxCount);
     }
+
+    public int MaxLength { get; }
 
     public IEnumerator<T> GetEnumerator()
     {
@@ -85,7 +91,7 @@ public class SlidingBuffer<T> : IEnumerable<T>
 
     public void Add(T item)
     {
-        if (_queue.Count == _maxCount)
+        if (_queue.Count == MaxLength)
             _queue.Dequeue();
         _queue.Enqueue(item);
     }
