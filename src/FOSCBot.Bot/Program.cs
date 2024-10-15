@@ -138,6 +138,7 @@ var app = builder.Build();
 
 var bot = app.GetBot();
 
+bot.RegisterAdministration();
 bot.RegisterCommands();
 bot.RegisterInlineQueries();
 #pragma warning disable SKEXP0001
