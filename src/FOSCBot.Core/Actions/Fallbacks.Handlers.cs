@@ -31,7 +31,7 @@ public static partial class Fallbacks
             cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
             var shouldAnswer = update.IsBotQuotedOrMentioned()
-                ? RandomProvider.GetThreadRandom()!.NextDouble() < 0.05
+                ? true
                 : probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
 
             if (shouldAnswer)
