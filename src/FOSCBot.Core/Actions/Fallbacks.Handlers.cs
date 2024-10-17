@@ -3,13 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Options;
 using FOSCBot.Core.Services;
-using Incremental.Common.Random;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Navigator.Client;
+using Navigator.Strategy;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -20,7 +21,8 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, IMemoryCache cache,
-        IChatCompletionService llm, Update update, ProbabilityService probabilities, IOptions<FosboOptions> options)
+        IChatCompletionService llm, Update update, ProbabilityService probabilities, IOptions<FosboOptions> options,
+        UnhingedService unhinged, ILogger<NavigatorStrategy> logger)
     {
         try
         {
@@ -41,7 +43,16 @@ public static partial class Fallbacks
             {
                 await client.SendChatActionAsync(chat, ChatAction.Typing);
 
-                var history = buffer.ToChatHistory();
+                var prompt = unhinged.GetPrompt(chat.Id);
+
+                if (prompt is not null)
+                {
+                    logger.LogInformation("Using prompt {Prompt} for chat {ChatId}", prompt, chat.Id);
+                }
+                
+                var history = prompt is null
+                    ? buffer.ToChatHistory()
+                    : buffer.ToChatHistory(prompt);
 
                 var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
                 {
@@ -59,7 +70,7 @@ public static partial class Fallbacks
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError(e, "Failed to process fallback handler for chat {ChatId}", chat.Id);
         }
     }
 }
@@ -98,13 +109,13 @@ public class SlidingBuffer<T> : IEnumerable<T>
 public static class SlidingBufferExtensions
 {
     [Experimental("SKEXP0001")]
-    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer)
+    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string? prompt = default)
     {
         var chatHistory =
-            new ChatHistory("""
-                            You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
-                            Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
-                            """);
+            new ChatHistory(prompt ?? """
+                                      You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
+                                      Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
+                                      """);
 
         foreach (var message in buffer)
             switch (message)
