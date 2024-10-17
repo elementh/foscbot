@@ -16,6 +16,7 @@ public class UnhingedService(IMemoryCache cache)
 
     public void Clear(long chatId)
     {
+        cache.Remove($"fallback.catchall:{chatId}");
         cache.Remove($"unhinged:{chatId}");
     }
 }
