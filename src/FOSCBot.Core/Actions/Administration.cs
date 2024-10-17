@@ -50,6 +50,12 @@ public static class Administration
 
         catalog
             .OnCommand("clear")
-            .SetHandler((UnhingedService service, Chat chat) => service.Clear(chat.Id));
+            .SetHandler(async (INavigatorClient client, UnhingedService service, Chat chat) =>
+            {
+                await client.SendTextMessageAsync(chat, "`Let's not alert your mom. Going back to defaults...`",
+                    parseMode: ParseMode.MarkdownV2);
+                
+                service.Clear(chat.Id);
+            });
     }
 }
