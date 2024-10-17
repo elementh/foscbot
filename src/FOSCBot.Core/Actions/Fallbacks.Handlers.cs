@@ -20,7 +20,7 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, IMemoryCache cache,
-        IChatCompletionService llm, Update update, ProbabilityService probabilities, IOptions<FosboOptions> options)
+        IChatCompletionService llm, Update update, ProbabilityService probabilities)
     {
         try
         {
@@ -36,8 +36,8 @@ public static partial class Fallbacks
             cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
             var shouldAnswer = update.IsBotQuotedOrMentioned()
-                ? RandomProvider.GetThreadRandom()!.NextDouble() < 0.05
-                : probabilities.GetResult(chat.Id);
+                ? true
+                : probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
 
             if (shouldAnswer)
             {
