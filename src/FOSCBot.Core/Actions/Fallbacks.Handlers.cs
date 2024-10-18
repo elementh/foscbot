@@ -45,19 +45,18 @@ public static partial class Fallbacks
 
                 var prompt = unhinged.GetPrompt(chat.Id);
 
-                if (prompt is not null)
-                {
-                    logger.LogInformation("Using prompt {Prompt} for chat {ChatId}", prompt, chat.Id);
-                }
-                
+                if (prompt is not null) logger.LogInformation("Using prompt {Prompt} for chat {ChatId}", prompt, chat.Id);
+
                 var history = prompt is null
                     ? buffer.ToChatHistory()
                     : buffer.ToChatHistory(prompt);
 
+                var temperature = unhinged.GetTemperature(chat.Id);
+
                 var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
                 {
                     MaxTokens = 4000,
-                    Temperature = 0.9
+                    Temperature = temperature ?? 0.9
                 });
 
                 if (response.Content != null)

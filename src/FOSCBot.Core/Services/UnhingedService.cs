@@ -29,5 +29,16 @@ public class UnhingedService(IMemoryCache cache)
         cache.Remove($"fallback.catchall:{chatId}");
         cache.Remove($"unhinged:{chatId}");
         cache.Remove($"unhinged.prompt:{chatId}");
+        cache.Remove($"unhinged.temperature:{chatId}");
+    }
+
+    public double? GetTemperature(long chatId)
+    {
+        return cache.Get<double?>($"unhinged.temperature:{chatId}");
+    }
+
+    public void SetTemperature(long chatId, double temperature)
+    {
+        cache.Set($"unhinged.temperature:{chatId}", temperature);
     }
 }
