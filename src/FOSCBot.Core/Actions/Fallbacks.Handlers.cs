@@ -62,7 +62,7 @@ public static partial class Fallbacks
 
                 if (response.Content != null)
                 {
-                    await client.SendTextMessageAsync(chat.Id, response.Content);
+                    await client.SendTextMessageAsync(chat.Id, response.Content, parseMode: ParseMode.Markdown);
 
                     probabilities.Reset(chat.Id);
                 }
