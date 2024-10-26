@@ -100,7 +100,6 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("pobres", StringComparison.CurrentCultureIgnoreCase) ||
-                                     text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase) ||
                                      text.Contains("dineros", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/dineros.mp4")
             .WithName("Miscellaneous.Dineros");
@@ -112,7 +111,8 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.DjEspanita");
 
         catalog.OnText(
-                (string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) && !text.ToLower().ContainsUrl())
+                (string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) &&
+                                 !text.ToLower().ContainsUrl())
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4",
                 "Elegance is achieved when all that is superfluous has been discarded and the human being discovers simplicity and concentration: the simpler and more sober the posture, the more beautiful it will be.")
             .WithName("Miscellaneous.Elegant");
@@ -146,12 +146,15 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => GoAheadRegex().IsMatch(text))
-            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4", "SSSSSSSSSSSUCK YOUR OWN COCKKKKK")
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4",
+                "SSSSSSSSSSSUCK YOUR OWN COCKKKKK")
             .WithChances(0.8)
             .WithName("Miscellaneous.GoAhead");
 
         catalog
-            .OnSticker((Sticker sticker) => sticker.SetName?.Equals("foscupct") is not false && sticker.Emoji?.Equals("😚") is true,
+            .OnSticker(
+                (Sticker sticker) =>
+                    sticker.SetName?.Equals("foscupct") is not false && sticker.Emoji?.Equals("😚") is true,
                 async (INavigatorClient client, Chat chat) =>
                 {
                     var bytes = Convert.FromBase64String(CoreResources.HeyBroImage);
@@ -167,7 +170,8 @@ public static partial class Miscellaneous
         catalog
             .OnMessage((Message message) =>
             {
-                if (message.Text?.Contains("fucking ice", StringComparison.CurrentCultureIgnoreCase) is true) return true;
+                if (message.Text?.Contains("fucking ice", StringComparison.CurrentCultureIgnoreCase) is true)
+                    return true;
 
                 if (RandomProvider.GetThreadRandom()!.NextDouble() < 0.2d) return false;
 
@@ -305,7 +309,8 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) =>
-                text.ToLower().Contains("so sad") || text.ToLower().Contains("ligma") || text.ToLower().Contains("p4cock"))
+                text.ToLower().Contains("so sad") || text.ToLower().Contains("ligma") ||
+                text.ToLower().Contains("p4cock"))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
                 await client.SendChatActionAsync(chat, ChatAction.UploadVoice);
@@ -464,6 +469,11 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Synology");
 
         catalog
+            .OnText((string text) => text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase))
+            .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/sergio_model3.mp4")
+            .WithName("Miscellaneous.Tesla");
+
+        catalog
             .OnText((string text) =>
             {
                 return text.ToLower().Contains("cock and balls torture")
@@ -591,7 +601,8 @@ public static partial class Miscellaneous
 
                 await Task.Delay(400);
 
-                await client.SendStickerAsync(chat, "CAACAgQAAxkBAAJJpl6bSONlqhE0C21-0T9V9YHxfqPKAAKZBgACL9trAAHwqRcYUmB_gRgE");
+                await client.SendStickerAsync(chat,
+                    "CAACAgQAAxkBAAJJpl6bSONlqhE0C21-0T9V9YHxfqPKAAKZBgACL9trAAHwqRcYUmB_gRgE");
             })
             .WithName("Micellaneous.Vueling");
 
