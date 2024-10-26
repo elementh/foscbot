@@ -1,13 +1,14 @@
 ﻿using FOSCBot.Infrastructure.Contract.Client;
 using FOSCBot.Infrastructure.Contract.Service;
+using Incremental.Common.Random;
 using Microsoft.Extensions.Logging;
 
 namespace FOSCBot.Infrastructure.Implementation.Service;
 
 public class GiphyService : IGiphyService
 {
-    private readonly ILogger<GiphyService> _logger;
     private readonly IGiphyClient _giphyClient;
+    private readonly ILogger<GiphyService> _logger;
 
     public GiphyService(ILogger<GiphyService> logger, IGiphyClient giphyClient)
     {
@@ -20,7 +21,7 @@ public class GiphyService : IGiphyService
         try
         {
             var gifUrl = await _giphyClient.Get(text, cancellationToken);
-                
+
             return gifUrl;
         }
         catch (Exception e)
@@ -29,5 +30,18 @@ public class GiphyService : IGiphyService
 
             return default;
         }
+    }
+
+    public async Task<Uri?> GetOneOf(string[] texts, CancellationToken cancellationToken = default)
+    {
+        if (texts.Length == 0) return default;
+
+        var randomText = texts.Length switch
+        {
+            1 => texts[0],
+            _ => texts[RandomProvider.GetThreadRandom()!.Next(0, texts.Length)]
+        };
+
+        return await Get(randomText, cancellationToken);
     }
 }
