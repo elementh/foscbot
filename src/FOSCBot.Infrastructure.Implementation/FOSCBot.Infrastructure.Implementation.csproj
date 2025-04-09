@@ -15,6 +15,7 @@
         <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.45.0" />
     </ItemGroup>
 
 </Project>

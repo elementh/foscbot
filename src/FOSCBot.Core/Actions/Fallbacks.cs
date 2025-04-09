@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Bottom;
 using FOSCBot.Core.Helpers;
+using FOSCBot.Core.Services;
 using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
 using Navigator.Actions;
@@ -61,13 +62,13 @@ public static partial class Fallbacks
 
         // Catch All Fallback
         catalog
-            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, ILlamaService llm) =>
+            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, AgentService agentService) =>
             {
                 var sentence = string.Empty;
 
                 if (message.Text?.Length > 200)
                 {
-                    var response = await llm.GetResponse(new[] { message.Text }, default);
+                    var response = await agentService.ProcessMessage(chat, message);
 
                     sentence = response;
                 }
@@ -83,10 +84,10 @@ public static partial class Fallbacks
                         sentence = await lipsum.GetMetaphorSentence();
                         break;
                     default:
-                    {
-                        if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
-                        break;
-                    }
+                        {
+                            if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
+                            break;
+                        }
                 }
 
                 if (!string.IsNullOrWhiteSpace(sentence))

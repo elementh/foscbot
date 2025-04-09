@@ -25,11 +25,22 @@ builder.Services.AddMemoryCache();
 
 // Semantic Kernel, AKA LLM
 #pragma warning disable SKEXP0010
-builder.Services.AddOpenAIChatCompletion(
-    builder.Configuration["LLAMA_MODEL"],
-    new Uri(builder.Configuration["LLAMA_API_URL"]));
+builder.Services.AddHttpClient("openwebui", (serviceProvider, client) =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AI_API_URL"]!);
+});
 
-builder.Services.AddTransient(serviceProvider => new Kernel(serviceProvider));
+builder.Services.AddTransient<Kernel>(serviceProvider =>
+{
+    var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+
+    return Kernel.CreateBuilder()
+        .AddOpenAIChatCompletion(modelId: builder.Configuration["AI_CHAT_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
+            httpClient: clientFactory.CreateClient("openwebui"))
+        .AddOpenAITextEmbeddingGeneration(modelId: builder.Configuration["AI_EMBEDDING_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
+            httpClient: clientFactory.CreateClient("openwebui"))
+        .Build();
+});
 
 builder.Services.AddTransient<ProbabilityService>();
 builder.Services.AddTransient<UnhingedService>();
@@ -72,11 +83,6 @@ builder.Services.AddOptions<GiphyClient.GiphyClientOptions>().Configure(options 
     options.ApiKey = builder.Configuration["GIPHY_API_KEY"];
 });
 
-builder.Services.AddOptions<LlamaClient.LlamaClientOptions>().Configure(options =>
-{
-    options.ApiUrl = builder.Configuration["LLAMA_API_URL"];
-});
-
 builder.Services.AddHttpClient<IBaconClient, BaconClient>()
     .AddTransientHttpErrorPolicy(builder =>
         builder.WaitAndRetryAsync(3, retryCount =>
@@ -107,11 +113,6 @@ builder.Services.AddHttpClient<IGiphyClient, GiphyClient>()
         builder.WaitAndRetryAsync(3, retryCount =>
             TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
-builder.Services.AddHttpClient<ILlamaClient, LlamaClient>()
-    .AddTransientHttpErrorPolicy(builder =>
-        builder.WaitAndRetryAsync(3, retryCount =>
-            TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-
 builder.Services.AddHttpClient<IMemeClient, MemeClient>()
     .AddTransientHttpErrorPolicy(builder =>
         builder.WaitAndRetryAsync(3, retryCount =>
@@ -122,7 +123,6 @@ builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
-builder.Services.AddScoped<ILlamaService, LlamaService>();
 builder.Services.AddScoped<IMemeService, MemeService>();
 
 #endregion
