@@ -1,8 +1,7 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY *.sln ./
-copy ./nuget.config ./nuget.config
 
 COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
 COPY FOSCBot.Core/*.csproj FOSCBot.Core/
@@ -14,7 +13,7 @@ COPY . .
 WORKDIR /src/FOSCBot
 RUN dotnet publish -c Release -o /app -r linux-musl-x64 --self-contained false --no-restore ../FOSCBot.sln 
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
 ARG BOT_VERSION
 
