@@ -9,8 +9,9 @@
     <ItemGroup>
         <PackageReference Include="Bottom.NET" Version="3.1.0"/>
         <PackageReference Include="Incremental.Common.Random" Version="1.2.0"/>
-        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.45.0"/>
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.45.0"/>
+        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.61.0" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.45.0-preview" />
         <PackageReference Include="Navigator" Version="3.2.3" />
     </ItemGroup>
 
