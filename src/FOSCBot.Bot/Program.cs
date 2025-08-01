@@ -113,17 +113,11 @@ builder.Services.AddHttpClient<IGiphyClient, GiphyClient>()
         builder.WaitAndRetryAsync(3, retryCount =>
             TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
-builder.Services.AddHttpClient<IMemeClient, MemeClient>()
-    .AddTransientHttpErrorPolicy(builder =>
-        builder.WaitAndRetryAsync(3, retryCount =>
-            TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-
 builder.Services.AddScoped<ILipsumService, LipsumService>();
 builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
-builder.Services.AddScoped<IMemeService, MemeService>();
 
 #endregion
 
