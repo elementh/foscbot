@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Helpers;
+using FOSCBot.Core.Options;
 using FOSCBot.Core.Services;
-using Incremental.Common.Random;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Navigator.Client;
+using Navigator.Strategy;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -18,45 +21,55 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, IMemoryCache cache,
-        IChatCompletionService llm, Update update, ProbabilityService probabilities)
+        IChatCompletionService llm, Update update, ProbabilityService probabilities, IOptions<FosboOptions> options,
+        UnhingedService unhinged, ILogger<NavigatorStrategy> logger)
     {
         try
         {
             if (message.Type is not (MessageType.Text or MessageType.Sticker)) return;
 
-            var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}") ?? new SlidingBuffer<Message>(10);
+            var buffer = cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}");
+
+            if (buffer is null || buffer.MaxLength > options.Value.ContextWindow)
+                buffer = new SlidingBuffer<Message>(options.Value.ContextWindow);
 
             buffer.Add(message);
 
             cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
-            var shouldAnswer = update.IsBotQuotedOrMentioned()
-                ? true
-                : probabilities.GetResult($"fallback.catchall.probabilities:{chat.Id}");
+            var shouldAnswer = update.IsBotQuotedOrMentioned() || probabilities.GetResult(chat.Id);
 
             if (shouldAnswer)
             {
                 await client.SendChatActionAsync(chat, ChatAction.Typing);
 
-                var history = buffer.ToChatHistory();
+                var prompt = unhinged.GetPrompt(chat.Id);
+
+                if (prompt is not null) logger.LogInformation("Using prompt {Prompt} for chat {ChatId}", prompt, chat.Id);
+
+                var history = prompt is null
+                    ? buffer.ToChatHistory()
+                    : buffer.ToChatHistory(prompt);
+
+                var temperature = unhinged.GetTemperature(chat.Id);
 
                 var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
                 {
                     MaxTokens = 4000,
-                    Temperature = 0.9
+                    Temperature = temperature ?? 0.9
                 });
 
                 if (response.Content != null)
                 {
-                    await client.SendTextMessageAsync(chat.Id, response.Content);
+                    await client.SendTextMessageAsync(chat.Id, response.Content, parseMode: ParseMode.Markdown);
 
-                    probabilities.Reset($"fallback.catchall.probabilities:{chat.Id}");
+                    probabilities.Reset(chat.Id);
                 }
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError(e, "Failed to process fallback handler for chat {ChatId}", chat.Id);
         }
     }
 }
@@ -64,14 +77,15 @@ public static partial class Fallbacks
 // Courtesy of Thomas Levesque
 public class SlidingBuffer<T> : IEnumerable<T>
 {
-    private readonly int _maxCount;
     private readonly Queue<T> _queue;
 
     public SlidingBuffer(int maxCount)
     {
-        _maxCount = maxCount;
+        MaxLength = maxCount;
         _queue = new Queue<T>(maxCount);
     }
+
+    public int MaxLength { get; }
 
     public IEnumerator<T> GetEnumerator()
     {
@@ -85,7 +99,7 @@ public class SlidingBuffer<T> : IEnumerable<T>
 
     public void Add(T item)
     {
-        if (_queue.Count == _maxCount)
+        if (_queue.Count == MaxLength)
             _queue.Dequeue();
         _queue.Enqueue(item);
     }
@@ -94,13 +108,13 @@ public class SlidingBuffer<T> : IEnumerable<T>
 public static class SlidingBufferExtensions
 {
     [Experimental("SKEXP0001")]
-    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer)
+    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string? prompt = default)
     {
         var chatHistory =
-            new ChatHistory("""
-                            You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
-                            Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
-                            """);
+            new ChatHistory(prompt ?? """
+                                      You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
+                                      Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
+                                      """);
 
         foreach (var message in buffer)
             switch (message)
