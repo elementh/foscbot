@@ -12,6 +12,8 @@ using Microsoft.SemanticKernel;
 using Navigator;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
+using Navigator.Extensions.Cooldown;
+using Navigator.Extensions.Probabilities;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,11 +51,14 @@ builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo
 
 #region Navigator
 
-builder.Services.AddNavigator(options =>
+builder.Services.AddNavigator(configuration =>
 {
-    options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
-    options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
-    options.EnableChatActionNotification();
+    configuration.Options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
+    configuration.Options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
+    configuration.Options.EnableChatActionNotification();
+
+    configuration.WithExtension<ProbabilitiesExtension>();
+    configuration.WithExtension<CooldownExtension>();
 });
 
 #endregion

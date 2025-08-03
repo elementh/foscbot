@@ -2,6 +2,8 @@ using Bottom;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Client;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
@@ -26,7 +28,7 @@ public static class Commands
                     Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me) & many others for all the cool people at [FOSC](https://fosc.space). 
                     """;
 
-                await client.SendTextMessageAsync(chat, about, parseMode: ParseMode.Markdown);
+                await client.SendMessage(chat, about, parseMode: ParseMode.Markdown);
             })
             .WithChatAction(ChatAction.Typing);
 
@@ -50,16 +52,16 @@ public static class Commands
                 ];
 
                 if (string.IsNullOrWhiteSpace(message.ReplyToMessage?.Text) is false)
-                    return await client.SendTextMessageAsync(chat, Bottomify.EncodeString(message.ReplyToMessage.Text),
+                    return await client.SendMessage(chat, Bottomify.EncodeString(message.ReplyToMessage.Text),
                         replyParameters: message.ReplyToMessage);
 
                 var input = message.Text?.Remove(0, message.Text.IndexOf(' ') + 1);
 
-                if (!string.IsNullOrWhiteSpace(input)) return await client.SendTextMessageAsync(chat, Bottomify.EncodeString(input));
+                if (!string.IsNullOrWhiteSpace(input)) return await client.SendMessage(chat, Bottomify.EncodeString(input));
 
                 var randomText = Bottomify.EncodeString(lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)]);
 
-                return await client.SendTextMessageAsync(chat, randomText);
+                return await client.SendMessage(chat, randomText);
             })
             .WithChatAction(ChatAction.Typing);
 
@@ -75,14 +77,14 @@ public static class Commands
                     {
                         var answer = await yesNo.GetNoImage(CancellationToken.None);
 
-                        if (!string.IsNullOrWhiteSpace(answer)) return await client.SendVideoAsync(chat, answer, replyParameters: message);
+                        if (!string.IsNullOrWhiteSpace(answer)) return await client.SendVideo(chat, answer, replyParameters: message);
                     }
                     else
                     {
                         var insult = await insults.GetInsult(CancellationToken.None);
 
                         if (!string.IsNullOrWhiteSpace(insult))
-                            return await client.SendTextMessageAsync(chat, insult, replyParameters: message);
+                            return await client.SendMessage(chat, insult, replyParameters: message);
                     }
 
                     return default;
@@ -100,7 +102,7 @@ public static class Commands
         catalog
             .OnCommand("quote",
                 async Task (INavigatorClient client, Chat chat, IInspiroService quotes) =>
-                    await client.SendPhotoAsync(chat, await quotes.GetInspiroImage()))
+                    await client.SendPhoto(chat, await quotes.GetInspiroImage()))
             .WithChatAction(ChatAction.UploadPhoto);
 
         catalog
@@ -121,7 +123,7 @@ public static class Commands
                     FOSC stands for `Free Open Source Club`. We are a student association focused on expanding free software and hacker culture.
                     """;
 
-                await client.SendTextMessageAsync(chat, start, parseMode: ParseMode.Markdown);
+                await client.SendMessage(chat, start, parseMode: ParseMode.Markdown);
             })
             .WithChatAction(ChatAction.Typing);
 
@@ -134,7 +136,7 @@ public static class Commands
                     ? "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ.mp4"
                     : "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4";
 
-                await client.SendVideoAsync(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
+                await client.SendVideo(chat, link, replyParameters: message.ReplyToMessage ?? default(ReplyParameters));
             })
             .WithChatAction(ChatAction.UploadVideo);
 

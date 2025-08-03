@@ -1,3 +1,4 @@
+using Navigator.Abstractions.Client;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
@@ -31,14 +32,13 @@ public static class InlineQueries
             {
                 responses.Add(new InlineQueryResultArticle(id, title, new InputTextMessageContent(url))
                 {
-                    Url = url, 
-                    HideUrl = true,
+                    Url = url,
                     Description = url,
                     ThumbnailUrl = "https://fosc.space/img/Logo-invert.webp"
                 });
             }
             
-            await client.AnswerInlineQueryAsync(query.Id, responses);
+            await client.AnswerInlineQuery(query.Id, responses);
         });
     }
 }

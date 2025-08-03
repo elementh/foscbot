@@ -1,5 +1,7 @@
 using FOSCBot.Core.Helpers;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Client;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
@@ -27,7 +29,7 @@ public static class Interactivity
 
                     var randomReaction = reactions[RandomProvider.GetThreadRandom()!.Next(0, reactions.Length)];
 
-                    await client.SendTextMessageAsync(chat, randomReaction);
+                    await client.SendMessage(chat, randomReaction);
                 })
             .WithName("Interactivity.BadBot");
 
@@ -43,7 +45,7 @@ public static class Interactivity
         //         switch (choice)
         //         {
         //             case 0:
-        //                 await client.SendTextMessageAsync(chat, "De nada hermozo 😘", replyParameters: replyParameters);
+        //                 await client.SendMessage(chat, "De nada hermozo 😘", replyParameters: replyParameters);
         //                 break;
         //             case 1:
         //                 // Smiling rani 
@@ -72,11 +74,11 @@ public static class Interactivity
         //                 break;
         //             case 6:
         //                 // like
-        //                 await client.SendTextMessageAsync(chat, "Dale a like y suscribete", replyParameters: replyParameters);
+        //                 await client.SendMessage(chat, "Dale a like y suscribete", replyParameters: replyParameters);
         //                 break;
         //             case 7:
         //                 // ram
-        //                 await client.SendTextMessageAsync(chat, "Me alegro de poder ayudar. Oye, ¿te sobra un stick de ram?",
+        //                 await client.SendMessage(chat, "Me alegro de poder ayudar. Oye, ¿te sobra un stick de ram?",
         //                     replyParameters: replyParameters);
         //                 break;
         //             default:
@@ -85,7 +87,7 @@ public static class Interactivity
         //                     default);
         //
         //                 if (!string.IsNullOrWhiteSpace(response))
-        //                     await client.SendTextMessageAsync(chat, response, replyParameters: replyParameters);
+        //                     await client.SendMessage(chat, response, replyParameters: replyParameters);
         //                 break;
         //         }
         //
@@ -103,19 +105,19 @@ public static class Interactivity
                     switch (delay.TotalSeconds)
                     {
                         case < 0:
-                            await client.SendTextMessageAsync(chat, $"⬛ acho puta u🅱ct arreglad ya el NTP. Delay: {delay.TotalSeconds}s",
+                            await client.SendMessage(chat, $"⬛ acho puta u🅱ct arreglad ya el NTP. Delay: {delay.TotalSeconds}s",
                                 replyParameters: message);
                             break;
                         case < 12:
-                            await client.SendTextMessageAsync(chat, $"🟩 toy refinisimo bro. Delay: {delay.TotalSeconds}s",
+                            await client.SendMessage(chat, $"🟩 toy refinisimo bro. Delay: {delay.TotalSeconds}s",
                                 replyParameters: message);
                             break;
                         case < 30:
-                            await client.SendTextMessageAsync(chat, $"🟧 toy F bro. Delay: {delay.TotalSeconds}s",
+                            await client.SendMessage(chat, $"🟧 toy F bro. Delay: {delay.TotalSeconds}s",
                                 replyParameters: message);
                             break;
                         default:
-                            await client.SendTextMessageAsync(chat, $"🟥 toy joya sosio arreglame ya por dio. Delay: {delay.TotalSeconds}s",
+                            await client.SendMessage(chat, $"🟥 toy joya sosio arreglame ya por dio. Delay: {delay.TotalSeconds}s",
                                 replyParameters: message);
                             break;
                     }
@@ -158,7 +160,7 @@ public static class Interactivity
         //         if (response.IsSticker())
         //             await client.SendStickerAsync(chat, response);
         //         else
-        //             await client.SendTextMessageAsync(chat, response);
+        //             await client.SendMessage(chat, response);
         //     })
         //     .WithName("Interactivity.Questions");
     }

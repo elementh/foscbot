@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Services;
 using Microsoft.Extensions.Logging;
+using Navigator.Abstractions.Client;
 using Navigator.Client;
 using Navigator.Strategy;
 using Telegram.Bot;

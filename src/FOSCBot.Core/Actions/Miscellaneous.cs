@@ -2,9 +2,13 @@ using System.Text.RegularExpressions;
 using FOSCBot.Core.Helpers;
 using FOSCBot.Core.Resources;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Client;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
+using Navigator.Extensions.Cooldown.Extensions;
+using Navigator.Extensions.Probabilities.Extensions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -18,7 +22,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.ToLower().Equals("based") || text.Equals("BASED"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/based_department.mp4")
-            .WithChances(0.2)
+            .WithProbabilities(0.2)
             .WithName("Miscellaneous.Based");
 
         catalog
@@ -82,7 +86,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase))
             .SendText("`Btw I run on Arch Linux.`", asReply: true)
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithName("Miscellaneous.BtwArch");
 
         catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase))
@@ -107,7 +111,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("españa", StringComparison.CurrentCultureIgnoreCase))
             .SendSticker("CAACAgQAAxkBAAJWPF6i8ixK0-SqAayKyCdmHYcYFix3AAIhAAN87RspJn8XTAs-3tUZBA")
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithName("Miscellaneous.DjEspanita");
 
         catalog.OnText(
@@ -141,14 +145,14 @@ public static partial class Miscellaneous
             .OnText((string text) => text.Contains("for our stolen code", StringComparison.InvariantCultureIgnoreCase)
                                      || text.Contains("orks", StringComparison.InvariantCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
-            .WithChances(0.8)
+            .WithProbabilities(0.8)
             .WithName("Miscellaneous.Forks");
 
         catalog
             .OnText((string text) => GoAheadRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/goahead.mp4",
                 "SSSSSSSSSSSUCK YOUR OWN COCKKKKK")
-            .WithChances(0.8)
+            .WithProbabilities(0.8)
             .WithName("Miscellaneous.GoAhead");
 
         catalog
@@ -161,9 +165,9 @@ public static partial class Miscellaneous
 
                     await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
-                    await client.SendPhotoAsync(chat, new InputFileStream(stream, "heybroniced.jpg"));
+                    await client.SendPhoto(chat, new InputFileStream(stream, "heybroniced.jpg"));
                 })
-            .WithChances(0.5)
+            .WithProbabilities(0.5)
             .WithChatAction(ChatAction.UploadPhoto)
             .WithName("Miscellaneous.HeyBro");
 
@@ -193,17 +197,17 @@ public static partial class Miscellaneous
             {
                 if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.5)
                 {
-                    await client.SendChatActionAsync(chat, ChatAction.UploadPhoto);
-                    await client.SendPhotoAsync(chat, CoreLinks.Ipad, caption: "tEnGo Un IpAd");
+                    await client.SendChatAction(chat, ChatAction.UploadPhoto);
+                    await client.SendPhoto(chat, CoreLinks.Ipad, caption: "tEnGo Un IpAd");
                 }
                 else
                 {
-                    await client.SendChatActionAsync(chat, ChatAction.UploadVoice);
+                    await client.SendChatAction(chat, ChatAction.UploadVoice);
 
                     var bytes = Convert.FromBase64String(CoreResources.IpadAudio);
                     await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
-                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "ipad"), duration: 5);
+                    await client.SendVoice(chat, new InputFileStream(stream, "ipad"), duration: 5);
                 }
             })
             .WithCooldown(TimeSpan.FromMinutes(15))
@@ -246,7 +250,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase))
             .SendText("Keep it simple, and don't be a dick, bro. 🤗")
-            .WithChances(0.8)
+            .WithProbabilities(0.8)
             .WithName("Miscellaneous.KeepItSimple");
 
         catalog
@@ -275,15 +279,15 @@ public static partial class Miscellaneous
 
                 var randomSticker = stickerList[RandomProvider.GetThreadRandom()!.Next(0, stickerList.Length)];
 
-                await client.SendTextMessageAsync(chat, "FUCKING");
+                await client.SendMessage(chat, "FUCKING");
 
-                await client.SendChatActionAsync(chat, ChatAction.Typing);
+                await client.SendChatAction(chat, ChatAction.Typing);
                 await Task.Delay(200);
-                await client.SendTextMessageAsync(chat, "GO");
+                await client.SendMessage(chat, "GO");
 
-                await client.SendChatActionAsync(chat, ChatAction.ChooseSticker);
+                await client.SendChatAction(chat, ChatAction.ChooseSticker);
                 await Task.Delay(200);
-                await client.SendStickerAsync(chat, randomSticker);
+                await client.SendSticker(chat, randomSticker);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Miscellaneous.Lets");
@@ -313,21 +317,21 @@ public static partial class Miscellaneous
                 text.ToLower().Contains("p4cock"))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
-                await client.SendChatActionAsync(chat, ChatAction.UploadVoice);
+                await client.SendChatAction(chat, ChatAction.UploadVoice);
 
                 if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.75)
                 {
                     var bytes = Convert.FromBase64String(CoreResources.LigmaHardAudio);
                     await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
-                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "LIGMA BALLS"), duration: 4);
+                    await client.SendVoice(chat, new InputFileStream(stream, "LIGMA BALLS"), duration: 4);
                 }
                 else
                 {
                     var bytes = Convert.FromBase64String(CoreResources.LigmaSoftAudio);
                     await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
-                    await client.SendVoiceAsync(chat, new InputFileStream(stream, "ligma balls"), duration: 3);
+                    await client.SendVoice(chat, new InputFileStream(stream, "ligma balls"), duration: 3);
                 }
             })
             .WithName("Miscellaneous.Ligma");
@@ -357,13 +361,13 @@ public static partial class Miscellaneous
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftattoo.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftu.png"
             ])
-            .WithChances(0.6)
+            .WithProbabilities(0.6)
             .WithName("Miscellaneous.NFT");
 
         catalog
             .OnText((string text) => text.Contains("NICE"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nice.mp4")
-            .WithChances(0.7)
+            .WithProbabilities(0.7)
             .WithName("Miscellaneous.Nice");
 
         catalog
@@ -374,22 +378,22 @@ public static partial class Miscellaneous
 
                 await using var stream = await new StreamContent(new MemoryStream(bytes)).ReadAsStreamAsync();
 
-                await client.SendPhotoAsync(chat, new InputFileStream(stream, "nginx.jpg"));
+                await client.SendPhoto(chat, new InputFileStream(stream, "nginx.jpg"));
             })
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithChatAction(ChatAction.UploadPhoto)
             .WithName("Miscellaneous.Nginx");
 
         catalog
             .OnText((string text) => text.Equals("NO") || text.Equals("NOPE"))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nope.mp4")
-            .WithChances(0.5)
+            .WithProbabilities(0.5)
             .WithName("Miscellaneous.Nope");
 
         catalog
             .OnText((string text) => text.Contains("nvidia", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/nvidia.mp4")
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithName("Miscellaneous.Nvidia");
 
         catalog
@@ -419,7 +423,7 @@ public static partial class Miscellaneous
                        || message.Sticker?.Emoji is "😔" or "😢" or "😞" or "😭";
             })
             .SendSticker("CAACAgQAAxkBAAI5DF59uqkJYnqzc5LcnEC_bdp0rerIAAJsAwACmOejAAG_qYNUT_L_exgE")
-            .WithChances(0.6)
+            .WithProbabilities(0.6)
             .WithName("Miscellaneous.Sad");
 
         catalog
@@ -446,7 +450,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("stonks", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stonks.mp4")
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithName("Miscellaneous.Stonks");
 
         catalog
@@ -486,27 +490,27 @@ public static partial class Miscellaneous
                 switch (RandomProvider.GetThreadRandom()!.Next(0, 4))
                 {
                     case 0:
-                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await client.SendChatAction(chat, ChatAction.UploadVideo);
                         await Task.Delay(200);
-                        await client.SendVideoAsync(chat,
+                        await client.SendVideo(chat,
                             "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cbt_explanation.mp4");
                         break;
                     case 1:
-                        await client.SendTextMessageAsync(chat, "And make it snappy");
-                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await client.SendMessage(chat, "And make it snappy");
+                        await client.SendChatAction(chat, ChatAction.UploadVideo);
                         await Task.Delay(200);
-                        await client.SendVideoAsync(chat, CoreLinks.Conke);
+                        await client.SendVideo(chat, CoreLinks.Conke);
                         break;
                     case 2:
-                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await client.SendChatAction(chat, ChatAction.UploadVideo);
                         await Task.Delay(200);
-                        await client.SendVideoAsync(chat,
+                        await client.SendVideo(chat,
                             "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4");
                         break;
                     case 3:
-                        await client.SendChatActionAsync(chat, ChatAction.UploadVideo);
+                        await client.SendChatAction(chat, ChatAction.UploadVideo);
                         await Task.Delay(200);
-                        await client.SendVideoAsync(chat,
+                        await client.SendVideo(chat,
                             "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4");
                         break;
                 }
@@ -537,12 +541,12 @@ public static partial class Miscellaneous
                     ? "CAACAgQAAxkBAAJNW16eEHOauvBkLuaD-jL95s86vn2qAAJuAwACmOejAAEys6bCdTOD7RgE"
                     : "CAACAgQAAxkBAAJNXV6eEJLQHwl-8el7YOYYJUF9l8ymAAJZAgACkNStBjfoiv3ywvd8GAQ";
 
-                await client.SendStickerAsync(chat, randomSticker);
+                await client.SendSticker(chat, randomSticker);
 
                 if (RandomProvider.GetThreadRandom()!.NextDouble() > 0.8d)
-                    await client.SendChatActionAsync(chat, ChatAction.Typing);
+                    await client.SendChatAction(chat, ChatAction.Typing);
                 await Task.Delay(250);
-                await client.SendTextMessageAsync(chat, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl");
+                await client.SendMessage(chat, "cAmPuS dE eXcElEnCiA iNtErNaCiOnAl");
             })
             .WithChatAction(ChatAction.ChooseSticker)
             .WithName("Miscellaneous.UPCT");
@@ -582,7 +586,7 @@ public static partial class Miscellaneous
                 "CAACAgEAAxkBAAI5VF59xHaB-gErBEkh9DXZaHDe9eLaAAIOAwACzcclBfGcKSkKZF2bGAQ",
                 "CAACAgEAAxkBAAI5V159xHeYdoptiC57-xPpRa394tDgAAIgAwACzcclBdluT-36S2ydGAQ"
             ])
-            .WithChances(0.3)
+            .WithProbabilities(0.3)
             .WithName("Miscellaneous.UwU");
 
         catalog
@@ -595,13 +599,13 @@ public static partial class Miscellaneous
             })
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
-                await client.SendTextMessageAsync(chat, "Did some carbon based life form just mention...");
+                await client.SendMessage(chat, "Did some carbon based life form just mention...");
 
-                await client.SendChatActionAsync(chat, ChatAction.ChooseSticker);
+                await client.SendChatAction(chat, ChatAction.ChooseSticker);
 
                 await Task.Delay(400);
 
-                await client.SendStickerAsync(chat,
+                await client.SendSticker(chat,
                     "CAACAgQAAxkBAAJJpl6bSONlqhE0C21-0T9V9YHxfqPKAAKZBgACL9trAAHwqRcYUmB_gRgE");
             })
             .WithName("Micellaneous.Vueling");
@@ -614,7 +618,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Equals("YES") || text.Equals("SI"))
             .SendSticker("CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE")
-            .WithChances(0.5)
+            .WithProbabilities(0.5)
             .WithName("Miscellaneous.Yes");
     }
 
