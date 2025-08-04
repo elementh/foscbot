@@ -1,10 +1,10 @@
-using FOSCBot.Core.Actions;
-using FOSCBot.Core.Options;
-using FOSCBot.Core.Services;
-using FOSCBot.Infrastructure.Contract.Client;
-using FOSCBot.Infrastructure.Contract.Service;
-using FOSCBot.Infrastructure.Implementation.Client;
-using FOSCBot.Infrastructure.Implementation.Service;
+using FOSCBot.Core.Application.Abstractions;
+using FOSCBot.Core.Application.Actions;
+using FOSCBot.Core.Application.Services;
+using FOSCBot.Core.Module.Options;
+using FOSCBot.Infrastructure.Contracts.Clients;
+using FOSCBot.Infrastructure.Implementations.Clients;
+using FOSCBot.Infrastructure.Implementations.Services;
 using Incremental.Common.Configuration;
 using Lamar.Diagnostics;
 using Lamar.Microsoft.DependencyInjection;

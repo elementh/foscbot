@@ -18,6 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj"/>
         <ProjectReference Include="..\FOSCBot.Infrastructure.Implementation\FOSCBot.Infrastructure.Implementation.csproj"/>
+        <ProjectReference Include="..\FOSCBot.Infrastructure\FOSCBot.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

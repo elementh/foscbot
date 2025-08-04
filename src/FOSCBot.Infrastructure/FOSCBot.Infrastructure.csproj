@@ -6,4 +6,20 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Contracts\" />
+      <Folder Include="Implementations\" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj" />
+    </ItemGroup>
+
 </Project>
