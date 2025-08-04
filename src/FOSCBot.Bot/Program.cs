@@ -14,6 +14,7 @@ using Navigator.Configuration;
 using Navigator.Configuration.Options;
 using Navigator.Extensions.Cooldown;
 using Navigator.Extensions.Probabilities;
+using Navigator.Extensions.Store;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Host.UseLamar();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMemoryCache();
+builder.Services.AddHybridCache();
 
 // Semantic Kernel, AKA LLM
 #pragma warning disable SKEXP0010
@@ -59,6 +61,10 @@ builder.Services.AddNavigator(configuration =>
 
     configuration.WithExtension<ProbabilitiesExtension>();
     configuration.WithExtension<CooldownExtension>();
+    configuration.WithExtension<StoreExtension, StoreOptions>(options =>
+    {
+        options.ConfigureStore<>();
+    });
 });
 
 #endregion

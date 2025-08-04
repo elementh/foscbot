@@ -14,11 +14,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Contracts\" />
-      <Folder Include="Implementations\" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj" />
     </ItemGroup>
 
