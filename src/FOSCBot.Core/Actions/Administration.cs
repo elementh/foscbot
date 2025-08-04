@@ -1,5 +1,7 @@
 using FOSCBot.Core.Services;
 using FOSCBot.Infrastructure.Contract.Service;
+using Navigator.Abstractions.Client;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
@@ -19,11 +21,11 @@ public static class Administration
             {
                 service.SetUnhinged(chat.Id);
 
-                await client.SendTextMessageAsync(chat, "`Now I am become Death, the destroyer of worlds`",
+                await client.SendMessage(chat, "`Now I am become Death, the destroyer of worlds`",
                     parseMode: ParseMode.MarkdownV2);
                 var gifUrl = await gifs.GetOneOf(["apocalypse", "bomb", "slaughter", "rage"]);
 
-                if (gifUrl is not null) await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
+                if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
             })
             .WithChatAction(ChatAction.Typing);
 
@@ -33,7 +35,7 @@ public static class Administration
             {
                 if (arguments.Length == 0)
                 {
-                    await client.SendTextMessageAsync(chat, "`I need a prompt BRO`", parseMode: ParseMode.MarkdownV2);
+                    await client.SendMessage(chat, "`I need a prompt BRO`", parseMode: ParseMode.MarkdownV2);
                     return;
                 }
 
@@ -41,10 +43,10 @@ public static class Administration
 
                 service.SetPrompt(chat.Id, prompt);
 
-                await client.SendTextMessageAsync(chat, "`Sure thing boss.`", parseMode: ParseMode.MarkdownV2);
+                await client.SendMessage(chat, "`Sure thing boss.`", parseMode: ParseMode.MarkdownV2);
                 var gifUrl = await gifs.GetOneOf(["sure thing", "alright", "yes maam", "alright bro", "boss", "ok"]);
 
-                if (gifUrl is not null) await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
+                if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
             })
             .WithChatAction(ChatAction.Typing);
 
@@ -54,7 +56,7 @@ public static class Administration
             {
                 if (arguments.Length == 0)
                 {
-                    await client.SendTextMessageAsync(chat, "`I need a temperature SISTER`", parseMode: ParseMode.MarkdownV2);
+                    await client.SendMessage(chat, "`I need a temperature SISTER`", parseMode: ParseMode.MarkdownV2);
                     return;
                 }
 
@@ -62,7 +64,7 @@ public static class Administration
                 {
                     service.SetTemperature(chat.Id, temperature);
 
-                    await client.SendTextMessageAsync(chat, "`Sure thing SISTER.`", parseMode: ParseMode.MarkdownV2);
+                    await client.SendMessage(chat, "`Sure thing SISTER.`", parseMode: ParseMode.MarkdownV2);
 
                     var gifUrl = temperature switch
                     {
@@ -72,7 +74,7 @@ public static class Administration
                         _ => await gifs.Get("extreme heat")
                     };
 
-                    if (gifUrl is not null) await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
+                    if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
                 }
             })
             .WithChatAction(ChatAction.Typing);
@@ -82,7 +84,7 @@ public static class Administration
             .OnCommand("clear")
             .SetHandler(async (INavigatorClient client, UnhingedService service, Chat chat) =>
             {
-                await client.SendTextMessageAsync(chat, "`Let's not alert your mom. Going back to defaults...`",
+                await client.SendMessage(chat, "`Let's not alert your mom. Going back to defaults...`",
                     parseMode: ParseMode.MarkdownV2);
 
                 service.Clear(chat.Id);

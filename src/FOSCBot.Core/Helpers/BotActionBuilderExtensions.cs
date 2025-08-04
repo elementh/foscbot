@@ -1,5 +1,7 @@
 using Incremental.Common.Random;
+using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Client;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -23,7 +25,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendPhotoAsync(chat, photo, caption: caption, replyParameters: replyParameters);
+            await client.SendPhoto(chat, photo, caption: caption, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.UploadPhoto);
@@ -50,7 +52,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendPhotoAsync(chat, randomPhoto, replyParameters: replyParameters);
+            await client.SendPhoto(chat, randomPhoto, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.UploadPhoto);
@@ -72,7 +74,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendStickerAsync(chat, sticker, replyParameters: replyParameters);
+            await client.SendSticker(chat, sticker, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.ChooseSticker);
@@ -107,7 +109,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendStickerAsync(chat, randomSticker, replyParameters: replyParameters);
+            await client.SendSticker(chat, randomSticker, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.ChooseSticker);
@@ -128,7 +130,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendTextMessageAsync(chat, text, parseMode: parseMode, replyParameters: replyParameters);
+            await client.SendMessage(chat, text, parseMode: parseMode, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.Typing);
@@ -156,7 +158,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendTextMessageAsync(chat, randomText, parseMode: parseMode, replyParameters: replyParameters);
+            await client.SendMessage(chat, randomText, parseMode: parseMode, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.Typing);
@@ -178,7 +180,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendVideoAsync(chat, video, caption: caption, replyParameters: replyParameters);
+            await client.SendVideo(chat, video, caption: caption, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.UploadVideo);
@@ -205,7 +207,7 @@ public static class BotActionBuilderExtensions
 
             if (toReply && message?.ReplyToMessage is not null) replyParameters = message.ReplyToMessage;
 
-            await client.SendVideoAsync(chat, randomVideo, replyParameters: replyParameters);
+            await client.SendVideo(chat, randomVideo, replyParameters: replyParameters);
         });
 
         builder.WithChatAction(ChatAction.UploadVideo);

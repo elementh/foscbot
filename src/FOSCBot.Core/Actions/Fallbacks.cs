@@ -1,12 +1,19 @@
 using System.Diagnostics.CodeAnalysis;
 using Bottom;
 using FOSCBot.Core.Helpers;
+using FOSCBot.Core.Services;
 using FOSCBot.Infrastructure.Contract.Service;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Actions;
+using Navigator.Abstractions.Client;
+using Navigator.Abstractions.Priorities;
 using Navigator.Actions;
+using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
 using Navigator.Catalog.Factory.Extensions;
 using Navigator.Client;
+using Navigator.Extensions.Cooldown.Extensions;
+using Navigator.Extensions.Probabilities.Extensions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -20,7 +27,7 @@ public static partial class Fallbacks
     {
         catalog.OnText(Bottomify.IsEncoded, async (INavigatorClient client, Chat chat, string text) =>
             {
-                await client.SendTextMessageAsync(chat,
+                await client.SendMessage(chat,
                     $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",
                     parseMode: ParseMode.Markdown);
             })
@@ -35,11 +42,11 @@ public static partial class Fallbacks
             {
                 var gifUrl = await giphy.Get(text.Trim().Split(" ").FirstOrDefault() ?? string.Empty);
 
-                if (gifUrl is not null) await client.SendAnimationAsync(chat, new InputFileUrl(gifUrl));
+                if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
             })
-            .WithChances(0.4)
+            .WithProbabilities(0.4)
             .WithCooldown(TimeSpan.FromMinutes(15))
-            .WithPriority(Priority.Low - 100)
+            .WithPriority(EPriority.Low)
             .WithChatAction(ChatAction.UploadVideo)
             .WithName("Fallback.SomewhatRandomGIF");
 
@@ -51,9 +58,9 @@ public static partial class Fallbacks
         //             "糟透HONG NETFLIX阿姆斯特丹AMSTERDAM火鸡TURKEY非常便宜FEICHANG PIANYI很暗HEN AN阴暗的空MARK ASS BROWNIE GALAXY Z FOLD 2 REVIEW里诺克斯蒂VERY DARK美国WANTED" +
         //             "通缉5星★★★★★`";
         //
-        //         await client.SendTextMessageAsync(chat, text, parseMode: ParseMode.Markdown);
+        //         await client.SendMessage(chat, text, parseMode: ParseMode.Markdown);
         //     })
-        //     .WithChances(0.01)
+        //     .WithProbabilities(0.01)
         //     .WithCooldown(TimeSpan.FromDays(15))
         //     .WithPriority(Priority.Low)
         //     .WithChatAction(ChatAction.Typing)
@@ -61,13 +68,13 @@ public static partial class Fallbacks
 
         // Catch All Fallback
         catalog
-            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, ILlamaService llm) =>
+            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, AgentService agentService) =>
             {
                 var sentence = string.Empty;
 
                 if (message.Text?.Length > 200)
                 {
-                    var response = await llm.GetResponse(new[] { message.Text }, default);
+                    var response = await agentService.ProcessMessage(chat, message);
 
                     sentence = response;
                 }
@@ -83,23 +90,23 @@ public static partial class Fallbacks
                         sentence = await lipsum.GetMetaphorSentence();
                         break;
                     default:
-                    {
-                        if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
-                        break;
-                    }
+                        {
+                            if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
+                            break;
+                        }
                 }
 
                 if (!string.IsNullOrWhiteSpace(sentence))
-                    await client.SendTextMessageAsync(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
+                    await client.SendMessage(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
             })
-            .WithChances(0.002)
-            .WithPriority(Priority.Low - 100)
+            .WithProbabilities(0.002)
+            .WithPriority(EPriority.VeryLow)
             .WithName("Fallback.CatchAllOLD");
 
         catalog
             .OnMessage(() => true)
             .SetHandler(CatchAllHandler)
-            .WithPriority(Priority.Low)
+            .WithPriority(EPriority.Lowest)
             .WithName("Fallback.CatchAll");
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -9,9 +9,12 @@
     <ItemGroup>
         <PackageReference Include="Bottom.NET" Version="3.1.0"/>
         <PackageReference Include="Incremental.Common.Random" Version="1.2.0"/>
-        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.17.2"/>
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.17.2"/>
-        <PackageReference Include="Navigator" Version="3.2.3" />
+        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.61.0" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.45.0-preview" />
+        <PackageReference Include="Navigator" Version="4.1.1" />
+        <PackageReference Include="Navigator.Extensions.Cooldown" Version="4.1.1" />
+        <PackageReference Include="Navigator.Extensions.Probabilities" Version="4.1.1" />
     </ItemGroup>
 
     <ItemGroup>

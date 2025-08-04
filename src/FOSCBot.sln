@@ -14,7 +14,6 @@ ProjectSection(SolutionItems) = preProject
 	global.json = global.json
 	..\LICENSE = ..\LICENSE
 	..\README.md = ..\README.md
-	nuget.config = nuget.config
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E8FA407-CF95-4FD1-B80F-AF28B4F81BA5}"

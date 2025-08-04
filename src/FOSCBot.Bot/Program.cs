@@ -12,6 +12,8 @@ using Microsoft.SemanticKernel;
 using Navigator;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
+using Navigator.Extensions.Cooldown;
+using Navigator.Extensions.Probabilities;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,11 +27,22 @@ builder.Services.AddMemoryCache();
 
 // Semantic Kernel, AKA LLM
 #pragma warning disable SKEXP0010
-builder.Services.AddOpenAIChatCompletion(
-    builder.Configuration["LLAMA_MODEL"],
-    new Uri(builder.Configuration["LLAMA_API_URL"]));
+builder.Services.AddHttpClient("openwebui", (serviceProvider, client) =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AI_API_URL"]!);
+});
 
-builder.Services.AddTransient(serviceProvider => new Kernel(serviceProvider));
+builder.Services.AddTransient<Kernel>(serviceProvider =>
+{
+    var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+
+    return Kernel.CreateBuilder()
+        .AddOpenAIChatCompletion(modelId: builder.Configuration["AI_CHAT_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
+            httpClient: clientFactory.CreateClient("openwebui"))
+        .AddOpenAITextEmbeddingGeneration(modelId: builder.Configuration["AI_EMBEDDING_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
+            httpClient: clientFactory.CreateClient("openwebui"))
+        .Build();
+});
 
 builder.Services.AddTransient<ProbabilityService>();
 builder.Services.AddTransient<UnhingedService>();
@@ -38,11 +51,14 @@ builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo
 
 #region Navigator
 
-builder.Services.AddNavigator(options =>
+builder.Services.AddNavigator(configuration =>
 {
-    options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
-    options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
-    options.EnableChatActionNotification();
+    configuration.Options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
+    configuration.Options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
+    configuration.Options.EnableChatActionNotification();
+
+    configuration.WithExtension<ProbabilitiesExtension>();
+    configuration.WithExtension<CooldownExtension>();
 });
 
 #endregion
@@ -70,11 +86,6 @@ builder.Services.AddOptions<GiphyClient.GiphyClientOptions>().Configure(options 
 {
     options.ApiUrl = builder.Configuration["GIPHY_API_URL"];
     options.ApiKey = builder.Configuration["GIPHY_API_KEY"];
-});
-
-builder.Services.AddOptions<LlamaClient.LlamaClientOptions>().Configure(options =>
-{
-    options.ApiUrl = builder.Configuration["LLAMA_API_URL"];
 });
 
 builder.Services.AddHttpClient<IBaconClient, BaconClient>()
@@ -107,23 +118,11 @@ builder.Services.AddHttpClient<IGiphyClient, GiphyClient>()
         builder.WaitAndRetryAsync(3, retryCount =>
             TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
 
-builder.Services.AddHttpClient<ILlamaClient, LlamaClient>()
-    .AddTransientHttpErrorPolicy(builder =>
-        builder.WaitAndRetryAsync(3, retryCount =>
-            TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-
-builder.Services.AddHttpClient<IMemeClient, MemeClient>()
-    .AddTransientHttpErrorPolicy(builder =>
-        builder.WaitAndRetryAsync(3, retryCount =>
-            TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
-
 builder.Services.AddScoped<ILipsumService, LipsumService>();
 builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
-builder.Services.AddScoped<ILlamaService, LlamaService>();
-builder.Services.AddScoped<IMemeService, MemeService>();
 
 #endregion
 
