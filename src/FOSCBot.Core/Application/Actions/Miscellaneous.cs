@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
-using FOSCBot.Core.Application.Resources;
 using FOSCBot.Core.Common;
+using FOSCBot.Core.Resources;
 using Incremental.Common.Random;
 using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder.Extensions;
