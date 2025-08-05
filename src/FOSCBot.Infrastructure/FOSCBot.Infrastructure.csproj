@@ -8,8 +8,8 @@
 
     <ItemGroup>
         <PackageReference Include="Incremental.Common.Random" Version="1.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.8" />
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0" />
     </ItemGroup>
     
