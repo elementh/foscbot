@@ -1,13 +1,16 @@
+using FOSCBot.Bot.Configuration;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Actions;
 using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Module.Options;
+using FOSCBot.Core.Modules.SocialCredit;
+using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Persistence;
 using FOSCBot.Infrastructure.Contracts.Clients;
 using FOSCBot.Infrastructure.Implementations.Clients;
 using FOSCBot.Infrastructure.Implementations.Services;
+using FOSCBot.Persistence.Context;
 using Incremental.Common.Configuration;
-using Lamar.Diagnostics;
-using Lamar.Microsoft.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.SemanticKernel;
 using Navigator;
 using Navigator.Configuration;
@@ -15,41 +18,24 @@ using Navigator.Configuration.Options;
 using Navigator.Extensions.Cooldown;
 using Navigator.Extensions.Probabilities;
 using Navigator.Extensions.Store;
+using Navigator.Extensions.Store.Services;
+using Npgsql;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommonConfiguration();
-// builder.Host.UseCommonLogging();
-builder.Host.UseLamar();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMemoryCache();
 builder.Services.AddHybridCache();
 
-// Semantic Kernel, AKA LLM
-#pragma warning disable SKEXP0010
-builder.Services.AddHttpClient("openwebui", (serviceProvider, client) =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["AI_API_URL"]!);
-});
-
-builder.Services.AddTransient<Kernel>(serviceProvider =>
-{
-    var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-
-    return Kernel.CreateBuilder()
-        .AddOpenAIChatCompletion(modelId: builder.Configuration["AI_CHAT_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
-            httpClient: clientFactory.CreateClient("openwebui"))
-        .AddOpenAITextEmbeddingGeneration(modelId: builder.Configuration["AI_EMBEDDING_MODEL"]!, builder.Configuration["AI_API_KEY"]!,
-            httpClient: clientFactory.CreateClient("openwebui"))
-        .Build();
-});
-
 builder.Services.AddTransient<ProbabilityService>();
 builder.Services.AddTransient<UnhingedService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
+
+builder.AddIntelligence();
 
 #region Navigator
 
@@ -63,7 +49,32 @@ builder.Services.AddNavigator(configuration =>
     configuration.WithExtension<CooldownExtension>();
     configuration.WithExtension<StoreExtension, StoreOptions>(options =>
     {
-        options.ConfigureStore<>();
+        var connectionString = builder.Configuration.GetConnectionString("FosboDb");
+
+        if (string.IsNullOrEmpty(connectionString))
+        {
+                
+            var host = builder.Configuration["PG_HOST"];
+            var user = builder.Configuration["PG_USER"];
+            var password = builder.Configuration["PG_PW"];
+
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder
+            {
+                Host = host,
+                Username = user,
+                Password = password,
+                Database = "foscbot",
+                Port = 5432,
+                SslMode = SslMode.Prefer,
+            };
+                
+            connectionString = connectionStringBuilder.ToString();
+        }
+
+        options.ConfigureStore<FosboDbContext>(dbBuilder =>
+        {
+            dbBuilder.UseNpgsql(connectionString);
+        });
     });
 });
 
@@ -132,10 +143,19 @@ builder.Services.AddScoped<IGiphyService, GiphyService>();
 
 #endregion
 
+#region Modules
+
+// Add Social Credit module
+builder.Services.AddSocialCreditModule();
+
+// Register additional database interfaces for Social Credit module
+builder.Services.AddScoped<ISocialCreditDbContext, FosboDbContext>();
+
+#endregion
+
 #region Healthchecks
 
 builder.Services.AddHealthChecks();
-builder.Services.CheckLamarConfiguration();
 
 #endregion
 
@@ -155,5 +175,8 @@ bot.RegisterMiscellaneous();
 app.MapNavigator();
 
 app.MapHealthChecks("/health");
+
+using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+serviceScope?.ServiceProvider.GetRequiredService<FosboDbContext>().Database.Migrate();
 
 app.Run();
