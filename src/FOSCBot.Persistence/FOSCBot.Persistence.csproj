@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj" />
+      <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj" />
+      <ProjectReference Include="..\FOSCBot.Core.Modules.SocialCredit\FOSCBot.Core.Modules.SocialCredit.csproj" />
+    </ItemGroup>
+
+</Project>

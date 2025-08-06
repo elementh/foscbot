@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Navigator" Version="4.2.0" />
+      <PackageReference Include="Navigator.Extensions.Store" Version="4.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj" />
+      <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj" />
+    </ItemGroup>
+
+</Project>

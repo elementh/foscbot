@@ -9,12 +9,13 @@
     <ItemGroup>
         <PackageReference Include="Bottom.NET" Version="3.1.0"/>
         <PackageReference Include="Incremental.Common.Random" Version="1.2.0"/>
-        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.61.0" />
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0" />
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.45.0-preview" />
-        <PackageReference Include="Navigator" Version="4.1.1" />
-        <PackageReference Include="Navigator.Extensions.Cooldown" Version="4.1.1" />
-        <PackageReference Include="Navigator.Extensions.Probabilities" Version="4.1.1" />
+        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.61.0"/>
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.61.0"/>
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.45.0-preview"/>
+        <PackageReference Include="Navigator" Version="4.2.0"/>
+        <PackageReference Include="Navigator.Extensions.Cooldown" Version="4.2.0"/>
+        <PackageReference Include="Navigator.Extensions.Probabilities" Version="4.2.0"/>
+        <PackageReference Include="Navigator.Extensions.Store" Version="4.2.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -28,35 +29,17 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>CoreResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\CoreLinks.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>CoreLinks.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Resources\CoreResources.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>CoreResources.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Actions\Fallbacks.Handlers.cs">
+        <Compile Update="Application\Actions\Fallbacks.Handlers.cs">
             <DependentUpon>Fallbacks.cs</DependentUpon>
         </Compile>
-        <Compile Remove="Services\FallbackService.cs"/>
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Update="Resources\CoreLinks.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>CoreLinks.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <EmbeddedResource Update="Resources\CoreResources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>CoreResources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
+        <Folder Include="Module\"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FOSCBot.Infrastructure.Contract\FOSCBot.Infrastructure.Contract.csproj"/>
+        <ProjectReference Include="..\FOSCBot.Common\FOSCBot.Common.csproj"/>
     </ItemGroup>
 
 </Project>

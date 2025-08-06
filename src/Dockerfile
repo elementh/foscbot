@@ -4,9 +4,11 @@ WORKDIR /src
 COPY *.sln ./
 
 COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
+COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core/*.csproj FOSCBot.Core/
-COPY FOSCBot.Infrastructure.Contract/*.csproj FOSCBot.Infrastructure.Contract/
-COPY FOSCBot.Infrastructure.Implementation/*.csproj FOSCBot.Infrastructure.Implementation/
+COPY FOSCBot.Core.Modules.SocialCredit/*.csproj FOSCBot.Core.Modules.SocialCredit/
+COPY FOSCBot.Infrastructure/*.csproj FOSCBot.Infrastructure/
+COPY FOSCBot.Persistence/*.csproj FOSCBot.Persistence/
 RUN dotnet restore -r linux-musl-x64
 
 COPY . .
