@@ -1,5 +1,7 @@
+using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
+using Microsoft.EntityFrameworkCore;
 using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
@@ -87,6 +89,24 @@ public static class Administration
                     parseMode: ParseMode.MarkdownV2);
 
                 service.Clear(chat.Id);
+            });
+
+        catalog
+            .OnCommand("check")
+            .SetHandler(async (INavigatorClient client, IFosboDbContext db, UnhingedService service, Chat chat) =>
+            {
+                var usersExist = await db.Users.AnyAsync();
+                var mode = service.IsUnhinged(chat.Id);
+                var temperature = service.GetTemperature(chat.Id);
+                var prompt = service.GetPrompt(chat.Id);
+                
+                await client.SendMessage(chat, $"""
+                                                `Db connected: {usersExist}`
+                                                `Unhinged: {mode}`
+                                                `Temperature: {temperature ?? 1}`
+                                                `Prompt: {prompt ?? "None"}`
+                                                """, 
+                    parseMode: ParseMode.MarkdownV2);
             });
     }
 }

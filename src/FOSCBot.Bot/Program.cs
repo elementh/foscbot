@@ -1,4 +1,5 @@
 using FOSCBot.Bot.Configuration;
+using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Actions;
 using FOSCBot.Core.Application.Services;
@@ -150,6 +151,7 @@ builder.Services.AddSocialCreditModule();
 
 // Register additional database interfaces for Social Credit module
 builder.Services.AddScoped<ISocialCreditDbContext, FosboDbContext>();
+builder.Services.AddScoped<IFosboDbContext, FosboDbContext>();
 
 #endregion
 
