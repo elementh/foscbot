@@ -99,12 +99,14 @@ public static class Administration
                 var mode = service.IsUnhinged(chat.Id);
                 var temperature = service.GetTemperature(chat.Id);
                 var prompt = service.GetPrompt(chat.Id);
+                var version = Environment.GetEnvironmentVariable("BOT_VERSION") ?? "unset";
                 
                 await client.SendMessage(chat, $"""
                                                 `Db connected: {usersExist}`
                                                 `Unhinged: {mode}`
                                                 `Temperature: {temperature ?? 1}`
                                                 `Prompt: {prompt ?? "None"}`
+                                                `Version: {version}` 
                                                 """, 
                     parseMode: ParseMode.MarkdownV2);
             });
