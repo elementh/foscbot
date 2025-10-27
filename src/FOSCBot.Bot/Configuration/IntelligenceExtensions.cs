@@ -1,3 +1,4 @@
+using FOSCBot.Core.Application.Services;
 using Microsoft.SemanticKernel;
 
 namespace FOSCBot.Bot.Configuration;
@@ -38,6 +39,8 @@ public static class IntelligenceExtensions
 
             return kernelBuilder.Build();
         });
+
+        builder.Services.AddScoped<AgentService>();
     }
 }
 

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Connectors.Ollama;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -26,12 +26,12 @@ public class AgentService
         _unhingedService = unhingedService;
         _options = options.Value;
     }
-    
+
     [Experimental("SKEXP0001")]
     public async Task<string?> ProcessMessage(Chat chat, Message message)
     {
-        var llm = _kernel.Services.GetRequiredService<IChatCompletionService>();
-        
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
         if (message.Type is not (MessageType.Text or MessageType.Sticker))
             return null;
 
@@ -50,11 +50,9 @@ public class AgentService
 
         var temperature = _unhingedService.GetTemperature(chat.Id);
 
-        var response = await llm.GetChatMessageContentAsync(history, new OpenAIPromptExecutionSettings
-        {
-            MaxTokens = 5_000,
-            Temperature = temperature ?? 1
-        });
+        var executionSettings = new OllamaPromptExecutionSettings { };
+
+        var response = await llm.GetChatMessageContentAsync(history, executionSettings);
 
         return response.Content;
     }
