@@ -29,9 +29,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMessageScoringService, MessageScoringService>();
         services.AddScoped<ISocialCreditService, SocialCreditService>();
 
-        services.AddHostedService<MessageProcessingBackgroundService>();
+        // services.AddHostedService<MessageProcessingBackgroundService>();
 
-        services.AddScoped<INavigatorPipelineStep, BigBrotherPipelineStep>();
+        // services.AddScoped<INavigatorPipelineStep, BigBrotherPipelineStep>();
         
         return services;
     }
