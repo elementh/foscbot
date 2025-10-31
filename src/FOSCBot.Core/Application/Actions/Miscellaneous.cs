@@ -623,11 +623,14 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Yes");
 
         catalog
-            .OnUpdate((Update update) => update.IsBotFlattered())
-            .SetHandler(async (INavigatorClient client, Chat chat, IAgentService service) =>
+            .OnText((Update update) => update.IsBotFlattered())
+            .SetHandler(async (INavigatorClient client, Chat chat, IGiphyService giphy) =>
             {
-                await Task.CompletedTask;
-            });
+                var gifUrl = await giphy.Get("you are welcome idiot");
+
+                if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
+            })
+            .WithName("Miscellaneous.Flattered");
     }
 
     [GeneratedRegex(@"[Bb][Ll][Yy][Aa]+[Tt]+")]

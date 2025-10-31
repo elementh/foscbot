@@ -43,11 +43,15 @@ public static class MentionHelper
                (update.Message?.Text?.ToLower().Contains("acho") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("jajaja") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("gracias") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("thanks") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("thx") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("dios") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("te quiero") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("increible") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("increíble") ?? false) ||
                (update.Message?.Text?.ToLower().Contains("puto amo") ?? false) ||
+               (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
                Regex.IsMatch(update.Message?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+");
     }
 
