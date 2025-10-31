@@ -1,8 +1,9 @@
+using FOSCBot.Core.Application.Abstractions;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FOSCBot.Core.Application.Services;
+namespace FOSCBot.Infrastructure.Intelligence.Services;
 
-public class UnhingedService(IMemoryCache cache)
+internal class UnhingedService(IMemoryCache cache) : IUnhingedService
 {
     public bool IsUnhinged(long chatId)
     {
@@ -42,3 +43,4 @@ public class UnhingedService(IMemoryCache cache)
         cache.Set($"unhinged.temperature:{chatId}", temperature);
     }
 }
+

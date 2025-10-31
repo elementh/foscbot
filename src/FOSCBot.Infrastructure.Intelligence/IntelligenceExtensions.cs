@@ -1,19 +1,22 @@
-using FOSCBot.Core.Application.Services;
+using FOSCBot.Core.Application.Abstractions;
+using FOSCBot.Infrastructure.Intelligence.Abstractions.Client;
+using FOSCBot.Infrastructure.Intelligence.Client;
+using FOSCBot.Infrastructure.Intelligence.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 
-namespace FOSCBot.Bot.Configuration;
+namespace FOSCBot.Infrastructure.Intelligence;
 
 public static class IntelligenceExtensions
 {
-    public static void AddIntelligence(this WebApplicationBuilder builder)
+    public static IServiceCollection AddIntelligence(this IServiceCollection services, Action<IntelligenceOptions> configure)
     {
-        var options = builder.Configuration.GetSection(IntelligenceOptions.Key)
-            .Get<IntelligenceOptions>() ?? throw new InvalidOperationException($"Failed to bind {IntelligenceOptions.Key}.");
+        var options = new IntelligenceOptions();
+        configure(options);
 
         foreach (var provider in options.ChatCompletionProviders)
         {
-
-            builder.Services.AddHttpClient(provider.GetClientName(), (_, client) =>
+            services.AddHttpClient(provider.GetClientName(), (_, client) =>
             {
                 client.BaseAddress = new Uri(provider.ApiUrl);
 
@@ -24,7 +27,7 @@ public static class IntelligenceExtensions
             });
         }
 
-        builder.Services.AddTransient<Kernel>(serviceProvider =>
+        services.AddTransient<Kernel>(serviceProvider =>
         {
             var kernelBuilder = Kernel.CreateBuilder();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -40,14 +43,21 @@ public static class IntelligenceExtensions
             return kernelBuilder.Build();
         });
 
-        builder.Services.AddScoped<AgentService>();
+        services.AddTransient<UnhingedService>();
+        services.AddTransient<IUnhingedService>(sp => sp.GetRequiredService<UnhingedService>());
+        services.AddScoped<IAgentService, AgentService>();
+        
+        services.AddOptions<IntelligenceClientOptions>();
+        services.AddScoped<IIntelligenceClient, IntelligenceClient>();
+
+        return services;
     }
 }
 
 public class IntelligenceOptions
 {
     public const string Key = "Intelligence";
-    public required Provider[] ChatCompletionProviders { get; init; }
+    public Provider[] ChatCompletionProviders { get; set; } = [];
     
     public class Provider
     {
@@ -59,3 +69,4 @@ public class IntelligenceOptions
         public string GetClientName() => $"{Name}_client";
     }
 }
+

@@ -1,4 +1,3 @@
-using FOSCBot.Bot.Configuration;
 using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Actions;
@@ -9,10 +8,10 @@ using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Persistence;
 using FOSCBot.Infrastructure.Contracts.Clients;
 using FOSCBot.Infrastructure.Implementations.Clients;
 using FOSCBot.Infrastructure.Implementations.Services;
+using FOSCBot.Infrastructure.Intelligence;
 using FOSCBot.Persistence.Context;
 using Incremental.Common.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.SemanticKernel;
 using Navigator;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
@@ -32,11 +31,16 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHybridCache();
 
 builder.Services.AddTransient<ProbabilityService>();
-builder.Services.AddTransient<UnhingedService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
 
-builder.AddIntelligence();
+var intelligenceOptions = builder.Configuration.GetSection(IntelligenceOptions.Key)
+    .Get<IntelligenceOptions>() ?? throw new InvalidOperationException($"Failed to bind {IntelligenceOptions.Key}.");
+
+builder.Services.AddIntelligence(options =>
+{
+    options.ChatCompletionProviders = intelligenceOptions.ChatCompletionProviders;
+});
 
 #region Navigator
 

@@ -1,3 +1,4 @@
+using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Module.Options;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
@@ -8,9 +9,9 @@ public class ProbabilityService
 {
     private readonly IMemoryCache _cache;
     private readonly int _tippingPoint;
-    private readonly UnhingedService _unhingedService;
+    private readonly IUnhingedService _unhingedService;
 
-    public ProbabilityService(IMemoryCache cache, IOptions<FosboOptions> options, UnhingedService unhingedService)
+    public ProbabilityService(IMemoryCache cache, IOptions<FosboOptions> options, IUnhingedService unhingedService)
     {
         _cache = cache;
         _unhingedService = unhingedService;

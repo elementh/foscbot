@@ -22,9 +22,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddOptions<MessageQueueServiceOptions>();
         services.AddSingleton<IMessageQueueService, MessageQueueService>();
-
-        services.AddOptions<IntelligenceClientOptions>();
-        services.AddScoped<IIntelligenceClient, IntelligenceClient>();
         
         services.AddScoped<IMessageScoringService, MessageScoringService>();
         services.AddScoped<ISocialCreditService, SocialCreditService>();

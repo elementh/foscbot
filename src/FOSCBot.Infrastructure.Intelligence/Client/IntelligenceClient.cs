@@ -1,5 +1,5 @@
 using System.Text.Json;
-using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Infrastructure;
+using FOSCBot.Infrastructure.Intelligence.Abstractions.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -7,9 +7,9 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Ollama;
 
-namespace FOSCBot.Core.Modules.SocialCredit.Infrastructure;
+namespace FOSCBot.Infrastructure.Intelligence.Client;
 
-public class IntelligenceClient : IIntelligenceClient
+internal class IntelligenceClient : IIntelligenceClient
 {
     private readonly Kernel _kernel;
     private readonly IntelligenceClientOptions _options;
@@ -85,3 +85,4 @@ public class IntelligenceClientOptions
     public string DefaultServiceId { get; set; } = "default_chat_completion_service";
     public string BackupServiceId { get; set; } = "backup_chat_completion_service";
 }
+

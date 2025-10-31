@@ -21,6 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="..\FOSCBot.Core\FOSCBot.Core.csproj"/>
         <ProjectReference Include="..\FOSCBot.Infrastructure\FOSCBot.Infrastructure.csproj" />
+        <ProjectReference Include="..\FOSCBot.Infrastructure.Intelligence\FOSCBot.Infrastructure.Intelligence.csproj" />
         <ProjectReference Include="..\FOSCBot.Persistence\FOSCBot.Persistence.csproj" />
         <ProjectReference Include="..\FOSCBot.Core.Modules.SocialCredit\FOSCBot.Core.Modules.SocialCredit.csproj" />
     </ItemGroup>

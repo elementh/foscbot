@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Infrastructure;
 using FOSCBot.Core.Modules.SocialCredit.Application.Services.Contracts;
+using FOSCBot.Infrastructure.Intelligence.Abstractions.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;

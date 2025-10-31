@@ -1,8 +1,9 @@
 using Microsoft.SemanticKernel.ChatCompletion;
 
-namespace FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Infrastructure;
+namespace FOSCBot.Infrastructure.Intelligence.Abstractions.Client;
 
 public interface IIntelligenceClient
 {
     public Task<T?> GetChatMessageContentAsync<T>(ChatHistory history, CancellationToken cancellationToken = default);
 }
+

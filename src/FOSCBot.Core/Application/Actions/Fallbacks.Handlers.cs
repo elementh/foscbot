@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Common;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
-        ProbabilityService probabilities, AgentService agentService, ILogger<NavigatorStrategy> logger)
+        ProbabilityService probabilities, IAgentService agentService, ILogger<NavigatorStrategy> logger)
     {
         try
         {

@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using FOSCBot.Core.Application.Abstractions;
+using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Common;
 using FOSCBot.Core.Resources;
 using Incremental.Common.Random;
@@ -619,6 +621,13 @@ public static partial class Miscellaneous
             .SendSticker("CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE")
             .WithProbabilities(0.5)
             .WithName("Miscellaneous.Yes");
+
+        catalog
+            .OnUpdate((Update update) => update.IsBotFlattered())
+            .SetHandler(async (INavigatorClient client, Chat chat, IAgentService service) =>
+            {
+                await Task.CompletedTask;
+            });
     }
 
     [GeneratedRegex(@"[Bb][Ll][Yy][Aa]+[Tt]+")]

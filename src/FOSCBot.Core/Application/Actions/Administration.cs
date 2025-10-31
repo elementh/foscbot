@@ -1,6 +1,5 @@
 using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
-using FOSCBot.Core.Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder.Extensions;
@@ -18,7 +17,7 @@ public static class Administration
     {
         catalog
             .OnCommand("setunhinged")
-            .SetHandler(async (INavigatorClient client, UnhingedService service, Chat chat, IGiphyService gifs) =>
+            .SetHandler(async (INavigatorClient client, IUnhingedService service, Chat chat, IGiphyService gifs) =>
             {
                 service.SetUnhinged(chat.Id);
 
@@ -32,7 +31,7 @@ public static class Administration
 
         catalog
             .OnCommand("setprompt")
-            .SetHandler(async (INavigatorClient client, string[] arguments, UnhingedService service, Chat chat, IGiphyService gifs) =>
+            .SetHandler(async (INavigatorClient client, string[] arguments, IUnhingedService service, Chat chat, IGiphyService gifs) =>
             {
                 if (arguments.Length == 0)
                 {
@@ -53,7 +52,7 @@ public static class Administration
 
         catalog
             .OnCommand("settemperature")
-            .SetHandler(async (INavigatorClient client, string[] arguments, UnhingedService service, Chat chat, IGiphyService gifs) =>
+            .SetHandler(async (INavigatorClient client, string[] arguments, IUnhingedService service, Chat chat, IGiphyService gifs) =>
             {
                 if (arguments.Length == 0)
                 {
@@ -83,7 +82,7 @@ public static class Administration
 
         catalog
             .OnCommand("clear")
-            .SetHandler(async (INavigatorClient client, UnhingedService service, Chat chat) =>
+            .SetHandler(async (INavigatorClient client, IUnhingedService service, Chat chat) =>
             {
                 await client.SendMessage(chat, "`Let's not alert your mom. Going back to defaults...`",
                     parseMode: ParseMode.MarkdownV2);
@@ -93,7 +92,7 @@ public static class Administration
 
         catalog
             .OnCommand("check")
-            .SetHandler(async (INavigatorClient client, IFosboDbContext db, UnhingedService service, Chat chat) =>
+            .SetHandler(async (INavigatorClient client, IFosboDbContext db, IUnhingedService service, Chat chat) =>
             {
                 var usersExist = await db.Users.AnyAsync();
                 var mode = service.IsUnhinged(chat.Id);

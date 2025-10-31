@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Common;
 using FOSCBot.Core.Module.Options;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,9 +11,9 @@ using Microsoft.SemanticKernel.Connectors.Ollama;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace FOSCBot.Core.Application.Services;
+namespace FOSCBot.Infrastructure.Intelligence.Services;
 
-public class AgentService
+internal class AgentService : IAgentService
 {
     private readonly IMemoryCache _cache;
     private readonly Kernel _kernel;
@@ -57,3 +58,4 @@ public class AgentService
         return response.Content;
     }
 }
+

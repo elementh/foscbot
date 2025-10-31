@@ -65,7 +65,7 @@ public static partial class Fallbacks
 
         // Catch All Fallback
         catalog
-            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, AgentService agentService) =>
+            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, IAgentService agentService) =>
             {
                 var sentence = string.Empty;
 
