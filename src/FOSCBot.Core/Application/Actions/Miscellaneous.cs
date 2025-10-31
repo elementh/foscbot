@@ -623,7 +623,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Yes");
 
         catalog
-            .OnText((Update update) => update.IsBotFlattered())
+            .OnText((Update update) => update.IsBotQuotedOrMentioned() && update.IsBotFlattered())
             .SetHandler(async (INavigatorClient client, Chat chat, IGiphyService giphy) =>
             {
                 var gifUrl = await giphy.Get("you are welcome idiot");
