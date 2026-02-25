@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
@@ -23,7 +23,6 @@
         <ProjectReference Include="..\FOSCBot.Infrastructure\FOSCBot.Infrastructure.csproj" />
         <ProjectReference Include="..\FOSCBot.Infrastructure.Intelligence\FOSCBot.Infrastructure.Intelligence.csproj" />
         <ProjectReference Include="..\FOSCBot.Persistence\FOSCBot.Persistence.csproj" />
-        <ProjectReference Include="..\FOSCBot.Core.Modules.SocialCredit\FOSCBot.Core.Modules.SocialCredit.csproj" />
     </ItemGroup>
 
 </Project>

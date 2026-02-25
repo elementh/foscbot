@@ -3,8 +3,6 @@ using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Actions;
 using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Module.Options;
-using FOSCBot.Core.Modules.SocialCredit;
-using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Persistence;
 using FOSCBot.Infrastructure.Contracts.Clients;
 using FOSCBot.Infrastructure.Implementations.Clients;
 using FOSCBot.Infrastructure.Implementations.Services;
@@ -145,17 +143,6 @@ builder.Services.AddScoped<IInspiroService, InspiroService>();
 builder.Services.AddScoped<IInsultService, InsultService>();
 builder.Services.AddScoped<IYesNoService, YesNoService>();
 builder.Services.AddScoped<IGiphyService, GiphyService>();
-
-#endregion
-
-#region Modules
-
-// Add Social Credit module
-builder.Services.AddSocialCreditModule();
-
-// Register additional database interfaces for Social Credit module
-builder.Services.AddScoped<ISocialCreditDbContext, FosboDbContext>();
-builder.Services.AddScoped<IFosboDbContext, FosboDbContext>();
 
 #endregion
 
