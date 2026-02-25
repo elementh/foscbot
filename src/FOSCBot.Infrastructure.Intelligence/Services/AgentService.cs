@@ -44,10 +44,8 @@ internal class AgentService : IAgentService
         buffer.Add(message);
         _cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
-        var prompt = _unhingedService.GetPrompt(chat.Id);
-        var history = prompt is null
-            ? buffer.ToChatHistory()
-            : buffer.ToChatHistory(prompt);
+        var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
+        var history = buffer.ToChatHistory(prompt);
 
         var temperature = _unhingedService.GetTemperature(chat.Id);
 

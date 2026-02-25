@@ -9,13 +9,9 @@ namespace FOSCBot.Core.Common;
 public static class SlidingBufferExtensions
 {
     [Experimental("SKEXP0001")]
-    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string? prompt = default)
+    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string prompt)
     {
-        var chatHistory =
-            new ChatHistory(prompt ?? """
-                                      You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
-                                      Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
-                                      """);
+        var chatHistory = new ChatHistory(prompt);
 
         foreach (var message in buffer)
             switch (message)
