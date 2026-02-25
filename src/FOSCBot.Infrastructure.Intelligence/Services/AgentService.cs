@@ -42,7 +42,6 @@ internal class AgentService : IAgentService
             buffer = new SlidingBuffer<Message>(_options.ContextWindow);
 
         buffer.Add(message);
-        _cache.Set($"fallback.catchall:{chat.Id}", buffer);
 
         var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
         var history = buffer.ToChatHistory(prompt);
@@ -53,6 +52,15 @@ internal class AgentService : IAgentService
 
         var response = await llm.GetChatMessageContentAsync(history, executionSettings);
 
+        buffer.Add(new Message
+        {
+            Id = -message.Id,
+            Text = response.Content,
+            From = new User { IsBot = true },
+        });
+
+        _cache.Set($"fallback.catchall:{chat.Id}", buffer);
+        
         return response.Content;
     }
 }
