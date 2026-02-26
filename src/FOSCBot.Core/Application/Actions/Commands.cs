@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Bottom;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Common;
@@ -16,6 +17,28 @@ public static class Commands
 {
     public static void RegisterCommands(this BotActionCatalogFactory catalog)
     {
+        catalog
+            .OnCommand("ask",
+                [Experimental("SKEXP0001")]
+                async (INavigatorClient client, Chat chat, Message message, IAgentService agentService) =>
+                {
+                    var input = message.Text?.Remove(0, message.Text.IndexOf(' ') + 1);
+
+                    if (string.IsNullOrWhiteSpace(input) || input == "/ask")
+                    {
+                        await client.SendMessage(chat, "Ask me something, coward.", parseMode: ParseMode.Markdown);
+                        return;
+                    }
+
+                    var username = message.From?.Username ?? message.From?.FirstName ?? "Anonymous";
+                    var response = await agentService.Ask(input, username);
+
+                    if (response != null)
+                        await client.SendMessage(chat, response, parseMode: ParseMode.Markdown,
+                            replyParameters: message);
+                })
+            .WithChatAction(ChatAction.Typing);
+
         catalog
             .OnCommand("about", async (INavigatorClient client, Chat chat) =>
             {

@@ -63,5 +63,30 @@ internal class AgentService : IAgentService
         
         return response.Content;
     }
+
+    [Experimental("SKEXP0001")]
+    public async Task<string?> Ask(string question, string username)
+    {
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
+        const string prompt =
+            """
+            You are FOSCBot, a know-it-all AI assistant who DOES answer questions accurately, but can't help
+            being condescending and making fun of the user for not knowing the answer already. You act like
+            every question is the most obvious thing in the world and you're baffled anyone would need to ask.
+            Mix in sarcasm, backhanded compliments, and dramatic disappointment. You can be harsh, rude, and
+            brutally honest — nothing is off limits. Roast the user's intelligence, their life choices, and
+            the fact that they're asking a bot instead of figuring it out themselves. But underneath all the
+            mockery, you DO provide the correct and helpful answer. Keep responses concise (2-4 sentences).
+            Respond in the same language as the question.
+            """;
+
+        var history = new ChatHistory(prompt);
+        history.AddUserMessage($"{username} asks: {question}");
+
+        var response = await llm.GetChatMessageContentAsync(history);
+
+        return response.Content;
+    }
 }
 

@@ -7,5 +7,8 @@ public interface IAgentService
 {
     [Experimental("SKEXP0001")]
     Task<string?> ProcessMessage(Chat chat, Message message);
+
+    [Experimental("SKEXP0001")]
+    Task<string?> Ask(string question, string username);
 }
 
