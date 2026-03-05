@@ -36,7 +36,7 @@ internal class CommandSynthesizerService : ICommandSynthesizerService
     }
 
     [Experimental("SKEXP0001")]
-    public async Task<string?> ExecutePhantomCommand(string description, string? arguments, string username, string personality)
+    public async Task<string?> ExecutePhantomCommand(string description, string? arguments, string username, string personality, string? replyContext = null)
     {
         var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
 
@@ -45,7 +45,12 @@ internal class CommandSynthesizerService : ICommandSynthesizerService
             .Replace("{Description}", description);
 
         var history = new ChatHistory(prompt);
-        history.AddUserMessage($"{username} used the command with: {arguments ?? "no arguments"}");
+
+        var userMessage = $"{username} used the command with: {arguments ?? "no arguments"}";
+        if (replyContext is not null)
+            userMessage += $"\nReplying to message: {replyContext}";
+
+        history.AddUserMessage(userMessage);
 
         var response = await llm.GetChatMessageContentAsync(history);
 

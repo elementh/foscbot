@@ -66,8 +66,13 @@ public static class PhantomCommands
                 await phantomCommandService.SaveCommandAsync(commandName, description, personality, chat.Id);
             }
 
+            var replyAuthor = message.ReplyToMessage?.From?.Username ?? message.ReplyToMessage?.From?.FirstName;
+            var replyContext = message.ReplyToMessage?.Text is not null
+                ? $"{replyAuthor ?? "Someone"} said: {message.ReplyToMessage.Text}"
+                : null;
+
             var response = await commandSynthesizer.ExecutePhantomCommand(description, arguments,
-                message.From?.Username ?? message.From?.FirstName ?? "Anonymous", personality);
+                message.From?.Username ?? message.From?.FirstName ?? "Anonymous", personality, replyContext);
 
             if (!string.IsNullOrWhiteSpace(response))
             {

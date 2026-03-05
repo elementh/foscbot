@@ -8,5 +8,5 @@ public interface ICommandSynthesizerService
     Task<(string Description, string Personality)?> GenerateCommandDescription(string commandName, string? arguments);
 
     [Experimental("SKEXP0001")]
-    Task<string?> ExecutePhantomCommand(string description, string? arguments, string username, string personality);
+    Task<string?> ExecutePhantomCommand(string description, string? arguments, string username, string personality, string? replyContext = null);
 }
