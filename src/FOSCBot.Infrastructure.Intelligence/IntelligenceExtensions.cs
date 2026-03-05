@@ -46,7 +46,9 @@ public static class IntelligenceExtensions
         services.AddTransient<UnhingedService>();
         services.AddTransient<IUnhingedService>(sp => sp.GetRequiredService<UnhingedService>());
         services.AddScoped<IAgentService, AgentService>();
-        
+        services.AddScoped<ICommandSynthesizerService, CommandSynthesizerService>();
+        services.AddScoped<IPhantomCommandService, PhantomCommandService>();
+
         services.AddOptions<IntelligenceClientOptions>();
         services.AddScoped<IIntelligenceClient, IntelligenceClient>();
 

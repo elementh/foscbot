@@ -1,0 +1,89 @@
+using System.Diagnostics.CodeAnalysis;
+using FOSCBot.Core.Application.Abstractions;
+using Microsoft.Extensions.Logging;
+using Navigator.Abstractions.Client;
+using Navigator.Abstractions.Priorities;
+using Navigator.Actions.Builder.Extensions;
+using Navigator.Catalog.Factory;
+using Navigator.Catalog.Factory.Extensions;
+using Navigator.Extensions.Cooldown.Extensions;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+
+namespace FOSCBot.Core.Application.Actions;
+
+public static class PhantomCommands
+{
+    [Experimental("SKEXP0001")]
+    public static void RegisterPhantomCommands(this BotActionCatalogFactory catalog)
+    {
+        catalog.OnMessage(
+                (Message message) => message.Text?.StartsWith('/') is true && !message.Text?.StartsWith("/felicidades") is true,
+                PhantomCommandHandler)
+            .WithPriority(EPriority.AboveNormal)
+            .WithChatAction(ChatAction.Typing)
+            .WithCooldown(TimeSpan.FromSeconds(5))
+            .WithName("PhantomCommands.Handler");
+    }
+
+    [Experimental("SKEXP0001")]
+    private static async Task PhantomCommandHandler(
+        INavigatorClient client,
+        Chat chat,
+        Message message,
+        IPhantomCommandService phantomCommandService,
+        ICommandSynthesizerService commandSynthesizer,
+        ILogger<ICommandSynthesizerService> logger)
+    {
+        try
+        {
+            var text = message.Text;
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            var spaceIndex = text.IndexOf(' ');
+            var commandName = (spaceIndex > 0 ? text[1..spaceIndex] : text[1..]).ToLowerInvariant();
+            var arguments = spaceIndex > 0 ? text[(spaceIndex + 1)..].Trim() : null;
+
+            if (string.IsNullOrWhiteSpace(commandName)) return;
+
+            var existing = await phantomCommandService.GetCommandAsync(commandName, chat.Id);
+            string description;
+            string personality;
+
+            if (existing is not null)
+            {
+                description = existing.Description;
+                personality = existing.Personality;
+            }
+            else
+            {
+                var result = await commandSynthesizer.GenerateCommandDescription(commandName, arguments);
+
+                if (result is null) return;
+
+                (description, personality) = result.Value;
+                await phantomCommandService.SaveCommandAsync(commandName, description, personality, chat.Id);
+            }
+
+            var response = await commandSynthesizer.ExecutePhantomCommand(description, arguments,
+                message.From?.Username ?? message.From?.FirstName ?? "Anonymous", personality);
+
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                try
+                {
+                    await client.SendMessage(chat, response, parseMode: ParseMode.Markdown, replyParameters: message);
+                }
+                catch (Telegram.Bot.Exceptions.ApiRequestException)
+                {
+                    await client.SendMessage(chat, response, replyParameters: message);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to process phantom command in chat {ChatId}", chat.Id);
+        }
+    }
+}

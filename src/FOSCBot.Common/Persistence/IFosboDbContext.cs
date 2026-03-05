@@ -1,3 +1,4 @@
+using FOSCBot.Common.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Navigator.Extensions.Store.Entities;
 
@@ -5,9 +6,11 @@ namespace FOSCBot.Common.Persistence;
 
 public interface IFosboDbContext
 {
-    // Navigator Store entities
     DbSet<User> Users { get; set; }
     DbSet<Chat> Chats { get; set; }
+
+    DbSet<PhantomCommand> PhantomCommands { get; set; }
+    DbSet<PhantomCommandChat> PhantomCommandChats { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

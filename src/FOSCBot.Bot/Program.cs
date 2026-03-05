@@ -31,6 +31,7 @@ builder.Services.AddHybridCache();
 builder.Services.AddTransient<ProbabilityService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
+builder.Services.Configure<PhantomCommandOptions>(builder.Configuration.GetSection(PhantomCommandOptions.Key));
 
 var intelligenceOptions = builder.Configuration.GetSection(IntelligenceOptions.Key)
     .Get<IntelligenceOptions>() ?? throw new InvalidOperationException($"Failed to bind {IntelligenceOptions.Key}.");
@@ -82,6 +83,8 @@ builder.Services.AddNavigator(configuration =>
 });
 
 #endregion
+
+builder.Services.AddScoped<IFosboDbContext>(sp => sp.GetRequiredService<FosboDbContext>());
 
 #region Infrastructure
 
@@ -160,6 +163,7 @@ bot.RegisterAdministration();
 bot.RegisterCommands();
 bot.RegisterInlineQueries();
 #pragma warning disable SKEXP0001
+bot.RegisterPhantomCommands();
 bot.RegisterFallbacks();
 #pragma warning restore SKEXP0001
 bot.RegisterInteractivity();
