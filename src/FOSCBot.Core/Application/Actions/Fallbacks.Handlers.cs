@@ -15,7 +15,7 @@ public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
-        ProbabilityService probabilities, IAgentService agentService, ILogger<NavigatorStrategy> logger)
+        ProbabilityService probabilities, IAgentService agentService, ILogger<DefaultNavigationStrategy> logger)
     {
         try
         {

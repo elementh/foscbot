@@ -29,7 +29,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("bill gates", StringComparison.CurrentCultureIgnoreCase) ||
                                      text.Contains("microsoft", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgQAAxkBAAI7GV6AjQuBNOLeYNKM1SBiRWB7tnuiAAIVDgAC_wRTAAGOgxwVhlJSlBgE",
                 "CAACAgIAAxkBAAI7G16AkmXDeUy_ub_bezQ1rCEoQJhaAAKEBwACYyviCdnd2EStFD0DGAQ",
                 "CAACAgIAAxkBAAI7HV6AkohZo2o9brFBO2wXVaZw7WusAAKRBwACYyviCcQ168JPLJQxGAQ",
@@ -42,7 +42,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("blahaj", StringComparison.InvariantCultureIgnoreCase))
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgIAAxkBAAI5bF594zvXetBu_fXNlzGdlYQT_OLUAAKnDwAC6NbiEtMAAXmxqEjqNRgE",
                 "CAACAgIAAxkBAAI5bV594zuW5LFY5lap1LzE3-1Ld831AAKoDwAC6NbiErX0KrBKBbo-GAQ",
                 "CAACAgIAAxkBAAI5dF594z2bIU_bNYQpHg0SKYfWRyZJAAKvDwAC6NbiEha0sCe1JYCaGAQ",
@@ -91,7 +91,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.BtwArch");
 
         catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomPhotoFrom([
+            .SendRandomPhoto([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagastegoku.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagasteshark.jpg"
             ])
@@ -132,7 +132,7 @@ public static partial class Miscellaneous
                 text.ToLower().Contains("musk ") ||
                 text.ToLower().EndsWith(" musk")
             )
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgIAAxkBAAECGX9gWyite1lkgqD944zLdk31Cn_MbQACmggAAnlc4gmF6N5K1J_nix4E",
                 "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
                 "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
@@ -223,7 +223,7 @@ public static partial class Miscellaneous
                 text.ToLower().Equals("je") ||
                 text.ToLower().Contains("je je")
             )
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgIAAxkBAAI5Dl59vPOH6MA6Uzua49AHRz-q5mMUAAIKAQACMNSdEVZUV2nGbrlvGAQ",
                 "CAACAgQAAxkBAAI5EF59vUKLQ46GEgbuzhY0O5r3HyauAAJKAQACqCEhBntEKK5RNh4XGAQ",
                 "CAACAgIAAxkBAAI5El59vYqk6ywiJOKdXzXNe2gsPL2gAAL2AwACierlB263K9ogJ_bwGAQ",
@@ -235,7 +235,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Jeje");
 
         catalog.OnText((string text) => text.Contains("jonardo", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgQAAxkBAAEMtvNmzFNi3fECy0IdKww6_QLSq2iblAACRAMAAkstbAABM86dNtNv9hU1BA",
                 "CAACAgIAAxkBAAEMtuVmzFLlOxQ5m2JJdXsbe8D0dj-1ogAC9jIAAlupkUqZKiEYNaUYrzUE",
                 "CAACAgIAAxkBAAEMtudmzFL39OSSQl_cr1vtAurW7NW4OAACliYAAtSFmErSRQFOnOH5MDUE",
@@ -298,7 +298,7 @@ public static partial class Miscellaneous
                                      || text.ToLower().StartsWith("lets fucking go")
                                      || text.ToLower().StartsWith("let's fuckin go")
                                      || text.ToLower().StartsWith("lets fuckin go"))
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgQAAxkBAAECojpg_bnnG-u3pLeJOG5IPolOtN00RAACBQwAApUS8FOOn4aL83n8bSAE",
                 "CAACAgQAAxkBAAECojxg_bnqH-1SeiLQLt_KypOZBI5uowACmQ8AAmFh8FO6uZ5fZWppOiAE",
                 "CAACAgQAAxkBAAECoj5g_bp_i3lF_F8dZQK8ZLEvKK3eJgAC3gkAAvPw8VPNHKHR3O21xiAE",
@@ -340,7 +340,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) => text.Contains("megratron", StringComparison.CurrentCultureIgnoreCase)
                                      || text.Contains("tronco", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomVideoFrom([
+            .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_immediate.mp4"
             ])
@@ -355,7 +355,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("nft", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomPhotoFrom([
+            .SendRandomPhoto([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nft.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftoad.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/nftractor.jpg",
@@ -400,7 +400,7 @@ public static partial class Miscellaneous
         catalog
             .OnText((Update update, string text) =>
                 update.IsBotMentioned() && text.Contains("python", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomTextFrom([
+            .SendRandomText([
                 "Aprendí python para que los plebs puedan entenderme 🥱",
                 "I'm `c̵̰̉ṳ̸̪̑̿̚̚r̴̟͕̗̄̓̀̉̄s̵̰̩̎̈e̷͙̯͍̲̋̊͘ḍ̴͂̊ ̶̘̈́a̷̹̲͗͗͊͋̾ṡ̸̨̢̰͂̀͗̕ ̵̧͓͑̈́̍͝f̷̦̠̹̤͊͛̈́u̸͇͔̓c̶̼͓͂̇k̴͍͐̽̏̈͗`, que alguien me desconecte joder 🤡🤡"
             ], ParseMode.MarkdownV2, true)
@@ -437,7 +437,7 @@ public static partial class Miscellaneous
                        || text.ToLower().Equals("saus?")
                        || text.ToLower().Equals("saus");
             })
-            .SendRandomVideoFrom([
+            .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/source.jpg",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/source_chad.jpg"
             ])
@@ -462,7 +462,7 @@ public static partial class Miscellaneous
                        || text.Contains("a chuparla", StringComparison.CurrentCultureIgnoreCase)
                        || text.Contains("a mamarla", StringComparison.CurrentCultureIgnoreCase);
             })
-            .SendRandomVideoFrom([
+            .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ.mp4",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/succ_with_teeth.mp4"
             ])
@@ -528,7 +528,7 @@ public static partial class Miscellaneous
                        || BlyatRegex().IsMatch(text)
                        || TraktorRegex().IsMatch(text);
             })
-            .SendRandomVideoFrom([
+            .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/bueno_flipao.mp4",
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/traktor.mp4"
             ])
@@ -554,7 +554,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("uwu", StringComparison.CurrentCultureIgnoreCase))
-            .SendRandomStickerFrom([
+            .SendRandomSticker([
                 "CAACAgEAAxkBAAI5JF59w6XM_AcpKByOoe1DtXyJuAr0AAL4AgACzcclBQ7jFynAjnWwGAQ",
                 "CAACAgEAAxkBAAI5JV59w6Vh9gyqRgRr0l0OWEtDLfT8AAL5AgACzcclBeHXi8c4JWp_GAQ",
                 "CAACAgEAAxkBAAI5Jl59w6ZP94FPDlRGHkZOHCjduqDTAAL6AgACzcclBVRLfoZ5hPHJGAQ",
