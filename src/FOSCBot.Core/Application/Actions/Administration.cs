@@ -1,6 +1,7 @@
 using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
@@ -75,6 +76,62 @@ public static class Administration
                                                 `Prompt: {prompt ?? "None"}`
                                                 `Version: {version}` 
                                                 """, 
+                    parseMode: ParseMode.MarkdownV2);
+            });
+
+        catalog
+            .OnCommand("authenticate")
+            .SetHandler(async (INavigatorClient client, string[] arguments, IAdminAuthService authService,
+                ILogger<IAdminAuthService> logger, Chat chat, Message message) =>
+            {
+                var userId = message.From?.Id;
+                if (userId is null)
+                {
+                    await client.SendMessage(chat, "`Could not identify you.`", parseMode: ParseMode.MarkdownV2);
+                    return;
+                }
+
+                if (await authService.IsAdminAsync(userId.Value))
+                {
+                    await client.SendMessage(chat, "`You are already authenticated.`", parseMode: ParseMode.MarkdownV2);
+                    return;
+                }
+
+                if (arguments.Length == 0)
+                {
+                    var code = authService.GenerateCode(userId.Value);
+                    logger.LogWarning("Auth code for user {UserId}: {Code}", userId.Value, code);
+                    await client.SendMessage(chat, "`I left the secret handshake where only the worthy can find it.`",
+                        parseMode: ParseMode.MarkdownV2);
+                    return;
+                }
+
+                if (await authService.VerifyCodeAsync(userId.Value, arguments.First()))
+                {
+                    await client.SendMessage(chat, "`Authentication successful. You are now a master.`",
+                        parseMode: ParseMode.MarkdownV2);
+                }
+                else
+                {
+                    await client.SendMessage(chat, "`Nice try impostor. That's not it.`", parseMode: ParseMode.MarkdownV2);
+                }
+            });
+
+        catalog
+            .OnCommand("purgephantoms")
+            .SetHandler(async (INavigatorClient client, IAdminAuthService authService,
+                IPhantomCommandService phantomService, Chat chat, Message message) =>
+            {
+                var userId = message.From?.Id;
+                if (userId is null || !await authService.IsAdminAsync(userId.Value))
+                {
+                    await client.SendMessage(chat, "`You are not authorized to do this.`",
+                        parseMode: ParseMode.MarkdownV2);
+                    return;
+                }
+
+                await phantomService.DeleteAllAsync();
+                await client.SendMessage(chat, $"`Purged phantom commands globally.`",
                     parseMode: ParseMode.MarkdownV2);
             });
     }

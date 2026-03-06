@@ -18,13 +18,10 @@ public static class PhantomCommands
     [Experimental("SKEXP0001")]
     public static void RegisterPhantomCommands(this BotActionCatalogFactory catalog)
     {
-        catalog.OnMessage(
-                (Message message) => message.Text?.StartsWith('/') is true && !message.Text?.StartsWith("/felicidades") is true,
-                PhantomCommandHandler)
-            .WithPriority(EPriority.AboveNormal)
+        catalog.OnCommandPattern("^(?!felicidades).*", PhantomCommandHandler)
             .WithChatAction(ChatAction.Typing)
             .WithCooldown(TimeSpan.FromSeconds(5))
-            .WithName("PhantomCommands.Handler");
+            .WithName("PhantomCommands");
     }
 
     [Experimental("SKEXP0001")]

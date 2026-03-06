@@ -56,6 +56,24 @@ internal class PhantomCommandService : IPhantomCommandService
         return command;
     }
 
+    public async Task DeleteAllAsync()
+    {
+        var commands = await _dbContext.PhantomCommands
+            .Include(c => c.Chats)
+            .ToListAsync();
+
+        _dbContext.PhantomCommands.RemoveRange(commands);
+        await _dbContext.SaveChangesAsync();
+
+        foreach (var cmd in commands)
+        {
+            foreach (var chat in cmd.Chats)
+            {
+                _cache.Remove(CacheKey(cmd.Name, chat.ChatExternalId));
+            }
+        }
+    }
+
     private static string CacheKey(string name, long chatExternalId) =>
         $"phantom.cmd:{chatExternalId}:{name}";
 }

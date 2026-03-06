@@ -48,6 +48,7 @@ public static class IntelligenceExtensions
         services.AddScoped<IAgentService, AgentService>();
         services.AddScoped<ICommandSynthesizerService, CommandSynthesizerService>();
         services.AddScoped<IPhantomCommandService, PhantomCommandService>();
+        services.AddScoped<IAdminAuthService, AdminAuthService>();
 
         services.AddOptions<IntelligenceClientOptions>();
         services.AddScoped<IIntelligenceClient, IntelligenceClient>();
