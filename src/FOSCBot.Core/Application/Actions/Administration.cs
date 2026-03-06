@@ -51,36 +51,6 @@ public static class Administration
             .WithChatAction(ChatAction.Typing);
 
         catalog
-            .OnCommand("settemperature")
-            .SetHandler(async (INavigatorClient client, string[] arguments, IUnhingedService service, Chat chat, IGiphyService gifs) =>
-            {
-                if (arguments.Length == 0)
-                {
-                    await client.SendMessage(chat, "`I need a temperature SISTER`", parseMode: ParseMode.MarkdownV2);
-                    return;
-                }
-
-                if (double.TryParse(arguments.First(), out var temperature))
-                {
-                    service.SetTemperature(chat.Id, temperature);
-
-                    await client.SendMessage(chat, "`Sure thing SISTER.`", parseMode: ParseMode.MarkdownV2);
-
-                    var gifUrl = temperature switch
-                    {
-                        > 1 => await gifs.Get("freezing"),
-                        >= 0.9 => await gifs.Get("cold"),
-                        > 0.6 => await gifs.Get("warm"),
-                        _ => await gifs.Get("extreme heat")
-                    };
-
-                    if (gifUrl is not null) await client.SendAnimation(chat, new InputFileUrl(gifUrl));
-                }
-            })
-            .WithChatAction(ChatAction.Typing);
-
-
-        catalog
             .OnCommand("clear")
             .SetHandler(async (INavigatorClient client, IUnhingedService service, Chat chat) =>
             {
@@ -96,14 +66,12 @@ public static class Administration
             {
                 var usersExist = await db.Users.AnyAsync();
                 var mode = service.IsUnhinged(chat.Id);
-                var temperature = service.GetTemperature(chat.Id);
                 var prompt = service.GetPrompt(chat.Id);
                 var version = Environment.GetEnvironmentVariable("BOT_VERSION") ?? "unset";
                 
                 await client.SendMessage(chat, $"""
                                                 `Db connected: {usersExist}`
                                                 `Unhinged: {mode}`
-                                                `Temperature: {temperature ?? 1}`
                                                 `Prompt: {prompt ?? "None"}`
                                                 `Version: {version}` 
                                                 """, 

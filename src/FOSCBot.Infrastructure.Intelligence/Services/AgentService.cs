@@ -46,8 +46,6 @@ internal class AgentService : IAgentService
         var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
         var history = buffer.ToChatHistory(prompt);
 
-        var temperature = _unhingedService.GetTemperature(chat.Id);
-
         var executionSettings = new OllamaPromptExecutionSettings { };
 
         var response = await llm.GetChatMessageContentAsync(history, executionSettings);

@@ -7,7 +7,5 @@ public interface IUnhingedService
     string? GetPrompt(long chatId);
     void SetPrompt(long chatId, string prompt);
     void Clear(long chatId);
-    double? GetTemperature(long chatId);
-    void SetTemperature(long chatId, double temperature);
 }
 
