@@ -11,6 +11,7 @@ using FOSCBot.Persistence.Context;
 using Incremental.Common.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Navigator;
+using Navigator.Abstractions.Pipelines.Steps;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
 using Navigator.Extensions.Cooldown;
@@ -85,6 +86,7 @@ builder.Services.AddNavigator(configuration =>
 #endregion
 
 builder.Services.AddScoped<IFosboDbContext>(sp => sp.GetRequiredService<FosboDbContext>());
+builder.Services.AddSingleton<INavigatorPipelineStep, SilenceResolutionPipelineStep>();
 
 #region Infrastructure
 

@@ -40,6 +40,26 @@ public static class Commands
             .WithChatAction(ChatAction.Typing);
 
         catalog
+            .OnCommand("silence", async (INavigatorClient client, Chat chat, ISilenceService silenceService) =>
+            {
+                silenceService.Silence(chat.Id, TimeSpan.FromHours(1));
+
+                await client.SendMessage(chat, "`Fine. I'll shut up for an hour.`", parseMode: ParseMode.Markdown);
+            })
+            .WithChatAction(ChatAction.Typing)
+            .WithName("Command.Silence");
+
+        catalog
+            .OnCommand("speak", async (INavigatorClient client, Chat chat, ISilenceService silenceService) =>
+            {
+                silenceService.Unsilence(chat.Id);
+
+                await client.SendMessage(chat, "`I'm back.`", parseMode: ParseMode.Markdown);
+            })
+            .WithChatAction(ChatAction.Typing)
+            .WithName("Command.Speak");
+
+        catalog
             .OnCommand("about", async (INavigatorClient client, Chat chat) =>
             {
                 const string about =
