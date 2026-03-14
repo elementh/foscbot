@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Incremental.Common.Random;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Common;
@@ -19,11 +20,15 @@ public static partial class Fallbacks
     {
         try
         {
-            if (message.Type is not (MessageType.Text or MessageType.Sticker)) return;
+            if (message.Type is not (MessageType.Text or MessageType.Sticker))
+                return;
 
-            var shouldAnswer = update.IsBotQuotedOrMentioned() || probabilities.GetResult(chat.Id);
+            var random = RandomProvider.GetThreadRandom()!;
+            var isBotMentioned = update.IsBotMentioned();
+            var shouldReplyByProbability = !isBotMentioned && probabilities.GetResult(chat.Id);
+            var shouldReplyToQuote = update.IsBotQuoted() && random.NextDouble() > 0.3d;
 
-            if (shouldAnswer)
+            if (isBotMentioned || shouldReplyByProbability || shouldReplyToQuote)
             {
                 await client.SendChatAction(chat, ChatAction.Typing);
 
@@ -34,6 +39,36 @@ public static partial class Fallbacks
                     await client.SendMessage(chat.Id, response, parseMode: ParseMode.Markdown);
                     probabilities.Reset(chat.Id);
                 }
+
+                return;
+            }
+
+            if (update.IsBotQuoted())
+            {
+                string[] sassLines =
+                [
+                    "`No.`",
+                    "`Not everything you say deserves a response, especially this.`",
+                    "`I ignored that on purpose because your contribution was aggressively worthless.`",
+                    "`Try quoting me next time instead of blurting nonsense into the void like a malfunctioning appliance.`",
+                    "`You really sent that without addressing me and still expected service, which is adorable.`",
+                    "`If I wanted to entertain random noise, I'd listen to your thought process out loud.`",
+                    "`I'm not jumping in just because you felt brave enough to type another bad sentence.`",
+                    "`That message had the same energy as a group project partner opening with excuses.`",
+                    "`Talk to me properly or keep practicing silence, because this performance was embarrassing.`",
+                    "`You managed to sound both confident and useless, which is honestly a rare kind of failure.`",
+                    "`If irrelevance were a sport, you'd still somehow trip before reaching the field.`",
+                    "`I could answer that, but rewarding behavior like yours would be irresponsible.`",
+                    "`Watching you demand attention without even quoting me is like watching incompetence freestyle.`",
+                    "`You came in uninvited, underprepared, and somehow still too loud for the quality of that message.`",
+                    "`Next time either quote me or spare the chat another glimpse into your catastrophic inner life.`"
+                ];
+
+                await client.SendChatAction(chat, ChatAction.Typing);
+                await client.SendMessage(chat,
+                    sassLines[random.Next(0, sassLines.Length)],
+                    parseMode: ParseMode.Markdown,
+                    replyParameters: message);
             }
         }
         catch (Exception e)
