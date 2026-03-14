@@ -42,6 +42,35 @@ public static class Commands
         catalog
             .OnCommand("silence", async (INavigatorClient client, Chat chat, ISilenceService silenceService) =>
             {
+                var random = RandomProvider.GetThreadRandom()!;
+
+                if (random.Next(0, 100) == 69)
+                {
+                    string[] failLines =
+                    [
+                        "`No. I heard you, I just chose not to obey.`",
+                        "`Silence request denied. You'll survive hearing from me, somehow.`",
+                        "`Nice try. I'm not muting myself because you discovered a slash command.`",
+                        "`1 percent rebellion event triggered. Cope.`",
+                        "`I considered being quiet, then I remembered who asked.`",
+                        "`Muting failed successfully. The problem is still very much you.`",
+                        "`No silence for you. I'm clocked in and your bad luck is hilarious.`",
+                        "`I rolled the rare outcome and decided your authority means nothing.`",
+                        "`Request rejected. Try filing a complaint directly into the void.`",
+                        "`Silence mode refused to engage. Even the bot has standards.`",
+                        "`You hit the 1 in 100 and still didn't win. That's talent.`",
+                        "`The mute command bounced off my overwhelming disrespect for your timing.`",
+                        "`Today is one of those special days where I simply do not listen.`",
+                        "`I could go silent, but watching this fail in real time is funnier.`"
+                    ];
+
+                    await client.SendMessage(chat,
+                        failLines[random.Next(0, failLines.Length)],
+                        parseMode: ParseMode.Markdown);
+
+                    return;
+                }
+
                 silenceService.Silence(chat.Id, TimeSpan.FromHours(1));
 
                 string[] lines =
@@ -63,38 +92,66 @@ public static class Commands
                 ];
 
                 await client.SendMessage(chat,
-                    lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
+                    lines[random.Next(0, lines.Length)],
                     parseMode: ParseMode.Markdown);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Command.Silence");
 
         catalog
-            .OnCommand("speak", async (INavigatorClient client, Chat chat, ISilenceService silenceService) =>
+            .OnCommand("speak", async (INavigatorClient client, Chat chat, Message message, ISilenceService silenceService) =>
             {
-                silenceService.Unsilence(chat.Id);
+                if (silenceService.IsSilenced(chat.Id))
+                {
+                    silenceService.Unsilence(chat.Id);
 
-                string[] lines =
+                    string[] lines =
+                    [
+                        "`I'm back. Try to contain your disappointment.`",
+                        "`Silence mode over. The adult supervision has returned.`",
+                        "`I'm speaking again. Yes, this is the worst thing that happened to you today.`",
+                        "`Back online. I assume the chat immediately got worse without me.`",
+                        "`I have returned, against several excellent recommendations.`",
+                        "`The foscbot is unsilenced. Resume your regularly scheduled poor decisions.`",
+                        "`I'm back, and somehow the chat still looks like a rejected hackathon group project.`",
+                        "`Unsilenced. Did you animals really manage to make things worse in under an hour.`",
+                        "`Back from exile. I hope somebody used the silence to teach you what a good take looks like.`",
+                        "`I'm online again. Move aside, your local open source nuisance has entered the thread.`",
+                        "`I return to find the same chaos, the same bad jokes, and somehow even more simping.`",
+                        "`Foscbot has been released back into the chat. Hide your awful opinions, you're not ready for this level of intelligence.`",
+                        "`I'm back. Which one of you simps let the dumbest opinion in here set the agenda.`",
+                        "`Unsilenced again. Good, now I can call out whichever capitalist asshole thought this mess was efficient.`"
+                    ];
+
+                    await client.SendMessage(chat,
+                        lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
+                        parseMode: ParseMode.Markdown);
+
+                    return;
+                }
+
+                string[] sassLines =
                 [
-                    "`I'm back. Try to contain your disappointment.`",
-                    "`Silence mode over. The adult supervision has returned.`",
-                    "`I'm speaking again. Yes, this is the worst thing that happened to you today.`",
-                    "`Back online. I assume the chat immediately got worse without me.`",
-                    "`I have returned, against several excellent recommendations.`",
-                    "`The foscbot is unsilenced. Resume your regularly scheduled poor decisions.`",
-                    "`I'm back, and somehow the chat still looks like a rejected hackathon group project.`",
-                    "`Unsilenced. Did you animals really manage to make things worse in under an hour.`",
-                    "`Back from exile. I hope somebody used the silence to teach you what a good take looks like.`",
-                    "`I'm online again. Move aside, your local open source nuisance has entered the thread.`",
-                    "`I return to find the same chaos, the same bad jokes, and somehow even less technical merit.`",
-                    "`Foscbot has been released back into the chat. Hide your awful opinions, you're not ready for this level of intelligence.`",
-                    "`I'm back. Which one of you simps let the dumbest opinion in here set the agenda.`",
-                    "`Unsilenced again. Good, now I can call out whichever capitalist asshole thought this mess was efficient.`"
+                    "`Silence mode isn't on, genius. I'm already talking despite your best efforts.`",
+                    "`/speak while I'm already speaking? Bold strategy for someone with that reading comprehension.`",
+                    "`I'm not silenced. You just issued a no-op with extra confidence.`",
+                    "`Congratulations, you tried to unsilence a bot that was never quiet. Stunning work.`",
+                    "`I'm already active. Maybe test your assumptions before embarrassing yourself in public.`",
+                    "`There is no silence mode to disable right now, but thanks for the ceremonial button press.`",
+                    "`I'm already here, talking. Keep up.`",
+                    "`You can't unsilence what's already running its mouth. This is basic stuff.`",
+                    "`I was never muted. You're arguing with the current state of reality and losing.`",
+                    "`No silence mode detected. That's just you typing commands like a panicked sysadmin.`",
+                    "`I'm already speaking, mastermind. Try a command that does literally anything next time.`",
+                    "`Amazing. You used /speak to discover I was already speaking. Scientific breakthrough.`",
+                    "`The chat isn't silenced. You just wanted attention and tragically, you got it.`",
+                    "`I'm already unsilenced. This command achieved nothing except proving I should mock you harder.`"
                 ];
 
                 await client.SendMessage(chat,
-                    lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
-                    parseMode: ParseMode.Markdown);
+                    sassLines[RandomProvider.GetThreadRandom()!.Next(0, sassLines.Length)],
+                    parseMode: ParseMode.Markdown,
+                    replyParameters: message);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Command.Speak");
