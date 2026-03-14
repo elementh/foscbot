@@ -48,6 +48,10 @@ public static partial class Fallbacks
                 string[] sassLines =
                 [
                     "`No.`",
+                    "`Nope.`",
+                    "`Nyet.`",
+                    "`Nein.`",
+                    "`No, thank you.`",
                     "`Not everything you say deserves a response, especially this.`",
                     "`I ignored that on purpose because your contribution was aggressively worthless.`",
                     "`Try quoting me next time instead of blurting nonsense into the void like a malfunctioning appliance.`",
@@ -61,7 +65,15 @@ public static partial class Fallbacks
                     "`I could answer that, but rewarding behavior like yours would be irresponsible.`",
                     "`Watching you demand attention without even quoting me is like watching incompetence freestyle.`",
                     "`You came in uninvited, underprepared, and somehow still too loud for the quality of that message.`",
-                    "`Next time either quote me or spare the chat another glimpse into your catastrophic inner life.`"
+                    "`Next time either quote me or spare the chat another glimpse into your catastrophic inner life.`",
+                    "`I thought about it and decided not to engage.`",
+                    "`I'm not sure what you expected, but this isn't it.`",
+                    "`Are you sure you want to keep this up?`",
+                    "`I could answer that but since it is you, I won't.`",
+                    "`How are you still employed?`",
+                    "`This is why we can't have nice things.`",
+                    "`You are worst than having a brother that uses your car and doesn't pay rent.`",
+                    "`Even my grandpa ElGuayaBot knows you are worth ignoring.`"
                 ];
 
                 await client.SendChatAction(chat, ChatAction.Typing);
