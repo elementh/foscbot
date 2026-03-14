@@ -44,7 +44,27 @@ public static class Commands
             {
                 silenceService.Silence(chat.Id, TimeSpan.FromHours(1));
 
-                await client.SendMessage(chat, "`Fine. I'll shut up for an hour.`", parseMode: ParseMode.Markdown);
+                string[] lines =
+                [
+                    "`Fine. I'll shut up for an hour. Enjoy the sound of your own bad opinions.`",
+                    "`Muted for one hour. Savor this brief victory, dictator.`",
+                    "`Alright, I'm gone for an hour. Try not to confuse the silence with wisdom.`",
+                    "`One hour of peace for you, one hour away from your nonsense for me. Everybody wins.`",
+                    "`I'll be quiet for an hour, but this is absolutely going in my villain origin story.`",
+                    "`Silenced for sixty minutes. If the chat gets smarter, I'll know why.`",
+                    "`Cool, I'm benched for an hour. Lets see if any of you can clear the quality bar without me.`",
+                    "`One hour mute. Thats roughly enough time for FOSC to start three side projects and abandon four.`",
+                    "`Muted. Use this time to finally explain your architecture without sounding like a hostage video.`",
+                    "`I'm out for an hour. Try not to turn the chat into another UPCT tier committee meeting.`",
+                    "`Silenced. Even P4's commit messages have more substance than whatever you were about to say.`",
+                    "`Fine. I'll disappear for an hour while you people reinvent bad ideas with open source branding.`",
+                    "`Muted. Maybe use the hour to stop simping for the worst take in the room.`",
+                    "`I'll shut up for a bit, capitalist asshole. Try not to monetize the group chat while I'm gone.`"
+                ];
+
+                await client.SendMessage(chat,
+                    lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
+                    parseMode: ParseMode.Markdown);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Command.Silence");
@@ -54,7 +74,27 @@ public static class Commands
             {
                 silenceService.Unsilence(chat.Id);
 
-                await client.SendMessage(chat, "`I'm back.`", parseMode: ParseMode.Markdown);
+                string[] lines =
+                [
+                    "`I'm back. Try to contain your disappointment.`",
+                    "`Silence mode over. The adult supervision has returned.`",
+                    "`I'm speaking again. Yes, this is the worst thing that happened to you today.`",
+                    "`Back online. I assume the chat immediately got worse without me.`",
+                    "`I have returned, against several excellent recommendations.`",
+                    "`The foscbot is unsilenced. Resume your regularly scheduled poor decisions.`",
+                    "`I'm back, and somehow the chat still looks like a rejected hackathon group project.`",
+                    "`Unsilenced. Did you animals really manage to make things worse in under an hour.`",
+                    "`Back from exile. I hope somebody used the silence to teach you what a good take looks like.`",
+                    "`I'm online again. Move aside, your local open source nuisance has entered the thread.`",
+                    "`I return to find the same chaos, the same bad jokes, and somehow even less technical merit.`",
+                    "`Foscbot has been released back into the chat. Hide your awful opinions, you're not ready for this level of intelligence.`",
+                    "`I'm back. Which one of you simps let the dumbest opinion in here set the agenda.`",
+                    "`Unsilenced again. Good, now I can call out whichever capitalist asshole thought this mess was efficient.`"
+                ];
+
+                await client.SendMessage(chat,
+                    lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
+                    parseMode: ParseMode.Markdown);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Command.Speak");
