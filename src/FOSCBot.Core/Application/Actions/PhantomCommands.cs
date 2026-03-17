@@ -78,7 +78,11 @@ public static class PhantomCommands
                                replyContext))
             {
                 responseBuilder.Append(chunk);
-                await client.SendMessageDraft(chat.Id, streamId, responseBuilder.ToString(), parseMode: ParseMode.Markdown);
+
+                if (chat.Type == ChatType.Private)
+                {
+                    await client.SendMessageDraft(chat.Id, streamId, responseBuilder.ToString(), parseMode: ParseMode.Markdown);
+                }
             }
             
             await client.SendMessage(chat, responseBuilder.ToString(), parseMode: ParseMode.Markdown, replyParameters: message);
