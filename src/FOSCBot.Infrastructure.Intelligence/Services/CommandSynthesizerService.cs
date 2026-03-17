@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Module.Models;
 using FOSCBot.Core.Module.Options;
+using FOSCBot.Infrastructure.Intelligence.Abstractions.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
@@ -11,11 +12,13 @@ namespace FOSCBot.Infrastructure.Intelligence.Services;
 
 internal class CommandSynthesizerService : ICommandSynthesizerService
 {
+    private readonly IIntelligenceClient _intelligenceClient;
     private readonly Kernel _kernel;
     private readonly PhantomCommandOptions _options;
 
-    public CommandSynthesizerService(Kernel kernel, IOptions<PhantomCommandOptions> options)
+    public CommandSynthesizerService(IIntelligenceClient intelligenceClient, Kernel kernel, IOptions<PhantomCommandOptions> options)
     {
+        _intelligenceClient = intelligenceClient;
         _kernel = kernel;
         _options = options.Value;
     }
@@ -78,6 +81,34 @@ internal class CommandSynthesizerService : ICommandSynthesizerService
         return response.Content;
     }
 
+    [Experimental("SKEXP0001")]
+    public IAsyncEnumerable<string> ExecutePhantomCommandStream(string description, string? arguments, string username,
+        string personality, string? replyContext = null, CancellationToken cancellationToken = default)
+    {
+        var definition = PhantomCommandDefinition.TryParse(description);
+        if (definition is null)
+            return EmptyStream();
+
+        var prompt = _options.ExecutionTemplate
+            .Replace("{Personality}", personality)
+            .Replace("{Description}", definition.Description)
+            .Replace("{OutputFormat}", definition.OutputFormat)
+            .Replace("{ResponseLength}", definition.ResponseLength)
+            .Replace("{Tone}", definition.Tone)
+            .Replace("{Constraints}", definition.FormatConstraints())
+            .Replace("{Examples}", definition.FormatExamples());
+
+        var history = new ChatHistory(prompt);
+
+        var userMessage = $"{username} used the command with: {arguments ?? "no arguments"}";
+        if (replyContext is not null)
+            userMessage += $"\nReplying to message: {replyContext}";
+
+        history.AddUserMessage(userMessage);
+
+        return _intelligenceClient.GetChatMessageStreamAsync(history, cancellationToken);
+    }
+
     private static string StripCodeFences(string text)
     {
         var lines = text.Split('\n');
@@ -90,5 +121,11 @@ internal class CommandSynthesizerService : ICommandSynthesizerService
             end--;
 
         return string.Join('\n', lines[start..(end + 1)]).Trim();
+    }
+
+    private static async IAsyncEnumerable<string> EmptyStream()
+    {
+        await Task.CompletedTask;
+        yield break;
     }
 }

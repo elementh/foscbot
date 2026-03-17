@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using FOSCBot.Core.Application.Abstractions;
+using Incremental.Common.Random;
 using Microsoft.Extensions.Logging;
 using Navigator.Abstractions.Client;
 using Navigator.Abstractions.Priorities;
@@ -68,20 +70,18 @@ public static class PhantomCommands
                 ? $"{replyAuthor ?? "Someone"} said: {message.ReplyToMessage.Text}"
                 : null;
 
-            var response = await commandSynthesizer.ExecutePhantomCommand(description, arguments,
-                message.From?.Username ?? message.From?.FirstName ?? "Anonymous", personality, replyContext);
+            var responseBuilder = new StringBuilder();
 
-            if (!string.IsNullOrWhiteSpace(response))
+            var streamId = RandomProvider.GetThreadRandom()!.Next();
+            await foreach (var chunk in commandSynthesizer.ExecutePhantomCommandStream(description, arguments,
+                               message.From?.Username ?? message.From?.FirstName ?? "Anonymous", personality,
+                               replyContext))
             {
-                try
-                {
-                    await client.SendMessage(chat, response, parseMode: ParseMode.Markdown, replyParameters: message);
-                }
-                catch (Telegram.Bot.Exceptions.ApiRequestException)
-                {
-                    await client.SendMessage(chat, response, replyParameters: message);
-                }
+                responseBuilder.Append(chunk);
+                await client.SendMessageDraft(chat.Id, streamId, responseBuilder.ToString(), parseMode: ParseMode.Markdown);
             }
+            
+            await client.SendMessage(chat, responseBuilder.ToString(), parseMode: ParseMode.Markdown, replyParameters: message);
         }
         catch (Exception e)
         {

@@ -36,6 +36,28 @@ internal class IntelligenceClient : IIntelligenceClient
         return content;
     }
 
+    public async IAsyncEnumerable<string> GetChatMessageStreamAsync(ChatHistory history,
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var yieldedAny = false;
+
+        await foreach (var chunk in GetStreamingChatCompletionAsync(_options.DefaultServiceId, history, cancellationToken))
+        {
+            yieldedAny = true;
+            yield return chunk;
+        }
+
+        if (yieldedAny)
+        {
+            yield break;
+        }
+
+        await foreach (var chunk in GetStreamingChatCompletionAsync(_options.BackupServiceId, history, cancellationToken))
+        {
+            yield return chunk;
+        }
+    }
+
     private async Task<T?> GetChatCompletionAsync<T>(string serviceId, ChatHistory history, CancellationToken cancellationToken = default)
     {
         try
@@ -58,6 +80,22 @@ internal class IntelligenceClient : IIntelligenceClient
             return default;
         }
     }
+
+    private async IAsyncEnumerable<string> GetStreamingChatCompletionAsync(string serviceId, ChatHistory history,
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var chatCompletion = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>(serviceId);
+
+        await foreach (var message in chatCompletion.GetStreamingChatMessageContentsAsync(history, 
+                           _options.PromptExecutionSettings, cancellationToken: cancellationToken))
+        {
+            if (!string.IsNullOrEmpty(message.Content))
+            {
+                yield return message.Content;
+            }
+        }
+    }
+
 }
 
 public class IntelligenceClientOptions
