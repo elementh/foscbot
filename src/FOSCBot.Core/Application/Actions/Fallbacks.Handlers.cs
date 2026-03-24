@@ -16,14 +16,14 @@ namespace FOSCBot.Core.Application.Actions;
 
 public static partial class Fallbacks
 {
-    private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job"];
+    private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job", "trabaj"];
 
     private static readonly string[] GoogleChantLines =
     [
         "<b><code>GOO GOO GLE YOU LITTLE BITCH</code></b>",
         "<b><code>GOO GOOOO GOOOOOO GOOOOOOOOOO GLE</code></b>",
         "<b><code>GO WORK FOR GOOGLE</code></b>",
-        "<b><code>GOO GOO GOOGLE, APPLY ALREADY</code></b>"
+        "<b><code>GOO GOO GOO GOOGLE, APPLY ALREADY</code></b>"
     ];
 
     private static readonly string[] SergioParadoxSongIntroLines =
@@ -185,6 +185,7 @@ public static partial class Fallbacks
     {
         return text.Contains("GOO GOO GLE", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("GOO GOO GOOGLE", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("GOO GOO GOO", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("WORK FOR GOOGLE", StringComparison.InvariantCultureIgnoreCase);
     }
 }
