@@ -49,6 +49,13 @@ public static partial class Fallbacks
 
             var random = RandomProvider.GetThreadRandom()!;
 
+            if (message.Text is { } googleChantText && IsGoogleChantTrigger(googleChantText))
+            {
+                await client.SendChatAction(chat, ChatAction.Typing);
+                await client.SendMessage(chat, "<b><code>GOO GOO GLE YOU LITTLE BITCH</code></b>", parseMode: ParseMode.Html);
+                return;
+            }
+
             if (message.Text is { } messageText && !update.IsBotQuoted() && IsSergioParadoxTrigger(messageText))
             {
                 switch (random.Next(0, 3))
@@ -159,5 +166,12 @@ public static partial class Fallbacks
             text.Contains(keyword, StringComparison.InvariantCultureIgnoreCase));
 
         return matches >= 3;
+    }
+
+    private static bool IsGoogleChantTrigger(string text)
+    {
+        return text.Contains("GOO GOO GLE", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("GOO GOO GOOGLE", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("WORK FOR GOOGLE", StringComparison.InvariantCultureIgnoreCase);
     }
 }
