@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Net.Http;
 using Incremental.Common.Random;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
@@ -61,6 +62,7 @@ public static partial class Fallbacks
                 switch (random.Next(0, 3))
                 {
                     case 0:
+                    {
                         var audioUrl = "https://github.com/elementh/foscbot/raw/refs/heads/feature/social-credit-dystopia-phase-2/assets/audio/sergio-s-paradox.mp3";
 
                         await client.SendChatAction(chat, ChatAction.Typing);
@@ -68,9 +70,13 @@ public static partial class Fallbacks
                             $"`{SergioParadoxSongIntroLines[random.Next(0, SergioParadoxSongIntroLines.Length)]}`",
                             parseMode: ParseMode.Markdown);
                         await client.SendChatAction(chat, ChatAction.UploadVoice);
-                        await client.SendVoice(chat, new InputFileUrl(audioUrl));
+                        using var httpClient = new HttpClient();
+                        await using var audioStream = await httpClient.GetStreamAsync(audioUrl);
+
+                        await client.SendVoice(chat, new InputFileStream(audioStream, "sergio-s-paradox.mp3"));
 
                         break;
+                    }
                     case 1:
                         await client.SendChatAction(chat, ChatAction.Typing);
 
