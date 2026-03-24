@@ -61,17 +61,14 @@ public static partial class Fallbacks
                 switch (random.Next(0, 3))
                 {
                     case 0:
-                        var audioPath = Path.Combine(AppContext.BaseDirectory, "assets", "audio", "sergio-s-paradox.mp3");
+                        var audioUrl = "https://github.com/elementh/foscbot/raw/refs/heads/feature/social-credit-dystopia-phase-2/assets/audio/sergio-s-paradox.mp3";
 
                         await client.SendChatAction(chat, ChatAction.Typing);
                         await client.SendMessage(chat,
                             $"`{SergioParadoxSongIntroLines[random.Next(0, SergioParadoxSongIntroLines.Length)]}`",
                             parseMode: ParseMode.Markdown);
                         await client.SendChatAction(chat, ChatAction.UploadVoice);
-                        await using (var stream = File.OpenRead(audioPath))
-                        {
-                            await client.SendVoice(chat, new InputFileStream(stream, "sergio-s-paradox.mp3"));
-                        }
+                        await client.SendVoice(chat, new InputFileUrl(audioUrl));
 
                         break;
                     case 1:
