@@ -18,6 +18,14 @@ public static partial class Fallbacks
 {
     private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job"];
 
+    private static readonly string[] GoogleChantLines =
+    [
+        "<b><code>GOO GOO GLE YOU LITTLE BITCH</code></b>",
+        "<b><code>GOO GOOOO GOOOOOO GOOOOOOOOOO GLE</code></b>",
+        "<b><code>GO WORK FOR GOOGLE</code></b>",
+        "<b><code>GOO GOO GOOGLE, APPLY ALREADY</code></b>"
+    ];
+
     private static readonly string[] SergioParadoxSongIntroLines =
     [
         "Let me explain it to you in song form.",
@@ -53,7 +61,9 @@ public static partial class Fallbacks
             if (message.Text is { } googleChantText && IsGoogleChantTrigger(googleChantText))
             {
                 await client.SendChatAction(chat, ChatAction.Typing);
-                await client.SendMessage(chat, "<b><code>GOO GOO GLE YOU LITTLE BITCH</code></b>", parseMode: ParseMode.Html);
+                await client.SendMessage(chat,
+                    GoogleChantLines[random.Next(0, GoogleChantLines.Length)],
+                    parseMode: ParseMode.Html);
                 return;
             }
 
