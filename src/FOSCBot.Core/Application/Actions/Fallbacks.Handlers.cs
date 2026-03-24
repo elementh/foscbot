@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Incremental.Common.Random;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
@@ -14,6 +15,29 @@ namespace FOSCBot.Core.Application.Actions;
 
 public static partial class Fallbacks
 {
+    private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job"];
+
+    private static readonly string[] SergioParadoxSongIntroLines =
+    [
+        "Let me explain it to you in song form.",
+        "This is easier to understand as a song.",
+        "Allow me to sing the Sergio paradox to you."
+    ];
+
+    private static readonly string[] SergioParadoxLines =
+    [
+        "GO WORK FOR GOOGLE SERGIO.",
+        "GOO GOO GOOGLEEE.",
+        "Sergio is preparing to apply by never applying.",
+        "Another job, same Google monologue.",
+        "Bro is min-maxing readiness instead of clicking apply.",
+        "Sergio fears big tech but still wants the badge.",
+        "The dream job is doing cardio in his head.",
+        "He keeps orbiting Google like it is a religion.",
+        "Sergio's CV is just a prequel collection.",
+        "He treats every detour like a direct route to Google."
+    ];
+
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
         ProbabilityService probabilities, IAgentService agentService, ILogger<DefaultNavigationStrategy> logger)
@@ -24,6 +48,46 @@ public static partial class Fallbacks
                 return;
 
             var random = RandomProvider.GetThreadRandom()!;
+
+            if (message.Text is { } messageText && !update.IsBotQuoted() && IsSergioParadoxTrigger(messageText))
+            {
+                switch (random.Next(0, 3))
+                {
+                    case 0:
+                        var audioPath = Path.Combine(AppContext.BaseDirectory, "assets", "audio", "sergio-s-paradox.mp3");
+
+                        await client.SendChatAction(chat, ChatAction.Typing);
+                        await client.SendMessage(chat,
+                            $"`{SergioParadoxSongIntroLines[random.Next(0, SergioParadoxSongIntroLines.Length)]}`",
+                            parseMode: ParseMode.Markdown);
+                        await client.SendChatAction(chat, ChatAction.UploadVoice);
+                        await using (var stream = File.OpenRead(audioPath))
+                        {
+                            await client.SendVoice(chat, new InputFileStream(stream, "sergio-s-paradox.mp3"));
+                        }
+
+                        break;
+                    case 1:
+                        await client.SendChatAction(chat, ChatAction.Typing);
+
+                        var username = message.From?.Username ?? message.From?.FirstName ?? "Anonymous";
+                        var response = await agentService.CommentOnSergioParadox(messageText, username);
+
+                        if (!string.IsNullOrWhiteSpace(response))
+                            await client.SendMessage(chat.Id, response);
+
+                        break;
+                    default:
+                        await client.SendChatAction(chat, ChatAction.Typing);
+                        await client.SendMessage(chat,
+                            $"`{SergioParadoxLines[random.Next(0, SergioParadoxLines.Length)]}`",
+                            parseMode: ParseMode.Markdown);
+                        break;
+                }
+
+                return;
+            }
+
             var isBotMentioned = update.IsBotMentioned();
             var shouldReplyByProbability = !isBotMentioned && probabilities.GetResult(chat.Id);
             var shouldReplyToQuote = update.IsBotQuoted() && random.NextDouble() > 0.3d;
@@ -87,5 +151,13 @@ public static partial class Fallbacks
         {
             logger.LogError(e, "Failed to process fallback handler for chat {ChatId}", chat.Id);
         }
+    }
+
+    private static bool IsSergioParadoxTrigger(string text)
+    {
+        var matches = SergioParadoxKeywords.Count(keyword =>
+            text.Contains(keyword, StringComparison.InvariantCultureIgnoreCase));
+
+        return matches >= 3;
     }
 }

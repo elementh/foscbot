@@ -86,5 +86,29 @@ internal class AgentService : IAgentService
 
         return response.Content;
     }
-}
 
+    [Experimental("SKEXP0001")]
+    public async Task<string?> CommentOnSergioParadox(string messageText, string username)
+    {
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
+        const string prompt =
+            """
+            You are FOSCBot. Write a sharp, witty comment about Sergio's paradox.
+            Sergio's paradox is this: Sergio dreams of working at Google as a Security Engineer, but he is deeply
+            troubled by big corporations, Google's reach into society, tracking, and capitalism. He jumps from job
+            to job saying each one is just preparing him to apply to Google, but he never actually applies.
+            React to the triggering message context, mock the contradiction, and keep it punchy.
+            The response must be a single paragraph, with a maximum of 4 sentences.
+            Do not use bullet points, lists, or markdown.
+            Respond in the same language as the triggering message.
+            """;
+
+        var history = new ChatHistory(prompt);
+        history.AddUserMessage($"{username} said: {messageText}");
+
+        var response = await llm.GetChatMessageContentAsync(history);
+
+        return response.Content?.Trim();
+    }
+}

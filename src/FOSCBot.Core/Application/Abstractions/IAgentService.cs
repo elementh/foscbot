@@ -10,5 +10,7 @@ public interface IAgentService
 
     [Experimental("SKEXP0001")]
     Task<string?> Ask(string question, string username);
-}
 
+    [Experimental("SKEXP0001")]
+    Task<string?> CommentOnSergioParadox(string messageText, string username);
+}
