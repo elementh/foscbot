@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\..\assets\audio\sergio-s-paradox.mp3">
+        <Content Include="..\..\..\assets\audio\sergio-s-paradox.mp3">
             <Link>assets\audio\sergio-s-paradox.mp3</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
