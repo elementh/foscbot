@@ -26,7 +26,7 @@ public class ProbabilityService
         callCount++;
 
         _cache.Set(key, callCount);
-        var probability = Math.Min(1.0, (double)callCount / (2 * GetTippingPoint(chatId)));
+        var probability = Math.Min(1.0, (double)callCount / (5 * GetTippingPoint(chatId)));
         return new Random().NextDouble() < probability;
     }
 

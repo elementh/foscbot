@@ -135,4 +135,25 @@ internal class AgentService : IAgentService
 
         return response.Content?.Trim();
     }
+
+    [Experimental("SKEXP0001")]
+    public async Task<string?> ReduceTextLength(string text, string targetLength)
+    {
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
+        const string prompt =
+            """
+            You are a text reduction specialist. Your task is to reduce the given text to the specified target length 
+            while maintaining the original intention, meaning, and important details. Do not censor any content - 
+            preserve all the original sentiment, opinions, and potentially sensitive material. Focus on conciseness 
+            and clarity without losing the core message. Respond only with the reduced text, no explanations.
+            """;
+
+        var history = new ChatHistory(prompt);
+        history.AddUserMessage($"Reduce this text to {targetLength}:\n\n{text}");
+
+        var response = await llm.GetChatMessageContentAsync(history);
+
+        return response.Content?.Trim();
+    }
 }

@@ -118,11 +118,15 @@ public static partial class Fallbacks
 
                 var response = await agentService.ProcessMessage(chat, message);
 
-                if (response != null)
+                if (response?.Length > 200)
                 {
-                    await client.SendMessage(chat.Id, response, parseMode: ParseMode.Markdown);
-                    probabilities.Reset(chat.Id);
+                    response = await agentService.ReduceTextLength(response, "200 characters");
                 }
+
+                if (response == null) return;
+                
+                await client.SendMessage(chat.Id, response, parseMode: ParseMode.Markdown);
+                probabilities.Reset(chat.Id);
 
                 return;
             }

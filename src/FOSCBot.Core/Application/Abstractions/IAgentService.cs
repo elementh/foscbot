@@ -13,4 +13,7 @@ public interface IAgentService
 
     [Experimental("SKEXP0001")]
     Task<string?> CommentOnSergioParadox(string messageText, string username);
+
+    [Experimental("SKEXP0001")]
+    Task<string?> ReduceTextLength(string text, string targetLength);
 }
