@@ -6,6 +6,7 @@ using Incremental.Common.Random;
 using Navigator.Abstractions.Actions.Builder.Extensions;
 using Navigator.Abstractions.Catalog.Extensions;
 using Navigator.Abstractions.Client;
+using Navigator.Abstractions.Introspection;
 using Navigator.Abstractions.Priorities;
 using Navigator.Catalog.Factory;
 using Navigator.Extensions.Cooldown.Extensions;
@@ -15,6 +16,8 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace FOSCBot.Core.Application.Actions;
+
+public class CatchAllOldFallbackHandler;
 
 public static partial class Fallbacks
 {
@@ -64,36 +67,65 @@ public static partial class Fallbacks
 
         // Catch All Fallback
         catalog
-            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, IAgentService agentService) =>
+            .OnMessage(() => true, async (INavigatorClient client, Chat chat, Message message, ILipsumService lipsum, IAgentService agentService,
+                INavigatorTracerFactory<CatchAllOldFallbackHandler> tracerFactory) =>
             {
-                var sentence = string.Empty;
+                await using var tracer = tracerFactory.Get();
 
-                if (message.Text?.Length > 200)
+                try
                 {
-                    var response = await agentService.ProcessMessage(chat, message);
+                    var sentence = string.Empty;
+                    var source = "none";
 
-                    sentence = response;
-                }
+                    if (message.Text?.Length > 200)
+                    {
+                        var response = await agentService.ProcessMessage(chat, message);
 
-                var odds = RandomProvider.GetThreadRandom()!.Next(0, 20);
+                        sentence = response;
+                        source = string.IsNullOrWhiteSpace(response) ? "none" : "agent_process_long_message";
+                    }
 
-                switch (odds)
-                {
-                    case >= 0 and < 3:
-                        sentence = await lipsum.GetBacon();
-                        break;
-                    case >= 3 and < 10:
-                        sentence = await lipsum.GetMetaphorSentence();
-                        break;
-                    default:
-                        {
-                            if (message.Text?.Split(' ').Length > 3) sentence = MockFilter.Apply(message.Text);
+                    var odds = RandomProvider.GetThreadRandom()!.Next(0, 20);
+
+                    switch (odds)
+                    {
+                        case >= 0 and < 3:
+                            sentence = await lipsum.GetBacon();
+                            source = string.IsNullOrWhiteSpace(sentence) ? "none" : "bacon";
                             break;
-                        }
-                }
+                        case >= 3 and < 10:
+                            sentence = await lipsum.GetMetaphorSentence();
+                            source = string.IsNullOrWhiteSpace(sentence) ? "none" : "metaphor";
+                            break;
+                        default:
+                            {
+                                if (message.Text?.Split(' ').Length > 3)
+                                {
+                                    sentence = MockFilter.Apply(message.Text);
+                                    source = string.IsNullOrWhiteSpace(sentence) ? "none" : "mock_filter";
+                                }
 
-                if (!string.IsNullOrWhiteSpace(sentence))
-                    await client.SendMessage(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
+                                break;
+                            }
+                    }
+
+                    tracer.AddTag("fallback.legacy.odds", odds.ToString());
+                    tracer.AddTag("fallback.legacy.source", source);
+
+                    if (!string.IsNullOrWhiteSpace(sentence))
+                    {
+                        MarkHandled(tracer, "catch_all_old", source);
+                        await client.SendMessage(chat, sentence, parseMode: ParseMode.Markdown, replyParameters: message);
+                        return;
+                    }
+
+                    MarkNotHandled(tracer, "legacy_no_sentence");
+                }
+                catch (Exception e)
+                {
+                    tracer.SetError(e);
+                    throw;
+                }
             })
             .WithProbabilities(0.002)
             .WithPriority(EPriority.VeryLow)

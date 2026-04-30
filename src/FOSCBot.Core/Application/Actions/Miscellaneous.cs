@@ -86,7 +86,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase))
-            .SendText("`Btw I run on Arch Linux.`", asReply: true)
+            .SendText("`Btw I run on Arch Linux.`", asReply: true, parseMode: ParseMode.Markdown)
             .WithProbabilities(0.4)
             .WithName("Miscellaneous.BtwArch");
 
