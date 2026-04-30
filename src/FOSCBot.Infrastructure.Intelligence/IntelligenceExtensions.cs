@@ -47,6 +47,7 @@ public static class IntelligenceExtensions
         services.AddTransient<IUnhingedService>(sp => sp.GetRequiredService<UnhingedService>());
         services.AddSingleton<ISilenceService, SilenceService>();
         services.AddScoped<IAgentService, AgentService>();
+        services.AddScoped<ITextMeaningService, TextMeaningService>();
         services.AddScoped<ICommandSynthesizerService, CommandSynthesizerService>();
         services.AddScoped<IPhantomCommandService, PhantomCommandService>();
         services.AddScoped<IAdminAuthService, AdminAuthService>();
@@ -73,4 +74,3 @@ public class IntelligenceOptions
         public string GetClientName() => $"{Name}_client";
     }
 }
-

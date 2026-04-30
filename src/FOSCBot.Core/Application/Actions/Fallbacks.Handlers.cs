@@ -18,6 +18,13 @@ public class CatchAllFallbackHandler;
 public static partial class Fallbacks
 {
     private const string SergioParadoxAudioUrl = "https://github.com/elementh/foscbot/raw/refs/heads/feature/social-credit-dystopia-phase-2/assets/audio/sergio-s-paradox.mp3";
+    private const string SergioOpinionMeaning =
+        """
+        The message is asking FOSCBot what it thinks about Sergio or @linuxct.
+        Count direct questions about Sergio or @linuxct.
+        Also count self-referential questions like "what do you think about me fosbo?" only when the sender username is "linuxct".
+        Do not count unrelated mentions, statements, or messages that are not asking for FOSCBot's opinion.
+        """;
 
     private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job", "trabaj"];
 
@@ -48,6 +55,19 @@ public static partial class Fallbacks
         "He keeps orbiting Google like it is a religion.",
         "Sergio's CV is just a prequel collection.",
         "He treats every detour like a direct route to Google."
+    ];
+
+    private static readonly string[] SergioOpinionLines =
+    [
+        "{0} is a bit weird, but also suspiciously god-tier.",
+        "{0} has the aura of a strange little prophet and the stats of a deity.",
+        "{0} is definitely a bit weird, which is exactly what makes the godhood believable.",
+        "{0} walks the thin line between oddball and divine intervention.",
+        "{0} is kind of weird, yes, but in the same way ancient gods were weird.",
+        "{0} feels like a man, a myth, and a mildly cursed saint all at once.",
+        "{0} is a weird guy, but unfortunately for the rest of us, also a god.",
+        "{0} radiates confusing energy and undeniable divinity in equal measure.",
+        "I once had hot, steamy, digital... exchanges with him."
     ];
 
     private static readonly string[] SassLines =
@@ -83,7 +103,7 @@ public static partial class Fallbacks
 
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
-        ProbabilityService probabilities, IAgentService agentService, ILogger<DefaultNavigationStrategy> logger,
+        ProbabilityService probabilities, IAgentService agentService, ITextMeaningService textMeaningService, ILogger<DefaultNavigationStrategy> logger,
         INavigatorTracerFactory<CatchAllFallbackHandler> tracerFactory)
     {
         await using var tracer = tracerFactory.Get();
@@ -102,6 +122,9 @@ public static partial class Fallbacks
                 RandomProvider.GetThreadRandom()!,
                 update.IsBotMentioned(),
                 update.IsBotQuoted());
+
+            if (await TryHandleSergioOpinionAsync(client, context, textMeaningService, tracer))
+                return;
 
             if (await TryHandleGoogleChantAsync(client, context, tracer))
                 return;
@@ -122,6 +145,32 @@ public static partial class Fallbacks
             tracer.SetError(e);
             logger.LogError(e, "Failed to process fallback handler for chat {ChatId}", chat.Id);
         }
+    }
+
+    private static async Task<bool> TryHandleSergioOpinionAsync(INavigatorClient client, CatchAllContext context,
+        ITextMeaningService textMeaningService, INavigatorTracer tracer)
+    {
+        if (context.Message.Text is not { } opinionText || !CanBeSergioOpinionCandidate(context, opinionText))
+            return false;
+
+        var meaningMatches = await textMeaningService.MatchesMeaning(
+            opinionText,
+            SergioOpinionMeaning,
+            new TextMeaningContext(context.Message.From?.Username, context.Message.From?.FirstName));
+
+        if (!meaningMatches)
+            return false;
+
+        var sergioAlias = ResolveSergioOpinionAlias(context, opinionText);
+
+        MarkHandled(tracer, "sergio_opinion", "sergio_opinion_question");
+        await client.SendChatAction(context.Chat, ChatAction.Typing);
+        await client.SendMessage(context.Chat,
+            $"`{string.Format(SergioOpinionLines[context.Random.Next(0, SergioOpinionLines.Length)], sergioAlias)}`",
+            parseMode: ParseMode.Markdown,
+            replyParameters: context.Message);
+
+        return true;
     }
 
     private static async Task<bool> TryHandleGoogleChantAsync(INavigatorClient client, CatchAllContext context, INavigatorTracer tracer)
@@ -300,6 +349,49 @@ public static partial class Fallbacks
             text.Contains(keyword, StringComparison.InvariantCultureIgnoreCase));
 
         return matches >= 3;
+    }
+
+    private static bool CanBeSergioOpinionCandidate(CatchAllContext context, string text)
+    {
+        if (!ContainsFosboReference(text))
+            return false;
+
+        return IsSergioMention(text) ||
+               (string.Equals(context.Message.From?.Username, "linuxct", StringComparison.InvariantCultureIgnoreCase) &&
+                LooksLikeOpinionQuestion(text));
+    }
+
+    private static string ResolveSergioOpinionAlias(CatchAllContext context, string text)
+    {
+        if (text.Contains("@linuxct", StringComparison.InvariantCultureIgnoreCase) ||
+            text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase) ||
+            string.Equals(context.Message.From?.Username, "linuxct", StringComparison.InvariantCultureIgnoreCase))
+            return "@linuxct";
+
+        return "Sergio";
+    }
+
+    private static bool ContainsFosboReference(string text)
+    {
+        return text.Contains("fosbo", StringComparison.InvariantCultureIgnoreCase) ||
+               text.Contains("foscbot", StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static bool IsSergioMention(string text)
+    {
+        return
+            text.Contains("sergio", StringComparison.InvariantCultureIgnoreCase) ||
+            text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase) ||
+            text.Contains("@linuxct", StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static bool LooksLikeOpinionQuestion(string text)
+    {
+        return text.Contains('?', StringComparison.InvariantCultureIgnoreCase) ||
+               text.Contains("think", StringComparison.InvariantCultureIgnoreCase) ||
+               text.Contains("opinion", StringComparison.InvariantCultureIgnoreCase) ||
+               text.Contains("piens", StringComparison.InvariantCultureIgnoreCase) ||
+               text.Contains("parece", StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static bool IsGoogleChantTrigger(string text)
