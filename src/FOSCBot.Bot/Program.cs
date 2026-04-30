@@ -15,6 +15,7 @@ using Navigator.Abstractions.Pipelines.Steps;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
 using Navigator.Extensions.Cooldown;
+using Navigator.Extensions.Management;
 using Navigator.Extensions.Probabilities;
 using Navigator.Extensions.Store;
 using Navigator.Extensions.Store.Services;
@@ -52,6 +53,7 @@ builder.Services.AddNavigator(configuration =>
 
     configuration.WithExtension<ProbabilitiesExtension>();
     configuration.WithExtension<CooldownExtension>();
+    configuration.WithExtension<ManagementExtension, ManagementOptions>(_ => { });
     configuration.WithExtension<StoreExtension, StoreOptions>(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("FosboDb");
@@ -86,7 +88,7 @@ builder.Services.AddNavigator(configuration =>
 #endregion
 
 builder.Services.AddScoped<IFosboDbContext>(sp => sp.GetRequiredService<FosboDbContext>());
-builder.Services.AddSingleton<INavigatorPipelineStep, SilenceResolutionPipelineStep>();
+builder.Services.AddScoped<INavigatorPipelineStep, SilenceResolutionPipelineStep>();
 
 #region Infrastructure
 
@@ -170,6 +172,7 @@ bot.RegisterFallbacks();
 #pragma warning restore SKEXP0001
 bot.RegisterInteractivity();
 bot.RegisterMiscellaneous();
+bot.RegisterManagementCommands();
 
 app.MapNavigator();
 

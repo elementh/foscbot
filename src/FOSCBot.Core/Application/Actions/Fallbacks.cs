@@ -1,14 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using Bottom;
 using FOSCBot.Core.Application.Abstractions;
-using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Common;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Actions.Builder.Extensions;
+using Navigator.Abstractions.Catalog.Extensions;
 using Navigator.Abstractions.Client;
 using Navigator.Abstractions.Priorities;
-using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
-using Navigator.Catalog.Factory.Extensions;
 using Navigator.Extensions.Cooldown.Extensions;
 using Navigator.Extensions.Probabilities.Extensions;
 using Telegram.Bot;

@@ -13,7 +13,7 @@ public class SilenceResolutionPipelineStep(ISilenceService silenceService,
 {
     public Task InvokeAsync(NavigatorActionResolutionContext context, PipelineStepHandlerDelegate next)
     {
-        var update = context.Update;
+        var update = context.UpdateContext.Update;
         var chat = update.GetChatOrDefault();
 
         if (chat is null || !silenceService.IsSilenced(chat.Id))

@@ -1,6 +1,6 @@
+using Navigator.Abstractions.Catalog.Extensions;
 using Navigator.Abstractions.Client;
 using Navigator.Catalog.Factory;
-using Navigator.Catalog.Factory.Extensions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;

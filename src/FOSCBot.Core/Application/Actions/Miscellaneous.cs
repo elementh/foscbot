@@ -1,13 +1,13 @@
 using System.Text.RegularExpressions;
 using FOSCBot.Core.Application.Abstractions;
-using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Common;
 using FOSCBot.Core.Resources;
 using Incremental.Common.Random;
+using Navigator.Abstractions.Actions.Builder.Extensions;
+using Navigator.Abstractions.Catalog.Extensions;
 using Navigator.Abstractions.Client;
 using Navigator.Actions.Builder.Extensions;
 using Navigator.Catalog.Factory;
-using Navigator.Catalog.Factory.Extensions;
 using Navigator.Extensions.Cooldown.Extensions;
 using Navigator.Extensions.Probabilities.Extensions;
 using Telegram.Bot;

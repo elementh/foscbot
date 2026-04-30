@@ -1,6 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Net.Http;
 using Incremental.Common.Random;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
