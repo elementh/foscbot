@@ -90,6 +90,24 @@ public static partial class Miscellaneous
             .WithProbabilities(0.4)
             .WithName("Miscellaneous.BtwArch");
 
+        catalog
+            .OnText((string text) =>
+                text.Contains("skill issue", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("git gud", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("get good", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("issue de skill", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("works as intended", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("no puedo mas", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("no puc mes", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomText([
+                "`Skill issue.`",
+                "`Massive user diff.`",
+                "`You lost to basic reality again.`",
+                "`That sounds like a you problem with extra ceremony.`"
+            ], ParseMode.Markdown, true)
+            .WithProbabilities(0.6)
+            .WithName("Miscellaneous.SkillIssue");
+
         catalog.OnText((string text) => text.Contains("cagaste", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomPhoto([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/cagastegoku.jpg",
@@ -253,6 +271,22 @@ public static partial class Miscellaneous
             .SendText("Keep it simple, and don't be a dick, bro. 🤗")
             .WithProbabilities(0.8)
             .WithName("Miscellaneous.KeepItSimple");
+
+        catalog
+            .OnText((string text) =>
+                text.Contains("lgtm", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("ship it", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("approved", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("mergealo", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("merge it", StringComparison.CurrentCultureIgnoreCase))
+            .SendRandomText([
+                "`LGTM: Looks Good To Morons.`",
+                "`Approved by vibes. What could possibly go wrong.`",
+                "`Ship it. I'm sure prod enjoys surprises.`",
+                "`Another merge powered by confidence instead of evidence.`"
+            ], ParseMode.Markdown, true)
+            .WithProbabilities(0.4)
+            .WithName("Miscellaneous.LGTM");
 
         catalog
             .OnText((string text) => text.Contains("elantro", StringComparison.CurrentCultureIgnoreCase)
@@ -472,6 +506,32 @@ public static partial class Miscellaneous
             .OnText((string text) => text.Contains("synology", StringComparison.CurrentCultureIgnoreCase))
             .SendText("Shitn0plogy", asReply: true)
             .WithName("Miscellaneous.Synology");
+
+        catalog
+            .OnText((string text) =>
+                text.Contains("works on my machine", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("cannot reproduce", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("can't reproduce", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("no me pasa", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("en mi máquina va", StringComparison.CurrentCultureIgnoreCase))
+            .SetHandler(async (INavigatorClient client, Chat chat, Message message) =>
+            {
+                string[] lines =
+                [
+                    "`Ah yes, the internationally recognized standard: your laptop.`",
+                    "`Works on your machine is not a deployment strategy, genius.`",
+                    "`Congrats on shipping to localhost.`",
+                    "`Incredible. The bug respects your hardware personally.`"
+                ];
+
+                await client.SendMessage(
+                    chat,
+                    lines[RandomProvider.GetThreadRandom()!.Next(0, lines.Length)],
+                    parseMode: ParseMode.Markdown,
+                    replyParameters: message);
+            })
+            .WithCooldown(TimeSpan.FromMinutes(10))
+            .WithName("Miscellaneous.WorksOnMyMachine");
 
         catalog
             .OnText((string text) => text.Contains("tesla", StringComparison.CurrentCultureIgnoreCase))

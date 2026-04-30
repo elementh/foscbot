@@ -132,6 +132,12 @@ public static partial class Fallbacks
             if (await TryHandleSergioParadoxAsync(client, context, agentService, tracer))
                 return;
 
+            if (await TryHandleStacktraceCoronerAsync(client, context, agentService, tracer))
+                return;
+
+            if (await TryHandleThreadVerdictAsync(client, context, agentService, tracer))
+                return;
+
             if (await TryHandleAgentReplyAsync(client, context, probabilities, agentService, tracer))
                 return;
 
@@ -208,6 +214,70 @@ public static partial class Fallbacks
                 await HandleSergioStaticReplyAsync(client, context, tracer);
                 break;
         }
+
+        return true;
+    }
+
+    [Experimental("SKEXP0001")]
+    private static async Task<bool> TryHandleStacktraceCoronerAsync(INavigatorClient client, CatchAllContext context,
+        IAgentService agentService, INavigatorTracer tracer)
+    {
+        if (context.Message.Text is not { } text)
+            return false;
+
+        if (!LooksLikeDebugFailure(text))
+            return false;
+
+        MarkHandled(tracer, "stacktrace_coroner", "debug_failure");
+        await client.SendChatAction(context.Chat, ChatAction.Typing);
+
+        var username = context.Message.From?.Username ?? context.Message.From?.FirstName ?? "Anonymous";
+        var response = await agentService.CoronerReply(text, username);
+
+        if (string.IsNullOrWhiteSpace(response))
+            return true;
+
+        if (response.Length > 350)
+            response = await agentService.ReduceTextLength(response, "350 characters") ?? response;
+
+        await client.SendMessage(
+            context.Chat,
+            response,
+            parseMode: ParseMode.Markdown,
+            replyParameters: context.Message);
+
+        return true;
+    }
+
+    [Experimental("SKEXP0001")]
+    private static async Task<bool> TryHandleThreadVerdictAsync(INavigatorClient client, CatchAllContext context,
+        IAgentService agentService, INavigatorTracer tracer)
+    {
+        if (context.Message.Text is not { } text)
+            return false;
+
+        if (!context.IsBotMentioned && !context.IsBotQuoted)
+            return false;
+
+        if (!LooksLikeVerdictRequest(text))
+            return false;
+
+        MarkHandled(tracer, "thread_verdict", "verdict_request");
+        await client.SendChatAction(context.Chat, ChatAction.Typing);
+
+        var response = await agentService.ThreadVerdict(context.Chat, context.Message);
+
+        if (string.IsNullOrWhiteSpace(response))
+            return true;
+
+        if (response.Length > 350)
+            response = await agentService.ReduceTextLength(response, "350 characters") ?? response;
+
+        await client.SendMessage(
+            context.Chat,
+            response,
+            parseMode: ParseMode.Markdown,
+            replyParameters: context.Message);
 
         return true;
     }
@@ -400,6 +470,40 @@ public static partial class Fallbacks
                || text.Contains("GOO GOO GOOGLE", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("GOO GOO GOO", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("WORK FOR GOOGLE", StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static bool LooksLikeDebugFailure(string text)
+    {
+        if (text.Contains("traceback", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("exception", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("stack trace", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("error:", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("fatal:", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("segmentation fault", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("nullreferenceexception", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("invalidoperationexception", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("build failed", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("failed with exit code", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (text.Contains("panic:", StringComparison.InvariantCultureIgnoreCase)) return true;
+
+        var atCount = text.Split('\n').Count(line =>
+            line.TrimStart().StartsWith("at ", StringComparison.InvariantCultureIgnoreCase));
+
+        return atCount >= 2;
+    }
+
+    private static bool LooksLikeVerdictRequest(string text)
+    {
+        return text.Contains("who is right", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("who's right", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("quién tiene razón", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("quien tiene razon", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("settle this", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("veredicto", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("what's your take", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("take?", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("opinion on this thread", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("opinion please", StringComparison.InvariantCultureIgnoreCase);
     }
 
     private readonly record struct CatchAllContext(

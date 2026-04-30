@@ -137,6 +137,73 @@ internal class AgentService : IAgentService
     }
 
     [Experimental("SKEXP0001")]
+    public async Task<string?> CoronerReply(string messageText, string username)
+    {
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
+        const string prompt =
+            """
+            You are FOSCBot acting as a sarcastic incident coroner.
+            The user is showing you an error, exception, traceback, stack trace, or build failure.
+            Your job:
+            - briefly mock the mistake
+            - identify the most likely cause from the text
+            - state uncertainty when the evidence is weak
+            - give exactly one concrete next debugging step
+            - keep the whole reply to 2-4 sentences
+            - no bullet points
+            - no markdown fences
+            - respond in the same language as the triggering message
+            """;
+
+        var history = new ChatHistory(prompt);
+        history.AddUserMessage($"{username} posted this failure:\n{messageText}");
+
+        var response = await llm.GetChatMessageContentAsync(history);
+
+        return response.Content?.Trim();
+    }
+
+    [Experimental("SKEXP0001")]
+    public async Task<string?> ThreadVerdict(Chat chat, Message message)
+    {
+        var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
+
+        var buffer = _cache.Get<SlidingBuffer<Message>>($"fallback.catchall:{chat.Id}");
+        var transcriptLines = buffer?
+            .Where(bufferedMessage => !string.IsNullOrWhiteSpace(bufferedMessage.Text))
+            .Select(bufferedMessage =>
+                $"{bufferedMessage.From?.Username ?? bufferedMessage.From?.FirstName ?? "Anonymous"}: {bufferedMessage.Text}")
+            .ToArray();
+
+        var transcript = transcriptLines is { Length: >= 2 }
+            ? string.Join('\n', transcriptLines)
+            : message.Text ?? string.Empty;
+
+        const string prompt =
+            """
+            You are FOSCBot acting as a hostile but observant chat judge.
+            You will receive a recent group chat transcript and a message asking for your verdict.
+            Your job:
+            - identify who is more wrong, or say both are stupid if appropriate
+            - justify it briefly using the conversation
+            - give a short final verdict
+            - keep it to 2-4 sentences
+            - no bullet points
+            - no markdown fences
+            - be sharp, funny, and mean
+            - respond in the same language as the request
+            """;
+
+        var history = new ChatHistory(prompt);
+        history.AddUserMessage($"Transcript:\n{transcript}\n\nVerdict request:\n{message.Text}");
+
+        var response = await llm.GetChatMessageContentAsync(history);
+
+        return response.Content?.Trim();
+    }
+
+    [Experimental("SKEXP0001")]
     public async Task<string?> ReduceTextLength(string text, string targetLength)
     {
         var llm = _kernel.Services.GetRequiredKeyedService<IChatCompletionService>("default_chat_completion_service");
