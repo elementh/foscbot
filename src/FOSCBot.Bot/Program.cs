@@ -1,22 +1,21 @@
-using FOSCBot.Bot.Configuration;
 using FOSCBot.Common.Persistence;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Actions;
 using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Module.Options;
-using FOSCBot.Core.Modules.SocialCredit;
-using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Persistence;
 using FOSCBot.Infrastructure.Contracts.Clients;
 using FOSCBot.Infrastructure.Implementations.Clients;
 using FOSCBot.Infrastructure.Implementations.Services;
+using FOSCBot.Infrastructure.Intelligence;
 using FOSCBot.Persistence.Context;
 using Incremental.Common.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.SemanticKernel;
 using Navigator;
+using Navigator.Abstractions.Pipelines.Steps;
 using Navigator.Configuration;
 using Navigator.Configuration.Options;
 using Navigator.Extensions.Cooldown;
+using Navigator.Extensions.Management;
 using Navigator.Extensions.Probabilities;
 using Navigator.Extensions.Store;
 using Navigator.Extensions.Store.Services;
@@ -32,11 +31,17 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHybridCache();
 
 builder.Services.AddTransient<ProbabilityService>();
-builder.Services.AddTransient<UnhingedService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
+builder.Services.Configure<PhantomCommandOptions>(builder.Configuration.GetSection(PhantomCommandOptions.Key));
 
-builder.AddIntelligence();
+var intelligenceOptions = builder.Configuration.GetSection(IntelligenceOptions.Key)
+    .Get<IntelligenceOptions>() ?? throw new InvalidOperationException($"Failed to bind {IntelligenceOptions.Key}.");
+
+builder.Services.AddIntelligence(options =>
+{
+    options.ChatCompletionProviders = intelligenceOptions.ChatCompletionProviders;
+});
 
 #region Navigator
 
@@ -48,6 +53,7 @@ builder.Services.AddNavigator(configuration =>
 
     configuration.WithExtension<ProbabilitiesExtension>();
     configuration.WithExtension<CooldownExtension>();
+    configuration.WithExtension<ManagementExtension, ManagementOptions>(_ => { });
     configuration.WithExtension<StoreExtension, StoreOptions>(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("FosboDb");
@@ -80,6 +86,9 @@ builder.Services.AddNavigator(configuration =>
 });
 
 #endregion
+
+builder.Services.AddScoped<IFosboDbContext>(sp => sp.GetRequiredService<FosboDbContext>());
+builder.Services.AddScoped<INavigatorPipelineStep, SilenceResolutionPipelineStep>();
 
 #region Infrastructure
 
@@ -144,17 +153,6 @@ builder.Services.AddScoped<IGiphyService, GiphyService>();
 
 #endregion
 
-#region Modules
-
-// Add Social Credit module
-builder.Services.AddSocialCreditModule();
-
-// Register additional database interfaces for Social Credit module
-builder.Services.AddScoped<ISocialCreditDbContext, FosboDbContext>();
-builder.Services.AddScoped<IFosboDbContext, FosboDbContext>();
-
-#endregion
-
 #region Healthchecks
 
 builder.Services.AddHealthChecks();
@@ -169,10 +167,12 @@ bot.RegisterAdministration();
 bot.RegisterCommands();
 bot.RegisterInlineQueries();
 #pragma warning disable SKEXP0001
+bot.RegisterPhantomCommands();
 bot.RegisterFallbacks();
 #pragma warning restore SKEXP0001
 bot.RegisterInteractivity();
 bot.RegisterMiscellaneous();
+bot.RegisterManagementCommands();
 
 app.MapNavigator();
 

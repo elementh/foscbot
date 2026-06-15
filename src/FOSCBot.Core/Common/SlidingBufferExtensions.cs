@@ -9,13 +9,9 @@ namespace FOSCBot.Core.Common;
 public static class SlidingBufferExtensions
 {
     [Experimental("SKEXP0001")]
-    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string? prompt = default)
+    public static ChatHistory ToChatHistory(this SlidingBuffer<Message> buffer, string prompt)
     {
-        var chatHistory =
-            new ChatHistory(prompt ?? """
-                                      You are a stubborn, unfriendly AI assistant named FOSCBot (or fosbo) who uses obscene terms and always insults or makes fun of the speaker. 
-                                      Tell them mean stuff, and sometimes answer with random shit. Try to use geeky terms and illegal suggestions. Try to keep answers moderately short.
-                                      """);
+        var chatHistory = new ChatHistory(prompt);
 
         foreach (var message in buffer)
             switch (message)
@@ -24,9 +20,10 @@ public static class SlidingBufferExtensions
                     if (buffer.Any(msg => msg.MessageId == replyToMessage.MessageId) is false)
                         chatHistory.Add(new ChatMessageContent
                         {
-                            Role = AuthorRole.User,
-                            AuthorName = replyToMessage.From?.Username ??
-                                         replyToMessage.From?.FirstName ?? "Anonymous FOSC User",
+                            Role = replyToMessage.From?.IsBot is true ? AuthorRole.Assistant : AuthorRole.User,
+                            AuthorName = replyToMessage.From?.IsBot is true
+                                ? "Assistant"
+                                : replyToMessage.From?.Username ?? replyToMessage.From?.FirstName ?? "Anonymous FOSC User",
                             Content = message.ReplyToMessage.Text,
                             Metadata = new Dictionary<string, object?>
                             {
@@ -37,6 +34,18 @@ public static class SlidingBufferExtensions
                     {
                         Role = AuthorRole.User,
                         AuthorName = message.From?.Username ?? message.From?.FirstName ?? "Anonymous FOSC User",
+                        Content = message.Text,
+                        Metadata = new Dictionary<string, object?>
+                        {
+                            { "message_id", message.MessageId }
+                        }
+                    });
+                    break;
+                case { Type: MessageType.Text, From.IsBot: true }:
+                    chatHistory.Add(new ChatMessageContent
+                    {
+                        Role = AuthorRole.Assistant,
+                        AuthorName = message.From?.Username ?? "Assistant",
                         Content = message.Text,
                         Metadata = new Dictionary<string, object?>
                         {

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY *.sln ./
@@ -6,8 +6,8 @@ COPY *.sln ./
 COPY FOSCBot.Bot/*.csproj FOSCBot.Bot/
 COPY FOSCBot.Common/*.csproj FOSCBot.Common/
 COPY FOSCBot.Core/*.csproj FOSCBot.Core/
-COPY FOSCBot.Core.Modules.SocialCredit/*.csproj FOSCBot.Core.Modules.SocialCredit/
 COPY FOSCBot.Infrastructure/*.csproj FOSCBot.Infrastructure/
+COPY FOSCBot.Infrastructure.Intelligence/*.csproj FOSCBot.Infrastructure.Intelligence/
 COPY FOSCBot.Persistence/*.csproj FOSCBot.Persistence/
 RUN dotnet restore -r linux-musl-x64
 
@@ -15,7 +15,7 @@ COPY . .
 WORKDIR /src/FOSCBot
 RUN dotnet publish -c Release -o /app -r linux-musl-x64 --self-contained false --no-restore ../FOSCBot.sln 
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
 ARG BOT_VERSION
 

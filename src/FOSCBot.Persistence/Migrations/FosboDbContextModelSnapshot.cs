@@ -17,74 +17,70 @@ namespace FOSCBot.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.8")
+                .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FOSCBot.Core.Modules.SocialCredit.Domain.Entities.Credit", b =>
+            modelBuilder.Entity("FOSCBot.Common.Persistence.Entities.Master", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("AuthenticatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<long>("TelegramUserExternalId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TelegramUserExternalId")
+                        .IsUnique();
 
-                    b.ToTable("Credits");
+                    b.ToTable("Masters");
                 });
 
-            modelBuilder.Entity("FOSCBot.Core.Modules.SocialCredit.Domain.Entities.MessageScore", b =>
+            modelBuilder.Entity("FOSCBot.Common.Persistence.Entities.PhantomCommand", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChatId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("MessageId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("ProcessedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Reasoning")
-                        .HasMaxLength(1500)
-                        .IsUnicode(true)
-                        .HasColumnType("character varying(1500)");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Personality")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatId");
+                    b.HasIndex("Name");
 
-                    b.HasIndex("ProcessedAt");
+                    b.ToTable("PhantomCommands");
+                });
 
-                    b.HasIndex("UserId");
+            modelBuilder.Entity("FOSCBot.Common.Persistence.Entities.PhantomCommandChat", b =>
+                {
+                    b.Property<Guid>("PhantomCommandId")
+                        .HasColumnType("uuid");
 
-                    b.ToTable("MessageScores");
+                    b.Property<long>("ChatExternalId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PhantomCommandId", "ChatExternalId");
+
+                    b.ToTable("PhantomCommandChats");
                 });
 
             modelBuilder.Entity("Navigator.Extensions.Store.Entities.Chat", b =>
@@ -151,34 +147,15 @@ namespace FOSCBot.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FOSCBot.Core.Modules.SocialCredit.Domain.Entities.Credit", b =>
+            modelBuilder.Entity("FOSCBot.Common.Persistence.Entities.PhantomCommandChat", b =>
                 {
-                    b.HasOne("Navigator.Extensions.Store.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("FOSCBot.Common.Persistence.Entities.PhantomCommand", "PhantomCommand")
+                        .WithMany("Chats")
+                        .HasForeignKey("PhantomCommandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FOSCBot.Core.Modules.SocialCredit.Domain.Entities.MessageScore", b =>
-                {
-                    b.HasOne("Navigator.Extensions.Store.Entities.Chat", "Chat")
-                        .WithMany()
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Navigator.Extensions.Store.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("User");
+                    b.Navigation("PhantomCommand");
                 });
 
             modelBuilder.Entity("Navigator.Extensions.Store.Entities.Conversation", b =>
@@ -196,6 +173,11 @@ namespace FOSCBot.Persistence.Migrations
                     b.Navigation("Chat");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FOSCBot.Common.Persistence.Entities.PhantomCommand", b =>
+                {
+                    b.Navigation("Chats");
                 });
 
             modelBuilder.Entity("Navigator.Extensions.Store.Entities.Chat", b =>

@@ -1,15 +1,15 @@
-using FOSCBot.Core.Modules.SocialCredit.Application.Abstractions.Persistence;
-using FOSCBot.Core.Modules.SocialCredit.Domain.Entities;
-using FOSCBot.Persistence.Configurations;
+using FOSCBot.Common.Persistence;
+using FOSCBot.Common.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Navigator.Extensions.Store.Persistence.Context;
 
 namespace FOSCBot.Persistence.Context;
 
-public class FosboDbContext : NavigatorStoreDbContext, ISocialCreditDbContext
+public class FosboDbContext : NavigatorStoreDbContext, IFosboDbContext
 {
-    public DbSet<Credit> Credits { get; set; } = null!;
-    public DbSet<MessageScore> MessageScores { get; set; } = null!;
+    public DbSet<PhantomCommand> PhantomCommands { get; set; }
+    public DbSet<PhantomCommandChat> PhantomCommandChats { get; set; }
+    public DbSet<Master> Masters { get; set; }
 
     public FosboDbContext(DbContextOptions<FosboDbContext> options) : base(options)
     {
@@ -19,8 +19,6 @@ public class FosboDbContext : NavigatorStoreDbContext, ISocialCreditDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Apply entity configurations
-        modelBuilder.ApplyConfiguration(new CreditEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new MessageScoreEntityConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FosboDbContext).Assembly);
     }
 }

@@ -7,4 +7,6 @@ public class FosboOptions
     public int TippingPoint { get; set; }
 
     public int ContextWindow { get; set; }
+
+    public string DefaultPrompt { get; set; } = string.Empty;
 }
