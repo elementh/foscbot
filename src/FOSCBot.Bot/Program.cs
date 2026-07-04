@@ -19,6 +19,7 @@ using Navigator.Extensions.Management;
 using Navigator.Extensions.Probabilities;
 using Navigator.Extensions.Store;
 using Navigator.Extensions.Store.Services;
+using Navigator.Strategies.Queued;
 using Npgsql;
 using Polly;
 
@@ -50,6 +51,12 @@ builder.Services.AddNavigator(configuration =>
     configuration.Options.SetWebHookBaseUrl(builder.Configuration["BOT_URL"]!);
     configuration.Options.SetTelegramToken(builder.Configuration["TELEGRAM_TOKEN"]!);
     configuration.Options.EnableChatActionNotification();
+
+    // Enqueue updates and ack the webhook immediately; a hosted worker processes
+    // each chat's queue sequentially. Slow LLM calls no longer delay the ack past
+    // Telegram's timeout, which caused redelivery of the same update and endless
+    // duplicate replies.
+    configuration.WithStrategy<QueuedStrategy>();
 
     configuration.WithExtension<ProbabilitiesExtension>();
     configuration.WithExtension<CooldownExtension>();
@@ -89,6 +96,7 @@ builder.Services.AddNavigator(configuration =>
 
 builder.Services.AddScoped<IFosboDbContext>(sp => sp.GetRequiredService<FosboDbContext>());
 builder.Services.AddScoped<INavigatorPipelineStep, SilenceResolutionPipelineStep>();
+builder.Services.AddScoped<INavigatorPipelineStep, DuplicateUpdateResolutionPipelineStep>();
 
 #region Infrastructure
 
