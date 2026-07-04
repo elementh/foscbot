@@ -34,6 +34,7 @@ builder.Services.AddTransient<ProbabilityService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
 builder.Services.Configure<PhantomCommandOptions>(builder.Configuration.GetSection(PhantomCommandOptions.Key));
+builder.Services.Configure<UserTriggeredResponseOptions>(builder.Configuration.GetSection(UserTriggeredResponseOptions.Key));
 
 var intelligenceOptions = builder.Configuration.GetSection(IntelligenceOptions.Key)
     .Get<IntelligenceOptions>() ?? throw new InvalidOperationException($"Failed to bind {IntelligenceOptions.Key}.");
@@ -170,6 +171,7 @@ bot.RegisterInlineQueries();
 bot.RegisterPhantomCommands();
 bot.RegisterFallbacks();
 #pragma warning restore SKEXP0001
+bot.RegisterUserTriggered();
 bot.RegisterInteractivity();
 bot.RegisterMiscellaneous();
 bot.RegisterManagementCommands();
