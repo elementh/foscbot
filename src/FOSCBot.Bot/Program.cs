@@ -31,6 +31,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHybridCache();
 
 builder.Services.AddTransient<ProbabilityService>();
+builder.Services.AddSingleton<UserTriggeredConditionService>();
 
 builder.Services.Configure<FosboOptions>(builder.Configuration.GetSection("Fosbo"));
 builder.Services.Configure<PhantomCommandOptions>(builder.Configuration.GetSection(PhantomCommandOptions.Key));

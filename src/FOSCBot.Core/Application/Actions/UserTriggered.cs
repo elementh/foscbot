@@ -1,3 +1,4 @@
+using FOSCBot.Core.Application.Services;
 using FOSCBot.Core.Module.Options;
 using Incremental.Common.Random;
 using Microsoft.Extensions.Options;
@@ -18,12 +19,12 @@ public static class UserTriggered
     public static void RegisterUserTriggered(this BotActionCatalogFactory catalog)
     {
         catalog
-            .OnText((Message message, IOptions<UserTriggeredResponseOptions> options) =>
-                FindResponse(message, options.Value) is not null)
+            .OnText((Message message, IOptions<UserTriggeredResponseOptions> options, UserTriggeredConditionService conditions) =>
+                FindResponse(message, options.Value, conditions) is not null)
             .SetHandler(async (INavigatorClient client, Chat chat, Message message,
-                IOptions<UserTriggeredResponseOptions> options) =>
+                IOptions<UserTriggeredResponseOptions> options, UserTriggeredConditionService conditions) =>
             {
-                var response = FindResponse(message, options.Value);
+                var response = FindResponse(message, options.Value, conditions);
 
                 if (response is null) return;
 
@@ -38,15 +39,16 @@ public static class UserTriggered
             .WithName("UserTriggered.Responses");
     }
 
-    private static UserTriggeredResponse? FindResponse(Message message, UserTriggeredResponseOptions options)
+    private static UserTriggeredResponse? FindResponse(Message message, UserTriggeredResponseOptions options,
+        UserTriggeredConditionService conditions)
     {
-        if (message.From is null || message.Text is null) return null;
+        if (message.From is null) return null;
 
         // A response with no phrases must not match: it would win the single-action
         // slot for this update and then reply with nothing.
         return options.Responses.FirstOrDefault(response => response.Phrases.Length > 0
             && MatchesUser(message.From, response)
-            && MatchesText(message.Text, response));
+            && conditions.Evaluate(response, message));
     }
 
     private static bool MatchesUser(User from, UserTriggeredResponse response)
@@ -59,11 +61,4 @@ public static class UserTriggered
                string.Equals(from.Username, response.Username.TrimStart('@'), StringComparison.InvariantCultureIgnoreCase);
     }
 
-    private static bool MatchesText(string text, UserTriggeredResponse response)
-    {
-        if (text.Length < response.MinTextLength) return false;
-
-        return response.TextContains.Length == 0 ||
-               response.TextContains.Any(fragment => text.Contains(fragment, StringComparison.InvariantCultureIgnoreCase));
-    }
 }
