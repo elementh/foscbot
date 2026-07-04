@@ -24,7 +24,12 @@ public static partial class Fallbacks
     [Experimental("SKEXP0001")]
     public static void RegisterFallbacks(this BotActionCatalogFactory catalog)
     {
-        catalog.OnText(Bottomify.IsEncoded, async (INavigatorClient client, Chat chat, string text) =>
+        // IsEncoded alone claims common emoji combos like 🥺👉👈 (they decode to control
+        // characters); only treat text as Bottom when it decodes to real readable content.
+        catalog.OnText((string text) => Bottomify.IsEncoded(text) &&
+                                        Bottomify.DecodeString(text) is { Length: >= 2 } decoded &&
+                                        decoded.All(c => !char.IsControl(c)),
+            async (INavigatorClient client, Chat chat, string text) =>
             {
                 await client.SendMessage(chat,
                     $"`Fellow humans I have decoded these words of wisdom:` \n_{Bottomify.DecodeString(text)}_",

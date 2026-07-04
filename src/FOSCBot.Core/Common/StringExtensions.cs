@@ -1,45 +1,14 @@
-﻿namespace FOSCBot.Core.Common;
+﻿using System.Text.RegularExpressions;
+
+namespace FOSCBot.Core.Common;
 
 public static class StringExtensions
 {
     public static bool ContainsWord(this string str, string word)
     {
-        var lastIndex = 0;
-            
-        foreach (var character in word)
-        {
-            if (str.IndexOf(character, lastIndex) == -1)
-            {
-                return false;
-            }
-                
-            lastIndex = str.IndexOf(character, lastIndex);
-        }
-
-        return true;
+        return Regex.IsMatch(str, $@"\b{Regex.Escape(word)}\b", RegexOptions.IgnoreCase);
     }
-        
-    public static IEnumerable<int> GetIndexListFor(this string str, string word)
-    {
-        var indexList = new List<int>();
-            
-        var lastIndex = 0;
-            
-        foreach (var character in word)
-        {
-            if (str.IndexOf(character, lastIndex) == -1)
-            {
-                return new int[] {};
-            }
-                
-            lastIndex = str.IndexOf(character, lastIndex);
-                
-            indexList.Add(lastIndex);
-        }
 
-        return indexList;
-    }
-        
     public static string ReplaceAt(this string input, int index, char newChar)
     {
         if (input == null)
@@ -68,7 +37,9 @@ public static class StringExtensions
         
     public static bool IsAllUpper(this string? input)
     {
-        return input?.All(t => !char.IsLetter(t) || char.IsUpper(t)) ?? false;
+        // Letterless strings ("2024", "😂😂", "100%") must not count as shouting.
+        return !string.IsNullOrEmpty(input) && input.Any(char.IsLetter) &&
+               input.All(t => !char.IsLetter(t) || char.IsUpper(t));
     }
 
     public static bool IsSticker(this string? input)
@@ -78,6 +49,6 @@ public static class StringExtensions
         
     public static bool ContainsUrl(this string? input)
     {
-        return input?.Contains("http") ?? false;
+        return input is not null && Regex.IsMatch(input, @"\b(?:https?://|www\.)\S+", RegexOptions.IgnoreCase);
     }
 }

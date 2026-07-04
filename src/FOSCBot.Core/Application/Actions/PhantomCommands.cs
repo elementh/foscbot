@@ -19,7 +19,7 @@ public static class PhantomCommands
     [Experimental("SKEXP0001")]
     public static void RegisterPhantomCommands(this BotActionCatalogFactory catalog)
     {
-        catalog.OnCommandPattern("^(?!felicidades).*", PhantomCommandHandler)
+        catalog.OnCommandPattern("^(?i)(?!felicidades).*", PhantomCommandHandler)
             .WithChatAction(ChatAction.Typing)
             .WithCooldown(TimeSpan.FromSeconds(5))
             .WithName("PhantomCommands");
@@ -39,11 +39,27 @@ public static class PhantomCommands
             var text = message.Text;
             if (string.IsNullOrWhiteSpace(text)) return;
 
-            var spaceIndex = text.IndexOf(' ');
-            var commandName = (spaceIndex > 0 ? text[1..spaceIndex] : text[1..]).ToLowerInvariant();
-            var arguments = spaceIndex > 0 ? text[(spaceIndex + 1)..].Trim() : null;
+            // Telegram marks bot_command entities anywhere in the message ("hola /etc roto"
+            // used to invent the command "ola"); only honor a command that starts the
+            // message and is addressed to nobody or to this bot.
+            var commandEntity = message.Entities?.FirstOrDefault();
+            if (commandEntity is null || commandEntity.Type != MessageEntityType.BotCommand || commandEntity.Offset != 0) return;
 
+            var rawCommand = text.Substring(1, commandEntity.Length - 1);
+            var atIndex = rawCommand.IndexOf('@');
+
+            if (atIndex >= 0)
+            {
+                if (!rawCommand[(atIndex + 1)..].Equals("foscbot", StringComparison.OrdinalIgnoreCase)) return;
+
+                rawCommand = rawCommand[..atIndex];
+            }
+
+            var commandName = rawCommand.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(commandName)) return;
+
+            var arguments = text.Length > commandEntity.Length ? text[commandEntity.Length..].Trim() : null;
+            if (string.IsNullOrWhiteSpace(arguments)) arguments = null;
 
             var existing = await phantomCommandService.GetCommandAsync(commandName, chat.Id);
             string description;
