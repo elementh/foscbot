@@ -42,7 +42,10 @@ internal class AgentService : IAgentService
         if (buffer is null || buffer.MaxLength > _options.ContextWindow)
             buffer = new SlidingBuffer<Message>(_options.ContextWindow);
 
-        buffer.Add(message);
+        // A redelivered update must not append the same message again: duplicated
+        // entries make the model react to a user that "keeps repeating themselves".
+        if (buffer.All(bufferedMessage => bufferedMessage.Id != message.Id))
+            buffer.Add(message);
 
         var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
         var history = buffer.ToChatHistory(prompt);
