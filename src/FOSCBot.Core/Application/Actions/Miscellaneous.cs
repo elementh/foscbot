@@ -85,7 +85,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Blahaj");
 
         catalog
-            .OnText((string text) => text.Contains("arch", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => ArchRegex().IsMatch(text))
             .SendText("`Btw I run on Arch Linux.`", asReply: true, parseMode: ParseMode.Markdown)
             .WithProbabilities(0.4)
             .WithName("Miscellaneous.BtwArch");
@@ -97,8 +97,7 @@ public static partial class Miscellaneous
                 text.Contains("get good", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("issue de skill", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("works as intended", StringComparison.CurrentCultureIgnoreCase) ||
-                text.Contains("no puedo mas", StringComparison.CurrentCultureIgnoreCase) ||
-                text.Contains("no puc mes", StringComparison.CurrentCultureIgnoreCase))
+                NoPuedoMasRegex().IsMatch(text))
             .SendRandomText([
                 "`Skill issue.`",
                 "`Massive user diff.`",
@@ -135,21 +134,13 @@ public static partial class Miscellaneous
 
         catalog.OnText(
                 (string text) => text.Contains("elegant", StringComparison.CurrentCultureIgnoreCase) &&
-                                 !text.ToLower().ContainsUrl())
+                                 !text.ContainsUrl())
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/elegant.mp4",
                 "Elegance is achieved when all that is superfluous has been discarded and the human being discovers simplicity and concentration: the simpler and more sober the posture, the more beautiful it will be.")
             .WithName("Miscellaneous.Elegant");
 
         catalog
-            .OnText((string text) =>
-                text.ToLower().Contains("elon musk") ||
-                text.ToLower().StartsWith("elon") ||
-                text.ToLower().Contains("elon ") ||
-                text.ToLower().EndsWith(" elon") ||
-                text.ToLower().StartsWith("musk") ||
-                text.ToLower().Contains("musk ") ||
-                text.ToLower().EndsWith(" musk")
-            )
+            .OnText((string text) => ElonMuskRegex().IsMatch(text))
             .SendRandomSticker([
                 "CAACAgIAAxkBAAECGX9gWyite1lkgqD944zLdk31Cn_MbQACmggAAnlc4gmF6N5K1J_nix4E",
                 "CAACAgIAAxkBAAECGYFgWyjJmDQFzVqaqbVq51qNgq-iYAACgggAAnlc4gndXhh_OFD8Rx4E",
@@ -162,7 +153,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("for our stolen code", StringComparison.InvariantCultureIgnoreCase)
-                                     || text.Contains("orks", StringComparison.InvariantCultureIgnoreCase))
+                                     || OrksRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/orks.mp4")
             .WithProbabilities(0.8)
             .WithName("Miscellaneous.Forks");
@@ -177,7 +168,7 @@ public static partial class Miscellaneous
         catalog
             .OnSticker(
                 (Sticker sticker) =>
-                    sticker.SetName?.Equals("foscupct") is not false && sticker.Emoji?.Equals("😚") is true,
+                    sticker.SetName?.Equals("foscupct") is true && sticker.Emoji?.Equals("😚") is true,
                 async (INavigatorClient client, Chat chat) =>
                 {
                     var bytes = Convert.FromBase64String(CoreResources.HeyBroImage);
@@ -211,7 +202,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Ice");
 
         catalog
-            .OnText((string text) => text.Contains(" ipad", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => IpadRegex().IsMatch(text))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
                 if (RandomProvider.GetThreadRandom()!.NextDouble() >= 0.5)
@@ -233,14 +224,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Ipad");
 
         catalog
-            .OnText((string text) =>
-                text.ToLower().Contains("je ") ||
-                text.ToLower().Contains(" je") ||
-                text.ToLower().Contains(" je ") ||
-                text.ToLower().Contains("jeje") ||
-                text.ToLower().Equals("je") ||
-                text.ToLower().Contains("je je")
-            )
+            .OnText((string text) => JejeRegex().IsMatch(text))
             .SendRandomSticker([
                 "CAACAgIAAxkBAAI5Dl59vPOH6MA6Uzua49AHRz-q5mMUAAIKAQACMNSdEVZUV2nGbrlvGAQ",
                 "CAACAgQAAxkBAAI5EF59vUKLQ46GEgbuzhY0O5r3HyauAAJKAQACqCEhBntEKK5RNh4XGAQ",
@@ -267,7 +251,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Jonardo");
 
         catalog
-            .OnText((string text) => text.Contains("KISS", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => KissRegex().IsMatch(text))
             .SendText("Keep it simple, and don't be a dick, bro. 🤗")
             .WithProbabilities(0.8)
             .WithName("Miscellaneous.KeepItSimple");
@@ -276,7 +260,7 @@ public static partial class Miscellaneous
             .OnText((string text) =>
                 text.Contains("lgtm", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("ship it", StringComparison.CurrentCultureIgnoreCase) ||
-                text.Contains("approved", StringComparison.CurrentCultureIgnoreCase) ||
+                ApprovedRegex().IsMatch(text) ||
                 text.Contains("mergealo", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("merge it", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomText([
@@ -295,7 +279,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Lantra");
 
         catalog
-            .OnText((string text) => text.Equals("LETS") || text.Equals("LET'S"))
+            .OnText((string text) => text is "LETS" or "LET'S" or "LET’S")
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
                 string[] stickerList =
@@ -328,10 +312,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Lets");
 
         catalog
-            .OnText((string text) => text.ToLower().StartsWith("let's fucking go")
-                                     || text.ToLower().StartsWith("lets fucking go")
-                                     || text.ToLower().StartsWith("let's fuckin go")
-                                     || text.ToLower().StartsWith("lets fuckin go"))
+            .OnText((string text) => LetsFuckingGoRegex().IsMatch(text))
             .SendRandomSticker([
                 "CAACAgQAAxkBAAECojpg_bnnG-u3pLeJOG5IPolOtN00RAACBQwAApUS8FOOn4aL83n8bSAE",
                 "CAACAgQAAxkBAAECojxg_bnqH-1SeiLQLt_KypOZBI5uowACmQ8AAmFh8FO6uZ5fZWppOiAE",
@@ -372,7 +353,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Ligma");
 
         catalog
-            .OnText((string text) => text.Contains("megratron", StringComparison.CurrentCultureIgnoreCase)
+            .OnText((string text) => MegatronRegex().IsMatch(text)
                                      || text.Contains("tronco", StringComparison.CurrentCultureIgnoreCase))
             .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/megatron_cbt_experience.mp4",
@@ -382,7 +363,7 @@ public static partial class Miscellaneous
 
         catalog
             .OnText((string text) => text.Contains("monke", StringComparison.CurrentCultureIgnoreCase)
-                                     || text.Contains("monos", StringComparison.CurrentCultureIgnoreCase)
+                                     || MonosRegex().IsMatch(text)
                                      || text.Contains("puto mono", StringComparison.CurrentCultureIgnoreCase))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/main/assets/monke.mp4", "RETURN. TO. MONKE.")
             .WithName("Miscellaneous.Monke");
@@ -441,7 +422,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.SpeakPython");
 
         catalog
-            .OnText((string text) => text.Contains("REE"))
+            .OnText((string text) => ReeRegex().IsMatch(text))
             .SendVideo("https://raw.githubusercontent.com/elementh/foscbot/master/assets/ree.mp4")
             .WithName("Miscellaneous.Ree");
 
@@ -466,7 +447,7 @@ public static partial class Miscellaneous
             {
                 return text.ToLower().Equals("source?")
                        || text.ToLower().Equals("source")
-                       || text.ToLower().Contains("sauce?")
+                       || text.ToLower().Equals("sauce?")
                        || text.ToLower().Equals("sauce")
                        || text.ToLower().Equals("saus?")
                        || text.ToLower().Equals("saus");
@@ -478,7 +459,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Sauce");
 
         catalog
-            .OnText((string text) => text.Contains("ste men", StringComparison.CurrentCultureIgnoreCase))
+            .OnText((string text) => SteMenRegex().IsMatch(text))
             .SendPhoto("https://raw.githubusercontent.com/elementh/foscbot/master/assets/stemen.jpg")
             .WithName("Miscellaneous.Stemen");
 
@@ -512,8 +493,10 @@ public static partial class Miscellaneous
                 text.Contains("works on my machine", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("cannot reproduce", StringComparison.CurrentCultureIgnoreCase) ||
                 text.Contains("can't reproduce", StringComparison.CurrentCultureIgnoreCase) ||
-                text.Contains("no me pasa", StringComparison.CurrentCultureIgnoreCase) ||
-                text.Contains("en mi máquina va", StringComparison.CurrentCultureIgnoreCase))
+                text.Contains("can’t reproduce", StringComparison.CurrentCultureIgnoreCase) ||
+                NoMePasaRegex().IsMatch(text) ||
+                text.Contains("en mi máquina va", StringComparison.CurrentCultureIgnoreCase) ||
+                text.Contains("en mi maquina va", StringComparison.CurrentCultureIgnoreCase))
             .SetHandler(async (INavigatorClient client, Chat chat, Message message) =>
             {
                 string[] lines =
@@ -581,12 +564,10 @@ public static partial class Miscellaneous
         catalog
             .OnText((string text) =>
             {
-                return text.ToLower().Equals("blyat")
-                       || text.ToLower().Equals("traktor")
-                       || text.ToLower().Equals("блядь")
-                       || text.ToLower().Equals("трактор")
-                       || BlyatRegex().IsMatch(text)
-                       || TraktorRegex().IsMatch(text);
+                return BlyatRegex().IsMatch(text)
+                       || TraktorRegex().IsMatch(text)
+                       || text.Contains("блядь", StringComparison.CurrentCultureIgnoreCase)
+                       || text.Contains("трактор", StringComparison.CurrentCultureIgnoreCase);
             })
             .SendRandomVideo([
                 "https://raw.githubusercontent.com/elementh/foscbot/master/assets/bueno_flipao.mp4",
@@ -595,7 +576,8 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Traktor");
 
         catalog
-            .OnText((string text) => text.Contains("upct") && !text.Contains("/upct"))
+            .OnText((string text) => text.Contains("upct", StringComparison.OrdinalIgnoreCase) &&
+                                     !text.Contains("/upct", StringComparison.OrdinalIgnoreCase))
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
                 var randomSticker = RandomProvider.GetThreadRandom()!.NextDouble() > 0.2d
@@ -656,7 +638,8 @@ public static partial class Miscellaneous
                 if (text.ToLower().Contains("vueling") || text.ToLower().Contains("bueling")) return true;
 
                 return RandomProvider.GetThreadRandom()!.NextDouble() > 0.6d
-                       && (text.ToLower().Contains("volar") || text.ToLower().Contains("avion"));
+                       && (text.ToLower().Contains("volar") || text.ToLower().Contains("avion") ||
+                           text.ToLower().Contains("avión"));
             })
             .SetHandler(async (INavigatorClient client, Chat chat) =>
             {
@@ -677,7 +660,7 @@ public static partial class Miscellaneous
             .WithName("Miscellaneous.Wagh");
 
         catalog
-            .OnText((string text) => text.Equals("YES") || text.Equals("SI"))
+            .OnText((string text) => text is "YES" or "SI" or "SÍ")
             .SendSticker("CAACAgQAAxkBAAI5HF59wcwDyRdwkEU3m_4CMMoz06CwAAKvAwACSy1sAAHbWFZ7iah6TRgE")
             .WithProbabilities(0.5)
             .WithName("Miscellaneous.Yes");
@@ -696,12 +679,54 @@ public static partial class Miscellaneous
     [GeneratedRegex(@"[Bb][Ll][Yy][Aa]+[Tt]+")]
     private static partial Regex BlyatRegex();
 
-    [GeneratedRegex(@"[Tt][Rr][Aa]+[KkCc][Tt][Oo]+[Rr]+")]
+    [GeneratedRegex(@"\btra+[kc]to+r+", RegexOptions.IgnoreCase)]
     private static partial Regex TraktorRegex();
 
-    [GeneratedRegex(@"^WA*GH$")]
+    [GeneratedRegex(@"^WA+G+H+!*$")]
     private static partial Regex WaghRegex();
 
-    [GeneratedRegex(@"[Gg][Oo]+[ ]+[Aa]+[Hh]+[Ee]+[Aa]+[Dd]+")]
+    [GeneratedRegex(@"\bgo+\s+a+h+e+a+d+", RegexOptions.IgnoreCase)]
     private static partial Regex GoAheadRegex();
+
+    [GeneratedRegex(@"\barch(?:linux)?\b", RegexOptions.IgnoreCase)]
+    private static partial Regex ArchRegex();
+
+    [GeneratedRegex(@"\bno puedo m[aá]s\b|\bno puc m[eé]s\b", RegexOptions.IgnoreCase)]
+    private static partial Regex NoPuedoMasRegex();
+
+    [GeneratedRegex(@"\b(?:elon|musk)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex ElonMuskRegex();
+
+    [GeneratedRegex(@"\bf?orks\b", RegexOptions.IgnoreCase)]
+    private static partial Regex OrksRegex();
+
+    [GeneratedRegex(@"\bipads?\b", RegexOptions.IgnoreCase)]
+    private static partial Regex IpadRegex();
+
+    [GeneratedRegex(@"\b(?:je\s?)+\b", RegexOptions.IgnoreCase)]
+    private static partial Regex JejeRegex();
+
+    [GeneratedRegex(@"\bKISS\b")]
+    private static partial Regex KissRegex();
+
+    [GeneratedRegex(@"\bapproved\b", RegexOptions.IgnoreCase)]
+    private static partial Regex ApprovedRegex();
+
+    [GeneratedRegex(@"^let['’]?s fuckin[g']? go", RegexOptions.IgnoreCase)]
+    private static partial Regex LetsFuckingGoRegex();
+
+    [GeneratedRegex(@"meg(?:a|ra)tron", RegexOptions.IgnoreCase)]
+    private static partial Regex MegatronRegex();
+
+    [GeneratedRegex(@"\bmonos\b", RegexOptions.IgnoreCase)]
+    private static partial Regex MonosRegex();
+
+    [GeneratedRegex(@"\bREE+\b")]
+    private static partial Regex ReeRegex();
+
+    [GeneratedRegex(@"\be?ste men\b", RegexOptions.IgnoreCase)]
+    private static partial Regex SteMenRegex();
+
+    [GeneratedRegex(@"\bno me pasa\b(?!\s+(?:el|la|los|las|un|una|ni|de)\b)", RegexOptions.IgnoreCase)]
+    private static partial Regex NoMePasaRegex();
 }

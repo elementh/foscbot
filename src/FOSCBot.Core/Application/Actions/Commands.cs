@@ -22,9 +22,14 @@ public static class Commands
                 [Experimental("SKEXP0001")]
                 async (INavigatorClient client, Chat chat, Message message, IAgentService agentService) =>
                 {
-                    var input = message.Text?.Remove(0, message.Text.IndexOf(' ') + 1);
+                    // Slice after the command entity: space-based slicing left "/ask@foscbot"
+                    // intact and asked the LLM the literal command text.
+                    var commandEntity = message.Entities?.FirstOrDefault();
+                    var input = commandEntity is not null
+                        ? message.Text?[(commandEntity.Offset + commandEntity.Length)..].Trim()
+                        : null;
 
-                    if (string.IsNullOrWhiteSpace(input) || input == "/ask")
+                    if (string.IsNullOrWhiteSpace(input))
                     {
                         await client.SendMessage(chat, "Ask me something, coward.", parseMode: ParseMode.Markdown);
                         return;
@@ -194,7 +199,10 @@ public static class Commands
                     return await client.SendMessage(chat, Bottomify.EncodeString(message.ReplyToMessage.Text),
                         replyParameters: message.ReplyToMessage);
 
-                var input = message.Text?.Remove(0, message.Text.IndexOf(' ') + 1);
+                var commandEntity = message.Entities?.FirstOrDefault();
+                var input = commandEntity is not null
+                    ? message.Text?[(commandEntity.Offset + commandEntity.Length)..].Trim()
+                    : null;
 
                 if (!string.IsNullOrWhiteSpace(input)) return await client.SendMessage(chat, Bottomify.EncodeString(input));
 

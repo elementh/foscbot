@@ -17,13 +17,10 @@ public static class MentionHelper
 
     public static bool IsBotMentioned(this Update update)
     {
-        return update.Message?.Text switch
-        {
-            { } text when text.Contains("@foscbot") => true,
-            { } text when text.Contains("foscbot") => true,
-            { } text when text.Contains("fosbo") => true,
-            _ => false
-        };
+        // Case-insensitive: mobile keyboards capitalize "Foscbot"/"Fosbo" at message start.
+        return update.Message?.Text is { } text &&
+               (text.Contains("foscbot", StringComparison.OrdinalIgnoreCase) ||
+                text.Contains("fosbo", StringComparison.OrdinalIgnoreCase));
     }
 
     public static bool IsBotQuoted(this Update update)
@@ -33,26 +30,32 @@ public static class MentionHelper
 
     public static bool IsBotPinged(this Update update)
     {
-        return Regex.IsMatch(update.Message?.Text ?? string.Empty, ".*[Ee]*[Ss]*[Tt][AaÁá][Ss] [BbVv][Ii]+[EeVv]+[NnOo]+.*");
+        return Regex.IsMatch(update.Message?.Text ?? string.Empty, @"\b(?:es)?t[aá]s\s+[bv](?:i+e+n+|i+v+o+)\b",
+            RegexOptions.IgnoreCase);
     }
 
     public static bool IsBotFlattered(this Update update)
     {
-        return (update.Message?.Text?.ToLower().Equals("si") ?? false) ||
-               (update.Message?.Text?.ToLower().Equals("sí") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("acho") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("jajaja") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("gracias") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("thanks") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("thx") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("dios") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("te quiero") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("increible") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("increíble") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("puto amo") ?? false) ||
-               (update.Message?.Text?.ToLower().Contains("grande") ?? false) ||
-               Regex.IsMatch(update.Message?.Text ?? string.Empty, @"[Jj][Oo]+[Dd][Ee]+[Rr]+");
+        if (update.Message?.Text is not { } text) return false;
+
+        var lowered = text.ToLower();
+
+        // acho/dios need word boundaries (macho, borracho, adios, medios...), and
+        // grande needs praise context or it matches any big object being described.
+        return lowered.Equals("si") ||
+               lowered.Equals("sí") ||
+               lowered.Contains("jajaja") ||
+               lowered.Contains("gracias") ||
+               lowered.Contains("thanks") ||
+               lowered.Contains("thx") ||
+               lowered.Contains("te quiero") ||
+               lowered.Contains("increible") ||
+               lowered.Contains("increíble") ||
+               lowered.Contains("puto amo") ||
+               Regex.IsMatch(text, @"\bacho+\b", RegexOptions.IgnoreCase) ||
+               Regex.IsMatch(text, @"\bdios\b", RegexOptions.IgnoreCase) ||
+               Regex.IsMatch(text, @"\b(?:eres\s+(?:el\s+)?(?:m[aá]s|muy)\s+grande|qu[eé]\s+grande|grande,?\s+fos[cb]?bot)\b", RegexOptions.IgnoreCase) ||
+               Regex.IsMatch(text, @"\bjo+de+r+\b", RegexOptions.IgnoreCase);
     }
 
     public static bool IsBotBeingToldBadThings(this Update update)
@@ -61,9 +64,11 @@ public static class MentionHelper
         {
             { } text when text.Contains("bad bot", StringComparison.CurrentCultureIgnoreCase) => true,
             { } text when text.Contains("bot malo", StringComparison.CurrentCultureIgnoreCase) => true,
-            { } text when text.Contains("mal bot", StringComparison.CurrentCultureIgnoreCase) => true,
-            { } text when text.Contains("basta", StringComparison.CurrentCultureIgnoreCase) => true,
-            { } text when text.Contains("para", StringComparison.CurrentCultureIgnoreCase) => true,
+            { } text when Regex.IsMatch(text, @"\bmal bot\b", RegexOptions.IgnoreCase) => true,
+            { } text when Regex.IsMatch(text, @"\bbasta\b", RegexOptions.IgnoreCase) => true,
+            // "para" only as a standalone stop command (optionally addressed to the bot);
+            // as a bare Contains it matched the most common Spanish preposition.
+            { } text when Regex.IsMatch(text, @"^\s*(?:@?fos[cb]?bot[\s,:!]+)?¡*(?:para|párate?|parate)(?:\s+ya)?[\s!.]*(?:@?fos[cb]?bot)?[\s!.]*$", RegexOptions.IgnoreCase) => true,
             { } text when text.Contains("capullo", StringComparison.CurrentCultureIgnoreCase) => true,
             _ => false
         };

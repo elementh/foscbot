@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using Incremental.Common.Random;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Application.Services;
@@ -26,7 +27,10 @@ public static partial class Fallbacks
         Do not count unrelated mentions, statements, or messages that are not asking for FOSCBot's opinion.
         """;
 
-    private static readonly string[] SergioParadoxKeywords = ["google", "sergio", "linuxct", "work", "job", "trabaj"];
+    // Word-bounded: bare Contains("work") also counted framework/network/coworker
+    // and inflated the >= 3 keyword threshold from innocent tech talk.
+    private static readonly string[] SergioParadoxKeywordPatterns =
+        [@"\bgoogl\w*", @"\bsergio\b", @"\blinuxct\b", @"\bwork(?:s|ing|ed)?\b", @"\bjobs?\b", @"\btrabaj\w*"];
 
     private static readonly string[] GoogleChantLines =
     [
@@ -343,7 +347,7 @@ public static partial class Fallbacks
             return true;
         }
 
-        var shouldReplyByProbability = !context.IsBotMentioned && probabilities.GetResult(context.Chat.Id);
+        var shouldReplyByProbability = probabilities.GetResult(context.Chat.Id);
         var shouldReplyToQuote = context.IsBotQuoted && context.Random.NextDouble() > 0.3d;
 
         if (shouldReplyByProbability)
@@ -415,8 +419,8 @@ public static partial class Fallbacks
 
     private static bool IsSergioParadoxTrigger(string text)
     {
-        var matches = SergioParadoxKeywords.Count(keyword =>
-            text.Contains(keyword, StringComparison.InvariantCultureIgnoreCase));
+        var matches = SergioParadoxKeywordPatterns.Count(pattern =>
+            Regex.IsMatch(text, pattern, RegexOptions.IgnoreCase));
 
         return matches >= 3;
     }
@@ -433,8 +437,7 @@ public static partial class Fallbacks
 
     private static string ResolveSergioOpinionAlias(CatchAllContext context, string text)
     {
-        if (text.Contains("@linuxct", StringComparison.InvariantCultureIgnoreCase) ||
-            text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase) ||
+        if (text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase) ||
             string.Equals(context.Message.From?.Username, "linuxct", StringComparison.InvariantCultureIgnoreCase))
             return "@linuxct";
 
@@ -451,8 +454,7 @@ public static partial class Fallbacks
     {
         return
             text.Contains("sergio", StringComparison.InvariantCultureIgnoreCase) ||
-            text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase) ||
-            text.Contains("@linuxct", StringComparison.InvariantCultureIgnoreCase);
+            text.Contains("linuxct", StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static bool LooksLikeOpinionQuestion(string text)
@@ -466,45 +468,65 @@ public static partial class Fallbacks
 
     private static bool IsGoogleChantTrigger(string text)
     {
+        // WORK FOR GOOGLE must stay case-sensitive: the chant is shouted, while
+        // lowercase "maybe I should work for Google" is an earnest career sentence.
         return text.Contains("GOO GOO GLE", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("GOO GOO GOOGLE", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("GOO GOO GOO", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("WORK FOR GOOGLE", StringComparison.InvariantCultureIgnoreCase);
+               || text.Contains("WORK FOR GOOGLE", StringComparison.Ordinal);
     }
 
     private static bool LooksLikeDebugFailure(string text)
     {
+        // "exception" needs error context ("I'll make an exception this time" is chat,
+        // not a crash), "error:"/"fatal:" must start a line like real tool output, and
+        // "at "-lines must look like stack frames (schedules also start lines with "at").
         if (text.Contains("traceback", StringComparison.InvariantCultureIgnoreCase)) return true;
-        if (text.Contains("exception", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (ExceptionContextRegex().IsMatch(text)) return true;
         if (text.Contains("stack trace", StringComparison.InvariantCultureIgnoreCase)) return true;
-        if (text.Contains("error:", StringComparison.InvariantCultureIgnoreCase)) return true;
-        if (text.Contains("fatal:", StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (ErrorLineRegex().IsMatch(text)) return true;
         if (text.Contains("segmentation fault", StringComparison.InvariantCultureIgnoreCase)) return true;
-        if (text.Contains("nullreferenceexception", StringComparison.InvariantCultureIgnoreCase)) return true;
-        if (text.Contains("invalidoperationexception", StringComparison.InvariantCultureIgnoreCase)) return true;
         if (text.Contains("build failed", StringComparison.InvariantCultureIgnoreCase)) return true;
         if (text.Contains("failed with exit code", StringComparison.InvariantCultureIgnoreCase)) return true;
         if (text.Contains("panic:", StringComparison.InvariantCultureIgnoreCase)) return true;
 
-        var atCount = text.Split('\n').Count(line =>
-            line.TrimStart().StartsWith("at ", StringComparison.InvariantCultureIgnoreCase));
+        var atCount = text.Split('\n').Count(line => StackFrameLineRegex().IsMatch(line));
 
         return atCount >= 2;
     }
 
     private static bool LooksLikeVerdictRequest(string text)
     {
-        return text.Contains("who is right", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("who's right", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("quién tiene razón", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("quien tiene razon", StringComparison.InvariantCultureIgnoreCase)
+        // Regexes tolerate smart apostrophes (who’s) and mixed accents (quien tiene razón);
+        // "your take" replaces bare "take?", which matched any "how long will it take?".
+        return WhoIsRightRegex().IsMatch(text)
+               || QuienTieneRazonRegex().IsMatch(text)
                || text.Contains("settle this", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("veredicto", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("what's your take", StringComparison.InvariantCultureIgnoreCase)
-               || text.Contains("take?", StringComparison.InvariantCultureIgnoreCase)
+               || text.Contains("your take", StringComparison.InvariantCultureIgnoreCase)
+               || HotTakeRegex().IsMatch(text)
                || text.Contains("opinion on this thread", StringComparison.InvariantCultureIgnoreCase)
                || text.Contains("opinion please", StringComparison.InvariantCultureIgnoreCase);
     }
+
+    [GeneratedRegex(
+        @"\b[A-Z]\w+(?:Exception|Error)\b|\bexception\b\s*[:(]|\b(?:unhandled|uncaught|threw|throws|throwing|caught|raised)\s+(?:an?\s+)?exception\b|\bexception\s+(?:was\s+)?(?:thrown|raised|occurred)\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex ExceptionContextRegex();
+
+    [GeneratedRegex(@"^\s*(?:error|fatal)\s*:", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex ErrorLineRegex();
+
+    [GeneratedRegex(@"^\s*at\s+\S+.*\(")]
+    private static partial Regex StackFrameLineRegex();
+
+    [GeneratedRegex(@"who\s*['’]?s right|who (?:is|was) right", RegexOptions.IgnoreCase)]
+    private static partial Regex WhoIsRightRegex();
+
+    [GeneratedRegex(@"qui[eé]n tiene raz[oó]n", RegexOptions.IgnoreCase)]
+    private static partial Regex QuienTieneRazonRegex();
+
+    [GeneratedRegex(@"\bhot take\b", RegexOptions.IgnoreCase)]
+    private static partial Regex HotTakeRegex();
 
     private readonly record struct CatchAllContext(
         Chat Chat,
