@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.Ollama;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -50,7 +49,7 @@ internal class AgentService : IAgentService
         var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
         var history = buffer.ToChatHistory(prompt);
 
-        var executionSettings = new OllamaPromptExecutionSettings { };
+        var executionSettings = new PromptExecutionSettings() { };
 
         var response = await llm.GetChatMessageContentAsync(history, executionSettings);
 

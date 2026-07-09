@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.Ollama;
 
 namespace FOSCBot.Infrastructure.Intelligence.Client;
 
@@ -107,18 +106,18 @@ public class IntelligenceClientOptions
             PropertyNameCaseInsensitive = true
         };
 
-        PromptExecutionSettings = new OllamaPromptExecutionSettings
+        PromptExecutionSettings = new PromptExecutionSettings
         {
             ExtensionData = new Dictionary<string, object>()
             {
-                { "format", "json" }
-            },
-            Temperature = 0.8f,
+                // { "format", "json" },
+                // { "temperature", 0.8f }
+            }
         };
     }
 
     public JsonSerializerOptions SerializerOptions { get; set; }
-    public OllamaPromptExecutionSettings PromptExecutionSettings { get; set; }
+    public PromptExecutionSettings PromptExecutionSettings { get; set; }
 
     public string DefaultServiceId { get; set; } = "default_chat_completion_service";
     public string BackupServiceId { get; set; } = "backup_chat_completion_service";
