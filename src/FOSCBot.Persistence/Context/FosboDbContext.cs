@@ -10,6 +10,8 @@ public class FosboDbContext : NavigatorStoreDbContext, IFosboDbContext
     public DbSet<PhantomCommand> PhantomCommands { get; set; }
     public DbSet<PhantomCommandChat> PhantomCommandChats { get; set; }
     public DbSet<Master> Masters { get; set; }
+    public DbSet<UserFallback> UserFallbacks { get; set; }
+    public DbSet<UserFallbackSentence> UserFallbackSentences { get; set; }
 
     public FosboDbContext(DbContextOptions<FosboDbContext> options) : base(options)
     {

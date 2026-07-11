@@ -12,6 +12,8 @@ public interface IFosboDbContext
     DbSet<PhantomCommand> PhantomCommands { get; set; }
     DbSet<PhantomCommandChat> PhantomCommandChats { get; set; }
     DbSet<Master> Masters { get; set; }
+    DbSet<UserFallback> UserFallbacks { get; set; }
+    DbSet<UserFallbackSentence> UserFallbackSentences { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

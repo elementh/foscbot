@@ -18,6 +18,53 @@ public class CatchAllFallbackHandler;
 
 public static partial class Fallbacks
 {
+    private static async Task UserTargetedFallbackHandler(INavigatorClient client, Chat chat, Message message,
+        IUserFallbackService userFallbackService, ILogger<DefaultNavigationStrategy> logger,
+        INavigatorTracerFactory<UserTargetedFallbackHandler> tracerFactory)
+    {
+        await using var tracer = tracerFactory.Get();
+
+        try
+        {
+            var userId = message.From?.Id;
+
+            if (userId is null)
+            {
+                MarkNotHandled(tracer, "no_user_id");
+                return;
+            }
+
+            var fallback = await userFallbackService.GetAsync(userId.Value);
+
+            if (fallback is null || fallback.Sentences.Count == 0)
+            {
+                MarkNotHandled(tracer, "no_user_config");
+                return;
+            }
+
+            var roll = RandomProvider.GetThreadRandom()!.NextDouble();
+
+            tracer.AddTag("fallback.user_targeted.odds", fallback.Odds.ToString());
+            tracer.AddTag("fallback.user_targeted.roll", roll.ToString());
+
+            if (roll >= fallback.Odds)
+            {
+                MarkNotHandled(tracer, "odds_missed");
+                return;
+            }
+
+            var sentence = fallback.Sentences.ElementAt(RandomProvider.GetThreadRandom()!.Next(0, fallback.Sentences.Count)).Text;
+
+            MarkHandled(tracer, "user_targeted", "odds_hit");
+            await client.SendChatAction(chat, ChatAction.Typing);
+            await client.SendMessage(chat, sentence, replyParameters: message, parseMode: ParseMode.Markdown);
+        }
+        catch (Exception e)
+        {
+            tracer.SetError(e);
+            logger.LogError(e, "Failed to process user targeted fallback for chat {ChatId}", chat.Id);
+        }
+    }
     private const string SergioParadoxAudioUrl = "https://github.com/elementh/foscbot/raw/refs/heads/feature/social-credit-dystopia-phase-2/assets/audio/sergio-s-paradox.mp3";
     private const string SergioOpinionMeaning =
         """

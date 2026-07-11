@@ -19,6 +19,8 @@ namespace FOSCBot.Core.Application.Actions;
 
 public class CatchAllOldFallbackHandler;
 
+public class UserTargetedFallbackHandler;
+
 public static partial class Fallbacks
 {
     [Experimental("SKEXP0001")]
@@ -135,6 +137,12 @@ public static partial class Fallbacks
             .WithProbabilities(0.002)
             .WithPriority(EPriority.VeryLow)
             .WithName("Fallback.CatchAllOLD");
+
+        catalog
+            .OnMessage(() => true)
+            .SetHandler(UserTargetedFallbackHandler)
+            .WithPriority(EPriority.Lowest)
+            .WithName("Fallback.UserTargeted");
 
         catalog
             .OnMessage(() => true)
