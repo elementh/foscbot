@@ -57,6 +57,7 @@ public static partial class Fallbacks
 
             MarkHandled(tracer, "user_targeted", "odds_hit");
             await client.SendChatAction(chat, ChatAction.Typing);
+            await Task.Delay(750);
             await client.SendMessage(chat, sentence, replyParameters: message, parseMode: ParseMode.Markdown);
         }
         catch (Exception e)
