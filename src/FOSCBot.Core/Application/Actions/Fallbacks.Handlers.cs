@@ -42,17 +42,6 @@ public static partial class Fallbacks
                 return;
             }
 
-            var roll = RandomProvider.GetThreadRandom()!.NextDouble();
-
-            tracer.AddTag("fallback.user_targeted.odds", fallback.Odds.ToString());
-            tracer.AddTag("fallback.user_targeted.roll", roll.ToString());
-
-            if (roll >= fallback.Odds)
-            {
-                MarkNotHandled(tracer, "odds_missed");
-                return;
-            }
-
             var sentence = fallback.Sentences.ElementAt(RandomProvider.GetThreadRandom()!.Next(0, fallback.Sentences.Count)).Text;
 
             MarkHandled(tracer, "user_targeted", "odds_hit");
@@ -155,7 +144,8 @@ public static partial class Fallbacks
 
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
-        ProbabilityService probabilities, IAgentService agentService, ITextMeaningService textMeaningService, ILogger<DefaultNavigationStrategy> logger,
+        ProbabilityService probabilities, IAgentService agentService, ITextMeaningService textMeaningService,
+        IUserMemoryService userMemoryService, ILogger<DefaultNavigationStrategy> logger,
         INavigatorTracerFactory<CatchAllFallbackHandler> tracerFactory)
     {
         await using var tracer = tracerFactory.Get();
@@ -166,6 +156,11 @@ public static partial class Fallbacks
             {
                 MarkNotHandled(tracer, "unsupported_message_type");
                 return;
+            }
+
+            if (message.Text is { } msgText && message.From is { } from && !from.IsBot && !msgText.StartsWith('/'))
+            {
+                _ = userMemoryService.AccumulateMessageAsync(chat.Id, from.Id, from.Username ?? from.FirstName ?? "Anonymous", msgText);
             }
 
             var context = new CatchAllContext(

@@ -12,6 +12,7 @@ public class FosboDbContext : NavigatorStoreDbContext, IFosboDbContext
     public DbSet<Master> Masters { get; set; }
     public DbSet<UserFallback> UserFallbacks { get; set; }
     public DbSet<UserFallbackSentence> UserFallbackSentences { get; set; }
+    public DbSet<UserMemory> UserMemories { get; set; }
 
     public FosboDbContext(DbContextOptions<FosboDbContext> options) : base(options)
     {

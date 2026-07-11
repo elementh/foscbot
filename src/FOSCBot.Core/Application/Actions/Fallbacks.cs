@@ -139,7 +139,17 @@ public static partial class Fallbacks
             .WithName("Fallback.CatchAllOLD");
 
         catalog
-            .OnMessage(() => true)
+            .OnMessage(async (Message message, IUserFallbackService userFallbackService) =>
+            {
+                var userId = message.From?.Id;
+                if (userId is null) return false;
+
+                var fallback = await userFallbackService.GetAsync(userId.Value);
+                if (fallback is null || fallback.Sentences.Count == 0) return false;
+
+                var roll = RandomProvider.GetThreadRandom()!.NextDouble();
+                return roll < fallback.Odds;
+            })
             .SetHandler(UserTargetedFallbackHandler)
             .WithPriority(EPriority.Lowest)
             .WithName("Fallback.UserTargeted");

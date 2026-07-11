@@ -14,6 +14,7 @@ public interface IFosboDbContext
     DbSet<Master> Masters { get; set; }
     DbSet<UserFallback> UserFallbacks { get; set; }
     DbSet<UserFallbackSentence> UserFallbackSentences { get; set; }
+    DbSet<UserMemory> UserMemories { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

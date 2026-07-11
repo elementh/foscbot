@@ -20,20 +20,22 @@ public static class IntelligenceExtensions
         foreach (var provider in options.ChatCompletionProviders)
         {
             services.AddHttpClient(provider.GetClientName(), (_, client) =>
-            {
-                client.BaseAddress = new Uri(provider.ApiUrl);
-
-                if (!string.IsNullOrEmpty(provider.ApiKey) && provider.ProviderType == ProviderType.Ollama)
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {provider.ApiKey}");
-                }
+                    client.BaseAddress = new Uri(provider.ApiUrl);
 
-                if (!string.IsNullOrEmpty(options.SecHName) && !string.IsNullOrEmpty(options.SecHVal))
-                {
-                    client.DefaultRequestHeaders.Add(options.SecHName, options.SecHVal);
-                }
-            })
-            .AddHttpMessageHandler<LoggingHandler>();
+                    if (!string.IsNullOrEmpty(provider.ApiKey) && provider.ProviderType == ProviderType.Ollama)
+                    {
+                        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {provider.ApiKey}");
+                    }
+
+                    if (!string.IsNullOrEmpty(options.SecHName) && !string.IsNullOrEmpty(options.SecHVal))
+                    {
+                        client.DefaultRequestHeaders.Add(options.SecHName, options.SecHVal);
+                    }
+                })
+                .AddHttpMessageHandler<LoggingHandler>()
+                .AddStandardResilienceHandler();
+
         }
 
         services.AddTransient<Kernel>(serviceProvider =>
@@ -72,6 +74,9 @@ public static class IntelligenceExtensions
         services.AddScoped<IPhantomCommandService, PhantomCommandService>();
         services.AddScoped<IAdminAuthService, AdminAuthService>();
         services.AddScoped<IUserFallbackService, UserFallbackService>();
+        services.AddSingleton<UserMemoryChannel>();
+        services.AddHostedService<UserMemoryProcessingService>();
+        services.AddScoped<IUserMemoryService, UserMemoryService>();
 
         services.AddOptions<IntelligenceClientOptions>();
         services.AddScoped<IIntelligenceClient, IntelligenceClient>();
