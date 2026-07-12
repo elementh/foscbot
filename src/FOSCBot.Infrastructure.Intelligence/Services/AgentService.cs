@@ -19,13 +19,15 @@ internal class AgentService : IAgentService
     private readonly Kernel _kernel;
     private readonly UnhingedService _unhingedService;
     private readonly FosboOptions _options;
+    private readonly IUserMemoryService _userMemoryService;
 
-    public AgentService(IMemoryCache cache, Kernel kernel, UnhingedService unhingedService, IOptions<FosboOptions> options)
+    public AgentService(IMemoryCache cache, Kernel kernel, UnhingedService unhingedService, IOptions<FosboOptions> options, IUserMemoryService userMemoryService)
     {
         _cache = cache;
         _kernel = kernel;
         _unhingedService = unhingedService;
         _options = options.Value;
+        _userMemoryService = userMemoryService;
     }
 
     [Experimental("SKEXP0001")]
@@ -49,6 +51,20 @@ internal class AgentService : IAgentService
         var prompt = _unhingedService.GetPrompt(chat.Id) ?? _options.DefaultPrompt;
         var history = buffer.ToChatHistory(prompt);
 
+        var relevantUsers = ExtractRelevantUserIds(buffer, message);
+        if (relevantUsers.Count > 0)
+        {
+            var profilesText = await BuildUserProfilesMessageAsync(relevantUsers);
+            if (profilesText is not null)
+            {
+                history.Insert(1, new ChatMessageContent
+                {
+                    Role = AuthorRole.System,
+                    Content = profilesText
+                });
+            }
+        }
+
         var executionSettings = new PromptExecutionSettings() { };
 
         var response = await llm.GetChatMessageContentAsync(history, executionSettings);
@@ -63,6 +79,65 @@ internal class AgentService : IAgentService
         _cache.Set($"fallback.catchall:{chat.Id}", buffer);
         
         return response.Content;
+    }
+
+    private static Dictionary<long, string> ExtractRelevantUserIds(SlidingBuffer<Message> buffer, Message currentMessage)
+    {
+        var users = new Dictionary<long, string>();
+
+        if (currentMessage.From is { } from && !from.IsBot && from.Id != MentionHelper.FoscBotUserId)
+            users[from.Id] = from.Username ?? from.FirstName ?? "Unknown";
+
+        if (currentMessage.ReplyToMessage?.From is { } replyTo && !replyTo.IsBot && replyTo.Id != MentionHelper.FoscBotUserId)
+            users[replyTo.Id] = replyTo.Username ?? replyTo.FirstName ?? "Unknown";
+
+        if (currentMessage.Entities is { } entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.Type == MessageEntityType.TextMention && entity.User is { } mentionedUser
+                    && !mentionedUser.IsBot && mentionedUser.Id != MentionHelper.FoscBotUserId)
+                {
+                    users[mentionedUser.Id] = mentionedUser.Username ?? mentionedUser.FirstName ?? "Unknown";
+                }
+                else if (entity.Type == MessageEntityType.Mention && currentMessage.Text is { } text)
+                {
+                    var mentionText = text.Substring(entity.Offset, entity.Length);
+                    var username = mentionText.TrimStart('@');
+
+                    var matchedUser = buffer
+                        .Select(m => m.From)
+                        .Where(f => f is not null && !f.IsBot && f.Id != MentionHelper.FoscBotUserId)
+                        .FirstOrDefault(f => string.Equals(f!.Username, username, StringComparison.OrdinalIgnoreCase));
+
+                    if (matchedUser is { } mu)
+                        users[mu.Id] = mu.Username ?? mu.FirstName ?? "Unknown";
+                }
+            }
+        }
+
+        return users;
+    }
+
+    private async Task<string?> BuildUserProfilesMessageAsync(IReadOnlyDictionary<long, string> users)
+    {
+        if (users.Count == 0)
+            return null;
+
+        var lines = new List<string>(users.Count);
+
+        foreach (var (userId, displayName) in users)
+        {
+            var memory = await _userMemoryService.GetAsync(userId);
+            var content = !string.IsNullOrWhiteSpace(memory?.Content) ? memory.Content : "No profile available yet";
+            lines.Add($"@{displayName}: {content}");
+        }
+
+        return """
+
+            Below are profiles of users involved in this conversation. Use this context to personalize your responses — reference their traits, preferences, or history when relevant, but don't force it.
+
+            """ + string.Join('\n', lines);
     }
 
     [Experimental("SKEXP0001")]

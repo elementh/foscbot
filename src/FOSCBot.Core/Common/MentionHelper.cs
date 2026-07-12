@@ -8,7 +8,7 @@ public static class MentionHelper
     /// <summary>
     ///     The current instance's of FOSCBot ID
     /// </summary>
-    private const int FoscBotUserId = 970438602;
+    public const int FoscBotUserId = 970438602;
 
     public static bool IsBotQuotedOrMentioned(this Update update)
     {
