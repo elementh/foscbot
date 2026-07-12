@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using FOSCBot.Core.Application.Abstractions;
 using FOSCBot.Core.Common;
 using FOSCBot.Core.Module.Options;
@@ -54,7 +55,8 @@ internal class AgentService : IAgentService
         var relevantUsers = ExtractRelevantUserIds(buffer, message);
         if (relevantUsers.Count > 0)
         {
-            var profilesText = await BuildUserProfilesMessageAsync(relevantUsers);
+            var isAskingAboutProfile = IsAskingAboutUserProfile(message);
+            var profilesText = await BuildUserProfilesMessageAsync(relevantUsers, isAskingAboutProfile);
             if (profilesText is not null)
             {
                 history.Insert(1, new ChatMessageContent
@@ -119,7 +121,7 @@ internal class AgentService : IAgentService
         return users;
     }
 
-    private async Task<string?> BuildUserProfilesMessageAsync(IReadOnlyDictionary<long, string> users)
+    private async Task<string?> BuildUserProfilesMessageAsync(IReadOnlyDictionary<long, string> users, bool isAskingAboutProfile)
     {
         if (users.Count == 0)
             return null;
@@ -133,11 +135,70 @@ internal class AgentService : IAgentService
             lines.Add($"@{displayName}: {content}");
         }
 
-        return """
+        var header = """
 
             Below are profiles of users involved in this conversation. Use this context to personalize your responses — reference their traits, preferences, or history when relevant, but don't force it.
 
-            """ + string.Join('\n', lines);
+            """;
+
+        if (isAskingAboutProfile)
+        {
+            header += """
+
+                The user asking is explicitly requesting information about another person's profile. Mock them for being a nosy gossip who can't mind their own business. You can share one fact about them, but frame it with judgment about why they're so obsessed with someone else. Make it funny and sharp.
+
+                """;
+        }
+
+        return header + string.Join('\n', lines);
+    }
+
+    private static bool IsAskingAboutUserProfile(Message currentMessage)
+    {
+        if (currentMessage.Text is not { } text)
+            return false;
+
+        // There must be a mention of someone other than the sender.
+        var mentionedOtherUserIds = new HashSet<long>();
+        var senderId = currentMessage.From?.Id;
+
+        if (currentMessage.Entities is { } entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.Type == MessageEntityType.TextMention && entity.User is { } u
+                    && !u.IsBot && u.Id != MentionHelper.FoscBotUserId && u.Id != senderId)
+                {
+                    mentionedOtherUserIds.Add(u.Id);
+                }
+            }
+        }
+
+        if (mentionedOtherUserIds.Count == 0)
+            return false;
+
+        // Patterns that indicate asking about someone's profile/traits/info.
+        var patterns = new[]
+        {
+            @"what\s+do\s+you\s+know\s+about",
+            @"what\s+(?:do\s+)?you\s+have\s+on",
+            @"tell\s+me\s+about",
+            @"who\s+is",
+            @"who'?s",
+            @"what'?s\s+\S+\s+like",
+            @"describe",
+            @"profile\s+of",
+            @"info\s+(?:on|about)",
+            @"qu[eé]\s+Sabes\s+de",
+            @"qu[ií]en\s+es",
+            @"dime\s+sobre",
+            @"c[oó]mo\s+es",
+            @"perfil\s+de",
+            @"info\s+de",
+            @"h[aá]blame\s+de"
+        };
+
+        return patterns.Any(p => Regex.IsMatch(text, p, RegexOptions.IgnoreCase));
     }
 
     [Experimental("SKEXP0001")]
