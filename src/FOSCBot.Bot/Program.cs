@@ -44,6 +44,7 @@ builder.Services.AddIntelligence(options =>
     options.ChatCompletionProviders = intelligenceOptions.ChatCompletionProviders;
     options.SecHName = intelligenceOptions.SecHName;
     options.SecHVal = intelligenceOptions.SecHVal;
+    options.UserMemory = intelligenceOptions.UserMemory;
 });
 
 #region Navigator

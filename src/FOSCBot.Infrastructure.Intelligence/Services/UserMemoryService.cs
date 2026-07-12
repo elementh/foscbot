@@ -4,6 +4,7 @@ using FOSCBot.Core.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FOSCBot.Infrastructure.Intelligence.Services;
 
@@ -12,14 +13,16 @@ internal class UserMemoryService : IUserMemoryService
     private readonly IFosboDbContext _dbContext;
     private readonly IMemoryCache _cache;
     private readonly UserMemoryChannel _channel;
+    private readonly UserMemoryOptions _userMemoryOptions;
     private readonly ILogger<UserMemoryService> _logger;
 
     public UserMemoryService(IFosboDbContext dbContext, IMemoryCache cache, UserMemoryChannel channel,
-        ILogger<UserMemoryService> logger)
+        IOptions<UserMemoryOptions> userMemoryOptions, ILogger<UserMemoryService> logger)
     {
         _dbContext = dbContext;
         _cache = cache;
         _channel = channel;
+        _userMemoryOptions = userMemoryOptions.Value;
         _logger = logger;
     }
 
@@ -93,8 +96,8 @@ internal class UserMemoryService : IUserMemoryService
         var cacheKey = BufferCacheKey(chatId);
         var buffer = _cache.GetOrCreate(cacheKey, entry =>
         {
-            entry.SlidingExpiration = TimeSpan.FromMinutes(1);
-            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+            entry.SlidingExpiration = TimeSpan.FromMinutes(_userMemoryOptions.BufferSlidingExpirationMinutes);
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_userMemoryOptions.BufferAbsoluteExpirationMinutes);
             entry.RegisterPostEvictionCallback(OnBufferEvicted, chatId);
             return new List<AccumulatedMessage>();
         })!;

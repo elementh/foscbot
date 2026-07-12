@@ -77,6 +77,11 @@ public static class IntelligenceExtensions
         services.AddSingleton<UserMemoryChannel>();
         services.AddHostedService<UserMemoryProcessingService>();
         services.AddScoped<IUserMemoryService, UserMemoryService>();
+        services.Configure<UserMemoryOptions>(o =>
+        {
+            o.BufferSlidingExpirationMinutes = options.UserMemory.BufferSlidingExpirationMinutes;
+            o.BufferAbsoluteExpirationMinutes = options.UserMemory.BufferAbsoluteExpirationMinutes;
+        });
 
         services.AddOptions<IntelligenceClientOptions>();
         services.AddScoped<IIntelligenceClient, IntelligenceClient>();
@@ -97,6 +102,7 @@ public class IntelligenceOptions
     public Provider[] ChatCompletionProviders { get; set; } = [];
     public string? SecHName { get; set; }
     public string? SecHVal { get; set; }
+    public UserMemoryOptions UserMemory { get; set; } = new();
     
     public class Provider
     {
@@ -108,4 +114,10 @@ public class IntelligenceOptions
         
         public string GetClientName() => $"{Name}_client";
     }
+}
+
+public class UserMemoryOptions
+{
+    public int BufferSlidingExpirationMinutes { get; set; } = 5;
+    public int BufferAbsoluteExpirationMinutes { get; set; } = 30;
 }

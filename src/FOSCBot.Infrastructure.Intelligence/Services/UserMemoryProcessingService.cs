@@ -151,11 +151,15 @@ internal sealed class UserMemoryProcessingService : BackgroundService
         }
 
         if (string.IsNullOrWhiteSpace(merged) || merged.Equals("DISCARD", StringComparison.OrdinalIgnoreCase))
+        {
+            _logger.LogDebug("Discarded redundant memory suggestion for user {UserId} ({Username})", suggestion.UserId,
+                suggestion.Username);
             return;
+        }
 
         if (merged.Length > MaxContentLength)
         {
-            merged = await ReduceAsync(llm, merged, ct) ?? merged[..MaxContentLength];
+            merged = await ReduceAsync(llm, merged, ct) ?? existingContent;
         }
 
         var memory = new UserMemory
@@ -168,6 +172,8 @@ internal sealed class UserMemoryProcessingService : BackgroundService
         };
 
         await userMemoryService.SaveAsync(memory);
+
+        _logger.LogInformation("Memory updated for user {UserId} ({Username})", suggestion.UserId, suggestion.Username);
     }
 
     [Experimental("SKEXP0001")]
