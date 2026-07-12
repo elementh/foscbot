@@ -131,7 +131,11 @@ internal sealed class UserMemoryProcessingService : BackgroundService
 
         var mergePrompt = """
             You are a memory merge assistant. You have an existing user profile and a new observation.
-            Merge the new observation into the profile. If the observation redundant, respond with exactly "DISCARD".
+            Merge the new observation into the profile.
+
+            Discard trivial or transient observations that don't reveal lasting personality — things like "asked about the weather", "mentioned being hungry", or "said good morning". These are not profile material unless they appear repeatedly and become a pattern. If someone asks about the weather once, discard it. If the existing profile already notes they keep asking about the weather, that's an obsession — escalate it ("obsessed with checking the weather") rather than discarding.
+
+            If the observation is redundant or trivial, respond with exactly "DISCARD".
             Otherwise respond with the merged profile text. Keep it concise and factual. Do not use bullet points or markdown.
             """;
 
