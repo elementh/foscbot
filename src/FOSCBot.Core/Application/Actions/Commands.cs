@@ -300,5 +300,41 @@ public static class Commands
                 "CAACAgQAAxkBAAI5aF59xp59Pnx0Y9_7iFLQwq56EP0jAAJ1FwAC_wRTAAGZhZMAARxrsr0YBA",
                 "CAACAgEAAxkBAAI5al59xrCk3wAB13zrjcEKqtCJlnvpNwACDgcAAknjsAhFpPCKz57EtRgE"
             ]);
+
+        catalog
+            .OnCommand("insight", async (INavigatorClient client, Chat chat, Message message, string[] arguments, IUserMemoryService userMemoryService) =>
+            {
+                var userId = message.From?.Id;
+                if (userId is null)
+                {
+                    await client.SendMessage(chat, "I can't figure out who you are.", parseMode: ParseMode.Markdown);
+                    return;
+                }
+
+                var isYolo = arguments.Length > 0 && arguments[0].Equals("yolo", StringComparison.OrdinalIgnoreCase);
+
+                if (chat.Type != ChatType.Private && !isYolo)
+                {
+                    await client.SendMessage(chat,
+                        "This is a group chat and your insight is private. Run `/insight yolo` if you're sure you want everyone to see it and learn how much of a dumb dumb you are.",
+                        parseMode: ParseMode.Markdown,
+                        replyParameters: message);
+                    return;
+                }
+
+                var memory = await userMemoryService.GetAsync(userId.Value);
+
+                if (memory is null || string.IsNullOrWhiteSpace(memory.Content))
+                {
+                    await client.SendMessage(chat, "I don't have any memories about you yet.", parseMode: ParseMode.Markdown,
+                        replyParameters: message);
+                    return;
+                }
+
+                await client.SendMessage(chat, memory.Content, parseMode: ParseMode.Markdown,
+                    replyParameters: message);
+            })
+            .WithChatAction(ChatAction.Typing)
+            .WithName("Command.Insight");
     }
 }
