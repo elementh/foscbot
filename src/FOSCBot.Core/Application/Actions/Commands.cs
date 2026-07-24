@@ -331,10 +331,11 @@ public static class Commands
                     return;
                 }
 
-                await client.SendMessage(chat, memory.Content, parseMode: ParseMode.Markdown,
+                await client.SendMessage(chat, memory.Content, parseMode: ParseMode.None,
                     replyParameters: message);
             })
             .WithChatAction(ChatAction.Typing)
             .WithName("Command.Insight");
     }
 }
+
