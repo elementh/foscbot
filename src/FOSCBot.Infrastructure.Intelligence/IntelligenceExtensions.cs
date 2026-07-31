@@ -68,6 +68,7 @@ public static class IntelligenceExtensions
         services.AddTransient<UnhingedService>();
         services.AddTransient<IUnhingedService>(sp => sp.GetRequiredService<UnhingedService>());
         services.AddSingleton<ISilenceService, SilenceService>();
+        services.AddSingleton<IYappingService, YappingService>();
         services.AddScoped<IAgentService, AgentService>();
         services.AddScoped<ITextMeaningService, TextMeaningService>();
         services.AddScoped<ICommandSynthesizerService, CommandSynthesizerService>();

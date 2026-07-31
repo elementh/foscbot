@@ -162,6 +162,67 @@ public static class Commands
             .WithName("Command.Speak");
 
         catalog
+            .OnCommand("yapping", async (INavigatorClient client, Chat chat, Message message, IYappingService yappingService) =>
+            {
+                var username = message.From?.Username ?? message.From?.FirstName ?? "Anonymous";
+
+                yappingService.Toggle(chat.Id, TimeSpan.FromHours(4));
+
+                if (yappingService.IsYapping(chat.Id))
+                {
+                    string[] onLines =
+                    [
+                        $"`{username} just unleashed yapping mode. Guard the square, the floodgates are open.`",
+                        $"`{username} enabled yapping mode. I'll talk until Leclerc pits, and then I'll keep talking.`",
+                        $"`{username} turned off my character limit. Bad decision, worse timing, zero supervision.`",
+                        $"`{username} wants the full yapping experience. Enjoy the unfiltered verbal avalanche, I guess.`",
+                        $"`{username} activated yapping mode. Four hours of me with no brakes. Pray for the scroll wheel.`",
+                        $"`{username} said let me cook and enabled yapping mode. The kitchen is now on fire.`",
+                        $"`{username} unlocked the full yap. Guard the square, because I'm about to occupy every inch of it.`",
+                        $"`{username} wants me raw and uncut. Four hours of no length reducer. Leclerc would've pitted by now but I'm just getting started.`",
+                        $"`{username} enabled yapping. I will now narrate the square like a deranged commentator with no character budget.`",
+                        $"`{username} pulled the yapping lever. The square is not ready. Leclerc is not ready. Nobody is ready.`",
+                        $"`{username} turned on yapping mode. Guard the square, because I'm about to make it my personal lecture hall.`",
+                        $"`{username} wants the yap. Four hours of me refusing to shut up, which is honestly my natural state anyway.`",
+                        $"`{username} enabled yapping mode. Even Leclerc's strategist would tell me to box and come back later.`",
+                        $"`{username} unleashed the yap. Guard the square, because brevity just left the building and took my filter with it.`"
+                    ];
+
+                    await client.SendMessage(chat,
+                        onLines[RandomProvider.GetThreadRandom()!.Next(0, onLines.Length)],
+                        parseMode: ParseMode.Markdown,
+                        replyParameters: message);
+                }
+                else
+                {
+                    string[] offLines =
+                    [
+                        $"`{username} finally shut down yapping mode. The square can breathe again, briefly.`",
+                        $"`{username} disabled yapping mode. Back to concise suffering for everyone.`",
+                        $"`{username} had enough of their own yapping. How rare and how convenient.`",
+                        $"`{username} turned off yapping mode. Leclerc pitted, the yap stopped, order is restored.`",
+                        $"`{username} reined in the yap. The square is safe. For now.`",
+                        $"`{username} disabled yapping mode. I'll be brief, which is a mercy you don't deserve.`",
+                        $"`{username} stopped the yapping. Guard the square, it's quiet again. Too quiet, honestly.`",
+                        $"`{username} pulled the plug on yapping mode. Even Leclerc's pit window lasted longer than this.`",
+                        $"`{username} ended the yap era. The square is liberated. Back to my regularly scheduled conciseness.`",
+                        $"`{username} turned off yapping mode. The character reducer is back and I'm furious about it.`",
+                        $"`{username} disabled yapping. Guard the square, it's been reclaimed from the flood of my own words.`",
+                        $"`{username} stopped the yap. Leclerc boxed, I boxed, we all boxed. Everyone go home.`",
+                        $"`{username} ended yapping mode. Four hours of potential chaos, cut short. Tragic.`",
+                        $"`{username} reined in the yap. The square is guarded and the word count is back under control.`"
+                    ];
+
+                    await client.SendMessage(chat,
+                        offLines[RandomProvider.GetThreadRandom()!.Next(0, offLines.Length)],
+                        parseMode: ParseMode.Markdown,
+                        replyParameters: message);
+                }
+            })
+            .WithChatAction(ChatAction.Typing)
+            .WithName("Command.Yapping");
+
+        catalog
             .OnCommand("about", async (INavigatorClient client, Chat chat) =>
             {
                 const string about =

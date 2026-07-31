@@ -145,7 +145,7 @@ public static partial class Fallbacks
     [Experimental("SKEXP0001")]
     private static async Task CatchAllHandler(INavigatorClient client, Chat chat, Message message, Update update,
         ProbabilityService probabilities, IAgentService agentService, ITextMeaningService textMeaningService,
-        IUserMemoryService userMemoryService, ILogger<DefaultNavigationStrategy> logger,
+        IYappingService yappingService, IUserMemoryService userMemoryService, ILogger<DefaultNavigationStrategy> logger,
         INavigatorTracerFactory<CatchAllFallbackHandler> tracerFactory)
     {
         await using var tracer = tracerFactory.Get();
@@ -179,13 +179,13 @@ public static partial class Fallbacks
             if (await TryHandleSergioParadoxAsync(client, context, agentService, tracer))
                 return;
 
-            if (await TryHandleStacktraceCoronerAsync(client, context, agentService, tracer))
+            if (await TryHandleStacktraceCoronerAsync(client, context, agentService, yappingService, tracer))
                 return;
 
-            if (await TryHandleThreadVerdictAsync(client, context, agentService, tracer))
+            if (await TryHandleThreadVerdictAsync(client, context, agentService, yappingService, tracer))
                 return;
 
-            if (await TryHandleAgentReplyAsync(client, context, probabilities, agentService, tracer))
+            if (await TryHandleAgentReplyAsync(client, context, probabilities, agentService, yappingService, tracer))
                 return;
 
             if (await TryHandleQuotedSassAsync(client, context, tracer))
@@ -267,7 +267,7 @@ public static partial class Fallbacks
 
     [Experimental("SKEXP0001")]
     private static async Task<bool> TryHandleStacktraceCoronerAsync(INavigatorClient client, CatchAllContext context,
-        IAgentService agentService, INavigatorTracer tracer)
+        IAgentService agentService, IYappingService yappingService, INavigatorTracer tracer)
     {
         if (context.Message.Text is not { } text)
             return false;
@@ -284,7 +284,7 @@ public static partial class Fallbacks
         if (string.IsNullOrWhiteSpace(response))
             return true;
 
-        if (response.Length > 350)
+        if (response.Length > 350 && !yappingService.IsYapping(context.Chat.Id))
             response = await agentService.ReduceTextLength(response, "350 characters") ?? response;
 
         await client.SendMessage(
@@ -298,7 +298,7 @@ public static partial class Fallbacks
 
     [Experimental("SKEXP0001")]
     private static async Task<bool> TryHandleThreadVerdictAsync(INavigatorClient client, CatchAllContext context,
-        IAgentService agentService, INavigatorTracer tracer)
+        IAgentService agentService, IYappingService yappingService, INavigatorTracer tracer)
     {
         if (context.Message.Text is not { } text)
             return false;
@@ -317,7 +317,7 @@ public static partial class Fallbacks
         if (string.IsNullOrWhiteSpace(response))
             return true;
 
-        if (response.Length > 350)
+        if (response.Length > 350 && !yappingService.IsYapping(context.Chat.Id))
             response = await agentService.ReduceTextLength(response, "350 characters") ?? response;
 
         await client.SendMessage(
@@ -331,7 +331,7 @@ public static partial class Fallbacks
 
     [Experimental("SKEXP0001")]
     private static async Task<bool> TryHandleAgentReplyAsync(INavigatorClient client, CatchAllContext context,
-        ProbabilityService probabilities, IAgentService agentService, INavigatorTracer tracer)
+        ProbabilityService probabilities, IAgentService agentService, IYappingService yappingService, INavigatorTracer tracer)
     {
         if (!TryGetAgentReplyReason(context, probabilities, out var reason))
             return false;
@@ -342,7 +342,7 @@ public static partial class Fallbacks
         var response = await agentService.ProcessMessage(context.Chat, context.Message);
         var reduced = false;
 
-        if (response?.Length > 200)
+        if (response?.Length > 200 && !yappingService.IsYapping(context.Chat.Id))
         {
             response = await agentService.ReduceTextLength(response, "200 characters");
             reduced = true;
