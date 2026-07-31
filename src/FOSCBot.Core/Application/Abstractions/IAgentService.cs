@@ -22,4 +22,6 @@ public interface IAgentService
 
     [Experimental("SKEXP0001")]
     Task<string?> ReduceTextLength(string text, string targetLength);
+
+    void ClearHistory(long chatId);
 }

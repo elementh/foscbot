@@ -53,12 +53,13 @@ public static class Administration
 
         catalog
             .OnCommand("clear")
-            .SetHandler(async (INavigatorClient client, IUnhingedService service, Chat chat) =>
+            .SetHandler(async (INavigatorClient client, IUnhingedService service, IAgentService agentService, Chat chat) =>
             {
                 await client.SendMessage(chat, "`Let's not alert your mom. Going back to defaults...`",
                     parseMode: ParseMode.MarkdownV2);
 
                 service.Clear(chat.Id);
+                agentService.ClearHistory(chat.Id);
             });
 
         catalog

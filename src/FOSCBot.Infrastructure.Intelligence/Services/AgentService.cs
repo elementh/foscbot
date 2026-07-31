@@ -302,4 +302,9 @@ internal class AgentService : IAgentService
 
         return response.Content?.Trim();
     }
+
+    public void ClearHistory(long chatId)
+    {
+        _cache.Remove($"fallback.catchall:{chatId}");
+    }
 }
