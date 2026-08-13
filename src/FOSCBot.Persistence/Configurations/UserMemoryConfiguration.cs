@@ -10,6 +10,6 @@ public class UserMemoryConfiguration : IEntityTypeConfiguration<UserMemory>
     {
         builder.HasKey(e => e.Id);
         builder.HasIndex(e => e.TelegramUserExternalId).IsUnique();
-        builder.Property(e => e.Content).HasMaxLength(1024).IsRequired();
+        builder.Property(e => e.Content).HasMaxLength(2048).IsRequired();
     }
 }

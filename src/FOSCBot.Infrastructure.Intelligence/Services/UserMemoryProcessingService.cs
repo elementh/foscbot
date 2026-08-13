@@ -14,7 +14,7 @@ namespace FOSCBot.Infrastructure.Intelligence.Services;
 internal sealed class UserMemoryProcessingService : BackgroundService
 {
     private const string ProfilingServiceId = "profiling_service";
-    private const int MaxContentLength = 1024;
+    private const int MaxContentLength = 2048;
 
     private readonly UserMemoryChannel _channel;
     private readonly IServiceProvider _serviceProvider;
@@ -191,7 +191,7 @@ internal sealed class UserMemoryProcessingService : BackgroundService
             """;
 
         var history = new ChatHistory(prompt);
-        history.AddUserMessage($"Reduce this text to 1024 characters:\n\n{text}");
+        history.AddUserMessage($"Reduce this text to 2048 characters:\n\n{text}");
 
         try
         {
